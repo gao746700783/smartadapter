@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.smart.view.recyclerview.LazyRecyclerView
+        <com.smart.view.recyclerview.EmptyRecyclerView
             android:id="@+id/rv_base_use"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>

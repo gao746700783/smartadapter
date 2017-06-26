@@ -13,7 +13,6 @@ import com.smart.pullrefresh.library.extras.recyclerview.PullToRefreshRecyclerVi
  */
 public class LazyRecyclerView extends PullToRefreshRecyclerView {
 
-
     public LazyRecyclerView(Context context) {
         super(context);
     }

@@ -3,22 +3,14 @@ package com.smart.recycler;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.ViewHolder;
-import com.smart.pullrefresh.library.PullToRefreshBase;
-import com.smart.pullrefresh.library.PullToRefreshBase.Mode;
-import com.smart.pullrefresh.library.extras.SoundPullEventListener;
 import com.smart.view.decoration.DividerItemDecoration;
-import com.smart.view.loadinglayout.JingDongHeaderLayout;
 import com.smart.view.recyclerview.EmptyRecyclerView;
-import com.smart.view.recyclerview.LazyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,7 +33,7 @@ public class BaseUseActivity extends AppCompatActivity {
     };
     private List<String> dataList = new ArrayList<>();
 
-    LazyRecyclerView mRvList;
+    EmptyRecyclerView mRvList;
     CommonAdapter mAdapter;
 
     LinearLayout mEmptyView;
@@ -56,18 +48,7 @@ public class BaseUseActivity extends AppCompatActivity {
 
         dataList.addAll(Arrays.asList(mDatas));
 
-        mRvList = (LazyRecyclerView) findViewById(R.id.rv_base_use);
-
-        /**
-         * Add Sound Event Listener
-         */
-        SoundPullEventListener<RecyclerView> soundListener = new SoundPullEventListener<>(this);
-        soundListener.addSoundEvent(PullToRefreshBase.State.PULL_TO_REFRESH, R.raw.pull_event);
-        soundListener.addSoundEvent(PullToRefreshBase.State.RESET, R.raw.reset_sound);
-        soundListener.addSoundEvent(PullToRefreshBase.State.REFRESHING, R.raw.refreshing_sound);
-        mRvList.setOnPullEventListener(soundListener);
-
-        mRvList.setHeaderLayout(new JingDongHeaderLayout(this));
+        mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
         mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList) {
             @Override
@@ -79,53 +60,15 @@ public class BaseUseActivity extends AppCompatActivity {
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRvList.getRefreshableView().setLayoutManager(mLayoutManager);
+        mRvList.setLayoutManager(mLayoutManager);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST);
-        mRvList.getRefreshableView().addItemDecoration(itemDecoration);
+        mRvList.addItemDecoration(itemDecoration);
 
-        mRvList.getRefreshableView().setAdapter(mAdapter);
-        if (mRvList.getRefreshableView() instanceof EmptyRecyclerView) {
-            ((EmptyRecyclerView) mRvList.getRefreshableView()).setEmptyView(mEmptyView);
-        }
+        mRvList.setAdapter(mAdapter);
 
-        mRvList.setMode(Mode.BOTH);
-        // Set a listener to be invoked when the list should be refreshed.
-        mRvList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
-
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                Toast.makeText(BaseUseActivity.this, "Pull Down!", Toast.LENGTH_SHORT).show();
-                //new GetDataTask().execute();
-
-                String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
-
-                // Update the LastUpdatedLabel
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
-
-                dataList.add("added a new item");
-                //mAdapter.notifyItemInserted(dataList.size() - 1);
-                mAdapter.notifyDataSetChanged();
-
-                // Call onRefreshComplete when the list has been refreshed.
-                mRvList.onRefreshComplete();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
-                Toast.makeText(BaseUseActivity.this, "Pull Up!", Toast.LENGTH_SHORT).show();
-                //new GetDataTask().execute();
-
-                dataList.add("added a new item");
-                //mAdapter.notifyItemInserted(dataList.size() - 1);
-                mAdapter.notifyDataSetChanged();
-
-                // Call onRefreshComplete when the list has been refreshed.
-                mRvList.onRefreshComplete();
-            }
-        });
+        mRvList.setEmptyView(mEmptyView);
 
 
     }
