@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.smart.recycler.loader.LoaderAudioActivity;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -14,6 +16,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.btn_base_use).setOnClickListener(this);
         findViewById(R.id.btn_pull_up_down).setOnClickListener(this);
+        findViewById(R.id.btn_drag_n_drop).setOnClickListener(this);
+        findViewById(R.id.btn_audio_list).setOnClickListener(this);
 
 
     }
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_pull_up_down:
                 startActivity(new Intent(this, PullUpDownActivity.class));
+                break;
+            case R.id.btn_audio_list:
+                startActivity(new Intent(this, LoaderAudioActivity.class));
                 break;
             default:
                 break;

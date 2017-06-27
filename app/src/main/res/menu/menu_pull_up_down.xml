@@ -16,4 +16,9 @@
           android:title="京东下拉"
           app:showAsAction="never"/>
 
+    <item android:id="@+id/action_pull_weibo_style"
+          android:orderInCategory="100"
+          android:title="微博下拉"
+          app:showAsAction="never"/>
+
 </menu>

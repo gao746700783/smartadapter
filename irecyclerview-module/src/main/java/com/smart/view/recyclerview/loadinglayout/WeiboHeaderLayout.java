@@ -1,159 +1,140 @@
 package com.smart.view.recyclerview.loadinglayout;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.graphics.drawable.AnimationDrawable;
-import android.view.Gravity;
-import android.view.LayoutInflater;
+import android.content.res.TypedArray;
+import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.nineoldandroids.view.ViewHelper;
 import com.smart.library.R;
-import com.smart.pullrefresh.library.LoadingLayoutBase;
 import com.smart.pullrefresh.library.PullToRefreshBase;
+import com.smart.pullrefresh.library.internal.LoadingLayout;
 
 /**
  * Created by zwenkai on 2015/12/19.
  */
-public class WeiboHeaderLayout extends LoadingLayoutBase {
+public class WeiboHeaderLayout extends LoadingLayout {
 
-    static final String LOG_TAG = "PullToRefresh-JingDongHeaderLayout";
+    private static final String TAG = "WeiboHeaderLayout";
 
-    private FrameLayout mInnerLayout;
+    static final int FLIP_ANIMATION_DURATION = 150;
 
-    private final TextView mHeaderText;
-    private final TextView mSubHeaderText;
-
-    private CharSequence mPullLabel;
-    private CharSequence mRefreshingLabel;
-    private CharSequence mReleaseLabel;
-
-    private ImageView mGoodsImage;
-    private ImageView mPersonImage;
-    private AnimationDrawable animP;
+    private final Animation mRotateAnimation, mResetRotateAnimation;
 
     public WeiboHeaderLayout(Context context) {
-        this(context, PullToRefreshBase.Mode.PULL_FROM_START);
+        this(context, PullToRefreshBase.Mode.PULL_FROM_START, PullToRefreshBase.Orientation.VERTICAL, null);
     }
 
-    public WeiboHeaderLayout(Context context, PullToRefreshBase.Mode mode) {
-        super(context);
+    public WeiboHeaderLayout(Context context, PullToRefreshBase.Mode mode, PullToRefreshBase.Orientation scrollDirection, TypedArray attrs) {
 
-        LayoutInflater.from(context).inflate(R.layout.jingdong_header_loadinglayout, this);
+        super(context, mode, scrollDirection, attrs);
 
-        mInnerLayout = (FrameLayout) findViewById(R.id.fl_inner);
-        mHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_text);
-        mSubHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_sub_text);
-        mGoodsImage = (ImageView) mInnerLayout.findViewById(R.id.pull_to_refresh_goods);
-        mPersonImage = (ImageView) mInnerLayout.findViewById(R.id.pull_to_refresh_people);
+        final int rotateAngle = mode == PullToRefreshBase.Mode.PULL_FROM_START ? -180 : 180;
 
-        LayoutParams lp = (LayoutParams) mInnerLayout.getLayoutParams();
-        lp.gravity = mode == PullToRefreshBase.Mode.PULL_FROM_END ? Gravity.TOP : Gravity.BOTTOM;
+        mRotateAnimation = new RotateAnimation(0, rotateAngle, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        mRotateAnimation.setInterpolator(ANIMATION_INTERPOLATOR);
+        mRotateAnimation.setDuration(FLIP_ANIMATION_DURATION);
+        mRotateAnimation.setFillAfter(true);
 
-        // Load in labels
-        mPullLabel = "下拉可以刷新";
-        mRefreshingLabel = "正在加载中";
-        mReleaseLabel = "松开后刷新";
-
-        reset();
+        mResetRotateAnimation = new RotateAnimation(rotateAngle, 0, Animation.RELATIVE_TO_SELF, 0.5f,
+                Animation.RELATIVE_TO_SELF, 0.5f);
+        mResetRotateAnimation.setInterpolator(ANIMATION_INTERPOLATOR);
+        mResetRotateAnimation.setDuration(FLIP_ANIMATION_DURATION);
+        mResetRotateAnimation.setFillAfter(true);
     }
 
     @Override
-    public final int getContentSize() {
-        return mInnerLayout.getHeight();
-    }
+    protected void onLoadingDrawableSet(Drawable imageDrawable) {
+        if (null != imageDrawable) {
+            final int dHeight = imageDrawable.getIntrinsicHeight();
+            final int dWidth = imageDrawable.getIntrinsicWidth();
 
-    @Override
-    public final void pullToRefresh() {
-        mSubHeaderText.setText(mPullLabel);
-    }
+            /**
+             * We need to set the width/height of the ImageView so that it is
+             * square with each side the size of the largest drawable dimension.
+             * This is so that it doesn't clip when rotated.
+             */
+            ViewGroup.LayoutParams lp = mHeaderImage.getLayoutParams();
+            lp.width = lp.height = Math.max(dHeight, dWidth);
+            mHeaderImage.requestLayout();
 
-    @Override
-    public final void onPull(float scaleOfLayout) {
-        scaleOfLayout = scaleOfLayout > 1.0f ? 1.0f : scaleOfLayout;
-
-        if (mGoodsImage.getVisibility() != View.VISIBLE) {
-            mGoodsImage.setVisibility(View.VISIBLE);
-        }
-
-        //透明度动画
-        ObjectAnimator animAlphaP = ObjectAnimator.ofFloat(mPersonImage, "alpha", -1, 1).setDuration(300);
-        animAlphaP.setCurrentPlayTime((long) (scaleOfLayout * 300));
-        ObjectAnimator animAlphaG = ObjectAnimator.ofFloat(mGoodsImage, "alpha", -1, 1).setDuration(300);
-        animAlphaG.setCurrentPlayTime((long) (scaleOfLayout * 300));
-
-        //缩放动画
-        ViewHelper.setPivotX(mPersonImage, 0);  // 设置中心点
-        ViewHelper.setPivotY(mPersonImage, 0);
-        ObjectAnimator animPX = ObjectAnimator.ofFloat(mPersonImage, "scaleX", 0, 1).setDuration(300);
-        animPX.setCurrentPlayTime((long) (scaleOfLayout * 300));
-        ObjectAnimator animPY = ObjectAnimator.ofFloat(mPersonImage, "scaleY", 0, 1).setDuration(300);
-        animPY.setCurrentPlayTime((long) (scaleOfLayout * 300));
-
-        ViewHelper.setPivotX(mGoodsImage, mGoodsImage.getMeasuredWidth());
-        ObjectAnimator animGX = ObjectAnimator.ofFloat(mGoodsImage, "scaleX", 0, 1).setDuration(300);
-        animGX.setCurrentPlayTime((long) (scaleOfLayout * 300));
-        ObjectAnimator animGY = ObjectAnimator.ofFloat(mGoodsImage, "scaleY", 0, 1).setDuration(300);
-        animGY.setCurrentPlayTime((long) (scaleOfLayout * 300));
-    }
-
-    @Override
-    public final void refreshing() {
-        mSubHeaderText.setText(mRefreshingLabel);
-
-        if (animP == null) {
-            mPersonImage.setImageResource(R.drawable.refreshing_anim);
-            animP = (AnimationDrawable) mPersonImage.getDrawable();
-        }
-        animP.start();
-        if (mGoodsImage.getVisibility() == View.VISIBLE) {
-            mGoodsImage.setVisibility(View.INVISIBLE);
+            /**
+             * We now rotate the Drawable so that is at the correct rotation,
+             * and is centered.
+             */
+            mHeaderImage.setScaleType(ImageView.ScaleType.MATRIX);
+            Matrix matrix = new Matrix();
+            matrix.postTranslate((lp.width - dWidth) / 2f, (lp.height - dHeight) / 2f);
+            matrix.postRotate(getDrawableRotationAngle(), lp.width / 2f, lp.height / 2f);
+            mHeaderImage.setImageMatrix(matrix);
         }
     }
 
     @Override
-    public final void releaseToRefresh() {
-        mSubHeaderText.setText(mReleaseLabel);
+    protected void onPullImpl(float scaleOfLayout) {
+        // NO-OP
     }
 
     @Override
-    public final void reset() {
-        if (animP != null) {
-            animP.stop();
-            animP = null;
-        }
-        mPersonImage.setImageResource(R.drawable.app_refresh_people_0);
-        if (mGoodsImage.getVisibility() == View.VISIBLE) {
-            mGoodsImage.setVisibility(View.INVISIBLE);
+    protected void pullToRefreshImpl() {
+        // Only start reset Animation, we've previously show the rotate anim
+        if (mRotateAnimation == mHeaderImage.getAnimation()) {
+            mHeaderImage.startAnimation(mResetRotateAnimation);
         }
     }
 
     @Override
-    public void setLastUpdatedLabel(CharSequence label) {
-        mSubHeaderText.setText(label);
+    protected void refreshingImpl() {
+        mHeaderImage.clearAnimation();
+        mHeaderImage.setVisibility(View.INVISIBLE);
+        mHeaderProgress.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void setPullLabel(CharSequence pullLabel) {
-        mPullLabel = pullLabel;
+    protected void releaseToRefreshImpl() {
+        mHeaderImage.startAnimation(mRotateAnimation);
     }
 
     @Override
-    public void setRefreshingLabel(CharSequence refreshingLabel) {
-        mRefreshingLabel = refreshingLabel;
+    protected void resetImpl() {
+        mHeaderImage.clearAnimation();
+        mHeaderProgress.setVisibility(View.GONE);
+        mHeaderImage.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void setReleaseLabel(CharSequence releaseLabel) {
-        mReleaseLabel = releaseLabel;
+    protected int getDefaultDrawableResId() {
+        return R.drawable.refresh_head_arrow;
     }
 
-    @Override
-    public void setTextTypeface(Typeface tf) {
-        mHeaderText.setTypeface(tf);
+    private float getDrawableRotationAngle() {
+        float angle = 0f;
+        switch (mMode) {
+            case PULL_FROM_END:
+                if (mScrollDirection == PullToRefreshBase.Orientation.HORIZONTAL) {
+                    angle = 90f;
+                } else {
+                    angle = 180f;
+                }
+                break;
+
+            case PULL_FROM_START:
+                if (mScrollDirection == PullToRefreshBase.Orientation.HORIZONTAL) {
+                    angle = 270f;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return angle;
     }
+
+
 }

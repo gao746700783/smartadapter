@@ -44,7 +44,7 @@ public class JingDongHeaderLayout extends LoadingLayoutBase {
     public JingDongHeaderLayout(Context context, PullToRefreshBase.Mode mode) {
         super(context);
 
-        LayoutInflater.from(context).inflate(R.layout.jingdong_header_loadinglayout, this);
+        LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header_vertical_jingdong, this);
 
         mInnerLayout = (FrameLayout) findViewById(R.id.fl_inner);
         mHeaderText = (TextView) mInnerLayout.findViewById(R.id.pull_to_refresh_text);
@@ -107,7 +107,7 @@ public class JingDongHeaderLayout extends LoadingLayoutBase {
         mSubHeaderText.setText(mRefreshingLabel);
 
         if (animP == null) {
-            mPersonImage.setImageResource(R.drawable.refreshing_anim);
+            mPersonImage.setImageResource(R.drawable.pull_refresh_anim_jingdong);
             animP = (AnimationDrawable) mPersonImage.getDrawable();
         }
         animP.start();

@@ -19,6 +19,7 @@ import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 import com.smart.view.recyclerview.LazyRecyclerView;
 import com.smart.view.recyclerview.loadinglayout.JingDongHeaderLayout;
+import com.smart.view.recyclerview.loadinglayout.WeiboHeaderLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -77,7 +78,7 @@ public class PullUpDownActivity extends AppCompatActivity {
             EmptyRecyclerView view = (EmptyRecyclerView) mRvList.getRefreshableView();
             view.setEmptyView(mEmptyView);
         }
-
+        mRvList.setHeaderLayout(new WeiboHeaderLayout(this));
         // Set a listener to be invoked when the list should be refreshed.
         mRvList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
 
@@ -150,6 +151,10 @@ public class PullUpDownActivity extends AppCompatActivity {
             mRvList.setHeaderLayout(new JingDongHeaderLayout(this));
             mRvList.getRefreshableView().setAdapter(mAdapter);
             Toast.makeText(this, "there exist a bug here!", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }else if (id == R.id.action_pull_weibo_style) {
+            mRvList.setHeaderLayout(new WeiboHeaderLayout(this));
 
             return true;
         }

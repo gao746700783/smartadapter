@@ -40,11 +40,11 @@ import com.smart.pullrefresh.library.PullToRefreshBase.Mode;
 import com.smart.pullrefresh.library.PullToRefreshBase.Orientation;
 
 @SuppressLint("ViewConstructor")
-abstract class LoadingLayout extends LoadingLayoutBase {
+public abstract class LoadingLayout extends LoadingLayoutBase {
 
     static final String LOG_TAG = "PullToRefresh-LoadingLayout";
 
-    static final Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
+    protected static final Interpolator ANIMATION_INTERPOLATOR = new LinearInterpolator();
     protected final ImageView mHeaderImage;
     protected final ProgressBar mHeaderProgress;
     protected final Mode mMode;
@@ -101,74 +101,77 @@ abstract class LoadingLayout extends LoadingLayoutBase {
                 break;
         }
 
-        if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderBackground)) {
-            Drawable background = attrs.getDrawable(R.styleable.PullToRefresh_ptrHeaderBackground);
-            if (null != background) {
-                ViewCompat.setBackground(this, background);
-            }
-        }
-
-        if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance)) {
-            TypedValue styleID = new TypedValue();
-            attrs.getValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance, styleID);
-            setTextAppearance(styleID.data);
-        }
-        if (attrs.hasValue(R.styleable.PullToRefresh_ptrSubHeaderTextAppearance)) {
-            TypedValue styleID = new TypedValue();
-            attrs.getValue(R.styleable.PullToRefresh_ptrSubHeaderTextAppearance, styleID);
-            setSubTextAppearance(styleID.data);
-        }
-
-        // Text Color attrs need to be set after TextAppearance attrs
-        if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextColor)) {
-            ColorStateList colors = attrs.getColorStateList(R.styleable.PullToRefresh_ptrHeaderTextColor);
-            if (null != colors) {
-                setTextColor(colors);
-            }
-        }
-        if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderSubTextColor)) {
-            ColorStateList colors = attrs.getColorStateList(R.styleable.PullToRefresh_ptrHeaderSubTextColor);
-            if (null != colors) {
-                setSubTextColor(colors);
-            }
-        }
-
-        // Try and get defined drawable from Attrs
-        Drawable imageDrawable = null;
-        if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawable)) {
-            imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawable);
-        }
-
-        // Check Specific Drawable from Attrs, these overrite the generic
-        // drawable attr above
-        switch (mode) {
-            case PULL_FROM_START:
-            default:
-                if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableStart)) {
-                    imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableStart);
-                } else if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableTop)) {
-                    Utils.warnDeprecation("ptrDrawableTop", "ptrDrawableStart");
-                    imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableTop);
+        if (attrs != null) {
+            if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderBackground)) {
+                Drawable background = attrs.getDrawable(R.styleable.PullToRefresh_ptrHeaderBackground);
+                if (null != background) {
+                    ViewCompat.setBackground(this, background);
                 }
-                break;
+            }
 
-            case PULL_FROM_END:
-                if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableEnd)) {
-                    imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableEnd);
-                } else if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableBottom)) {
-                    Utils.warnDeprecation("ptrDrawableBottom", "ptrDrawableEnd");
-                    imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableBottom);
+            if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance)) {
+                TypedValue styleID = new TypedValue();
+                attrs.getValue(R.styleable.PullToRefresh_ptrHeaderTextAppearance, styleID);
+                setTextAppearance(styleID.data);
+            }
+            if (attrs.hasValue(R.styleable.PullToRefresh_ptrSubHeaderTextAppearance)) {
+                TypedValue styleID = new TypedValue();
+                attrs.getValue(R.styleable.PullToRefresh_ptrSubHeaderTextAppearance, styleID);
+                setSubTextAppearance(styleID.data);
+            }
+
+            // Text Color attrs need to be set after TextAppearance attrs
+            if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderTextColor)) {
+                ColorStateList colors = attrs.getColorStateList(R.styleable.PullToRefresh_ptrHeaderTextColor);
+                if (null != colors) {
+                    setTextColor(colors);
                 }
-                break;
-        }
+            }
+            if (attrs.hasValue(R.styleable.PullToRefresh_ptrHeaderSubTextColor)) {
+                ColorStateList colors = attrs.getColorStateList(R.styleable.PullToRefresh_ptrHeaderSubTextColor);
+                if (null != colors) {
+                    setSubTextColor(colors);
+                }
+            }
 
-        // If we don't have a user defined drawable, load the default
-        if (null == imageDrawable) {
-            imageDrawable = context.getResources().getDrawable(getDefaultDrawableResId());
-        }
+            // Try and get defined drawable from Attrs
+            Drawable imageDrawable = null;
+            if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawable)) {
+                imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawable);
+            }
 
-        // Set Drawable, and save width/height
-        setLoadingDrawable(imageDrawable);
+            // Check Specific Drawable from Attrs, these overrite the generic
+            // drawable attr above
+            switch (mode) {
+                case PULL_FROM_START:
+                default:
+                    if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableStart)) {
+                        imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableStart);
+                    } else if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableTop)) {
+                        Utils.warnDeprecation("ptrDrawableTop", "ptrDrawableStart");
+                        imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableTop);
+                    }
+                    break;
+
+                case PULL_FROM_END:
+                    if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableEnd)) {
+                        imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableEnd);
+                    } else if (attrs.hasValue(R.styleable.PullToRefresh_ptrDrawableBottom)) {
+                        Utils.warnDeprecation("ptrDrawableBottom", "ptrDrawableEnd");
+                        imageDrawable = attrs.getDrawable(R.styleable.PullToRefresh_ptrDrawableBottom);
+                    }
+                    break;
+            }
+
+
+            // If we don't have a user defined drawable, load the default
+            if (null == imageDrawable) {
+                imageDrawable = context.getResources().getDrawable(getDefaultDrawableResId());
+            }
+
+            // Set Drawable, and save width/height
+            setLoadingDrawable(imageDrawable);
+        }
 
         reset();
     }
