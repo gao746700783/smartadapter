@@ -17,6 +17,7 @@ import java.util.List;
  * Date: 2017/6/23 上午11:22 <br/>
  */
 public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+
     protected Context mContext;
     protected int mLayoutId;
     protected List<T> mDataList;
@@ -25,7 +26,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
     // add by me
     protected boolean mHasHeaderOrFooter;
 
-    private OnItemClickListener mOnItemClickListener;
+    private OnItemClickListener<T> mOnItemClickListener;
 
     public CommonAdapter(Context context, int layoutId, List<T> datas) {
         this(context, layoutId, datas, false);
@@ -105,6 +106,5 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
     public int getItemCount() {
         return mDataList.size();
     }
-
 
 }

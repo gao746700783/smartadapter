@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.Media;
 
@@ -21,10 +22,11 @@ public class AudioLoader extends CursorLoader {
 
     private static AudioLoader musicLoader;
 
-//    private static ContentResolver contentResolver;
-
     //Uri，指向external的database
-    private static final Uri CONTENT_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+    //private static final Uri CONTENT_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+    private static final Uri CONTENT_URI = MediaStore.Audio.Media.getContentUriForPath(
+            Environment.getExternalStorageDirectory().getAbsolutePath());
+    //private static final Uri CONTENT_URI = MediaStore.Audio.Media.getContentUri("external");
     //projection：选择的列; where：过滤条件; sortOrder：排序。
     private static final String[] PROJECTION = {
             Media._ID,

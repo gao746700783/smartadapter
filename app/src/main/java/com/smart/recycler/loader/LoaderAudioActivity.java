@@ -56,7 +56,7 @@ public class LoaderAudioActivity extends AppCompatActivity {
 
             mAdapter = new SimpleCursorAdapter(this.getActivity(),
                     R.layout.layout_list_item_audio, null,
-                    new String[]{MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.ARTIST},
+                    new String[]{MediaStore.Audio.Media.DISPLAY_NAME, MediaStore.Audio.Media.ARTIST},
                     new int[]{R.id.tv_audio_title, R.id.tv_audio_artist}, 0);
             setListAdapter(mAdapter);
 

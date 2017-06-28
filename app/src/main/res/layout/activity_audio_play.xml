@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smart.recycler.BaseUseActivity">
+
+    <ImageView
+        android:id="@+id/iv_play_control"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="top|end"
+        android:layout_marginBottom="-20dp"
+        android:contentDescription="@null"
+        android:src="@drawable/refresh_head_arrow"
+        android:visibility="gone"
+    />
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_play_control"
+        android:layout_margin="16dp"
+        app:cardCornerRadius="@dimen/cardview_default_radius"
+        app:cardElevation="@dimen/cardview_default_elevation">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/audio"
+                android:drawablePadding="10dp"
+                android:drawableStart="@drawable/audio"
+                android:gravity="center_vertical"
+                android:padding="10dp"
+                android:text="audio.mp3"
+            />
+
+            <!-- Progress Bar/Seek bar -->
+            <ProgressBar
+                android:id="@+id/pb_audio_play"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:secondaryProgress="80"
+                android:progress="10"
+                android:padding="10dp"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_play_pause"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="top|end"
+            android:contentDescription="@null"
+            android:padding="10dp"
+            android:src="@drawable/play"/>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>
