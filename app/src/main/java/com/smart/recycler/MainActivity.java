@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.smart.recycler.demo.AudioPlayActivity;
+import com.smart.recycler.demo.MultiAudioServiceActivity;
 import com.smart.recycler.demo.SingleAudioServiceActivity;
 import com.smart.recycler.loader.LoaderAudioActivity;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_audio_list).setOnClickListener(this);
         findViewById(R.id.btn_audio_play).setOnClickListener(this);
         findViewById(R.id.btn_audio_play_single).setOnClickListener(this);
+        findViewById(R.id.btn_audio_play_multi).setOnClickListener(this);
 
     }
 
@@ -46,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_audio_play_single:
                 startActivity(new Intent(this, SingleAudioServiceActivity.class));
+                break;
+            case R.id.btn_audio_play_multi:
+                startActivity(new Intent(this, MultiAudioServiceActivity.class));
                 break;
             default:
                 break;

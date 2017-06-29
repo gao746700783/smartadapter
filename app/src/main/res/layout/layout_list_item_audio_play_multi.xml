@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="@dimen/cardview_default_radius"
+    app:cardElevation="@dimen/cardview_default_elevation">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_multi_audio_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/audio"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/audio"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:text="audio.mp3"
+        />
+
+        <!-- Progress Bar/Seek bar -->
+        <ProgressBar
+            android:id="@+id/pb_audio_play"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:progress="10"
+            android:secondaryProgress="80"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_multi_play_pause"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="top|end"
+        android:contentDescription="@null"
+        android:padding="10dp"
+        android:src="@drawable/play"/>
+
+
+</android.support.v7.widget.CardView>
+
