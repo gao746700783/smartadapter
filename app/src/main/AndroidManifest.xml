@@ -26,8 +26,13 @@
         <activity android:name=".PullUpDownActivity"/>
         <activity android:name=".DragnDropActivity"/>
         <activity android:name=".loader.LoaderAudioActivity"/>
-        <activity android:name=".AudioPlayActivity"/>
+        <activity android:name=".demo.AudioPlayActivity"/>
+        <activity android:name=".demo.SingleAudioServiceActivity"/>
 
+        <service android:name=".demo.AudioStreamService"
+                 android:enabled="true"
+                 android:process=":remote"
+                 android:exported="true"/>
 
     </application>
 

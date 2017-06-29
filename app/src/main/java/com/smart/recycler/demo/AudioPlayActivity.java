@@ -1,4 +1,4 @@
-package com.smart.recycler;
+package com.smart.recycler.demo;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.smart.recycler.R;
 
 import java.io.IOException;
 

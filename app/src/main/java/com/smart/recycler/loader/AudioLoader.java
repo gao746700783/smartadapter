@@ -23,9 +23,9 @@ public class AudioLoader extends CursorLoader {
     private static AudioLoader musicLoader;
 
     //Uri，指向external的database
-    //private static final Uri CONTENT_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-    private static final Uri CONTENT_URI = MediaStore.Audio.Media.getContentUriForPath(
-            Environment.getExternalStorageDirectory().getAbsolutePath());
+    private static final Uri CONTENT_URI = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+    //private static final Uri CONTENT_URI = MediaStore.Audio.Media.getContentUriForPath(
+    //        Environment.getExternalStorageDirectory().getAbsolutePath());
     //private static final Uri CONTENT_URI = MediaStore.Audio.Media.getContentUri("external");
     //projection：选择的列; where：过滤条件; sortOrder：排序。
     private static final String[] PROJECTION = {
@@ -46,7 +46,6 @@ public class AudioLoader extends CursorLoader {
 
     public static AudioLoader instance(Context context) {
         if (musicLoader == null) {
-//            contentResolver = pContentResolver;
             musicLoader = new AudioLoader(context);
         }
         return musicLoader;
