@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.Media;
+import android.util.Log;
 
 /**
  * Description: AudioLoader
@@ -17,8 +18,6 @@ import android.provider.MediaStore.Audio.Media;
 public class AudioLoader extends CursorLoader {
 
     private static final String TAG = "AudioLoader";
-
-//    private static List<AudioModel> musicList = new ArrayList<>();
 
     private static AudioLoader musicLoader;
 
@@ -40,19 +39,24 @@ public class AudioLoader extends CursorLoader {
     };
     private static final String WHERE = "mime_type in ('audio/mpeg','audio/x-ms-wma') " +
             "and _display_name <> 'audio' and is_music > 0 ";
-    private static final String WHERE1 = "";
+
+    private static final String SELECTION = Media.DATA + " like ? ";
+    private static final String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+    private static final String[] SELECTION_ARGS = {path + "%"};
+
     private static final String SORT_ORDER = Media.DEFAULT_SORT_ORDER;
 
 
     public static AudioLoader instance(Context context) {
         if (musicLoader == null) {
             musicLoader = new AudioLoader(context);
+            Log.i(TAG, "path:" + path);
         }
         return musicLoader;
     }
 
     private AudioLoader(Context context) {
-        super(context, CONTENT_URI, PROJECTION, null, null, SORT_ORDER);
+        super(context, CONTENT_URI, PROJECTION, SELECTION, SELECTION_ARGS, SORT_ORDER);
     }
 
 
@@ -75,47 +79,47 @@ public class AudioLoader extends CursorLoader {
         return uri;
     }
 
-//    public List<AudioModel> getMusicList(Cursor cursor) {
-//
-//        if (cursor == null) {
-//            Log.v(TAG, "Music Loader cursor == null.");
-//        } else if (!cursor.moveToFirst()) {
-//            Log.v(TAG, "Music Loader cursor.moveToFirst() returns false.");
-//        } else {
-//            int displayNameCol = cursor.getColumnIndex(Media.DISPLAY_NAME);
-//            int albumCol = cursor.getColumnIndex(Media.ALBUM);
-//            int idCol = cursor.getColumnIndex(Media._ID);
-//            int durationCol = cursor.getColumnIndex(Media.DURATION);
-//            int sizeCol = cursor.getColumnIndex(Media.SIZE);
-//            int artistCol = cursor.getColumnIndex(Media.ARTIST);
-//            int urlCol = cursor.getColumnIndex(Media.DATA);
-//            do {
-//                String title = cursor.getString(displayNameCol);
-//                String album = cursor.getString(albumCol);
-//                long id = cursor.getLong(idCol);
-//                int duration = cursor.getInt(durationCol);
-//                long size = cursor.getLong(sizeCol);
-//                String artist = cursor.getString(artistCol);
-//                String url = cursor.getString(urlCol);
-//
-//                AudioModel musicInfo = new AudioModel();
-////                musicInfo.setAlbum(album);
-////                musicInfo.setDuration(duration);
-////                musicInfo.setSize(size);
-////                musicInfo.setArtist(artist);
-////                musicInfo.setUrl(url);
-//                musicList.add(musicInfo);
-//
-//            } while (cursor.moveToNext());
-//        }
-//
-//        return musicList;
-//    }
-//
-//    public Uri getMusicUriById(long id) {
-//        Uri uri = ContentUris.withAppendedId(CONTENT_URI, id);
-//        return uri;
-//    }
+    //    public List<AudioModel> getMusicList(Cursor cursor) {
+    //
+    //        if (cursor == null) {
+    //            Log.v(TAG, "Music Loader cursor == null.");
+    //        } else if (!cursor.moveToFirst()) {
+    //            Log.v(TAG, "Music Loader cursor.moveToFirst() returns false.");
+    //        } else {
+    //            int displayNameCol = cursor.getColumnIndex(Media.DISPLAY_NAME);
+    //            int albumCol = cursor.getColumnIndex(Media.ALBUM);
+    //            int idCol = cursor.getColumnIndex(Media._ID);
+    //            int durationCol = cursor.getColumnIndex(Media.DURATION);
+    //            int sizeCol = cursor.getColumnIndex(Media.SIZE);
+    //            int artistCol = cursor.getColumnIndex(Media.ARTIST);
+    //            int urlCol = cursor.getColumnIndex(Media.DATA);
+    //            do {
+    //                String title = cursor.getString(displayNameCol);
+    //                String album = cursor.getString(albumCol);
+    //                long id = cursor.getLong(idCol);
+    //                int duration = cursor.getInt(durationCol);
+    //                long size = cursor.getLong(sizeCol);
+    //                String artist = cursor.getString(artistCol);
+    //                String url = cursor.getString(urlCol);
+    //
+    //                AudioModel musicInfo = new AudioModel();
+    ////                musicInfo.setAlbum(album);
+    ////                musicInfo.setDuration(duration);
+    ////                musicInfo.setSize(size);
+    ////                musicInfo.setArtist(artist);
+    ////                musicInfo.setUrl(url);
+    //                musicList.add(musicInfo);
+    //
+    //            } while (cursor.moveToNext());
+    //        }
+    //
+    //        return musicList;
+    //    }
+    //
+    //    public Uri getMusicUriById(long id) {
+    //        Uri uri = ContentUris.withAppendedId(CONTENT_URI, id);
+    //        return uri;
+    //    }
 
 
 }
