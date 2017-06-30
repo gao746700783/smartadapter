@@ -9,6 +9,7 @@ import com.smart.recycler.demo.AudioPlayActivity;
 import com.smart.recycler.demo.MultiAudioServiceActivity;
 import com.smart.recycler.demo.SingleAudioServiceActivity;
 import com.smart.recycler.loader.LoaderAudioActivity;
+import com.smart.recycler.loader.LoaderVideoActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_pull_up_down).setOnClickListener(this);
         findViewById(R.id.btn_drag_n_drop).setOnClickListener(this);
         findViewById(R.id.btn_audio_list).setOnClickListener(this);
+        findViewById(R.id.btn_video_list).setOnClickListener(this);
         findViewById(R.id.btn_audio_play).setOnClickListener(this);
         findViewById(R.id.btn_audio_play_single).setOnClickListener(this);
         findViewById(R.id.btn_audio_play_multi).setOnClickListener(this);
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_audio_list:
                 startActivity(new Intent(this, LoaderAudioActivity.class));
+                break;
+            case R.id.btn_video_list:
+                startActivity(new Intent(this, LoaderVideoActivity.class));
                 break;
             case R.id.btn_audio_play:
                 startActivity(new Intent(this, AudioPlayActivity.class));

@@ -32,6 +32,12 @@
         android:text="Audio Loader"/>
 
     <Button
+        android:id="@+id/btn_video_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Video Loader"/>
+
+    <Button
         android:id="@+id/btn_audio_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

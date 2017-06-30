@@ -29,6 +29,7 @@
         <activity android:name=".demo.AudioPlayActivity"/>
         <activity android:name=".demo.SingleAudioServiceActivity"/>
         <activity android:name=".demo.MultiAudioServiceActivity"/>
+        <activity android:name=".loader.LoaderVideoActivity"/>
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"
