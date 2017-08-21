@@ -8,8 +8,8 @@ import android.view.View;
 import com.smart.recycler.demo.AudioPlayActivity;
 import com.smart.recycler.demo.MultiAudioServiceActivity;
 import com.smart.recycler.demo.SingleAudioServiceActivity;
-import com.smart.recycler.loader.LoaderAudioActivity;
-import com.smart.recycler.loader.LoaderVideoActivity;
+import com.smart.recycler.demo.loader.LoaderAudioActivity;
+import com.smart.recycler.demo.loader.LoaderVideoActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

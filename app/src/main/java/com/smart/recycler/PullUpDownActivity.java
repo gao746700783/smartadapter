@@ -1,10 +1,12 @@
 package com.smart.recycler;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -27,6 +29,7 @@ import java.util.List;
 
 public class PullUpDownActivity extends AppCompatActivity {
 
+    private static final String TAG = "PullUpDownActivity";
     private String[] mDatas = {
             "Adapter: A subclass of RecyclerView.Adapter responsible for providing views that represent items in a data set.",
             "Position: The position of a data item within an Adapter.",
@@ -83,35 +86,42 @@ public class PullUpDownActivity extends AppCompatActivity {
         mRvList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
 
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
+            public void onPullDownToRefresh(final PullToRefreshBase<RecyclerView> refreshView) {
                 Toast.makeText(PullUpDownActivity.this, "Pull Down!", Toast.LENGTH_SHORT).show();
-                //new GetDataTask().execute();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
 
-                String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
-                        DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+                        String label = DateUtils.formatDateTime(getApplicationContext(), System.currentTimeMillis(),
+                                DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_ALL);
+                        // Update the LastUpdatedLabel
+                        refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
 
-                // Update the LastUpdatedLabel
-                refreshView.getLoadingLayoutProxy().setLastUpdatedLabel(label);
+                        dataList.add(0, "new item" + dataList.size());
+                        //mAdapter.notifyItemInserted(dataList.size() - 1);
+                        mAdapter.notifyDataSetChanged();
 
-                dataList.add("added a new item");
-                //mAdapter.notifyItemInserted(dataList.size() - 1);
-                mAdapter.notifyDataSetChanged();
+                        // Call onRefreshComplete when the list has been refreshed.
+                        mRvList.onRefreshComplete();
+                    }
+                }, 1000);
 
-                // Call onRefreshComplete when the list has been refreshed.
-                mRvList.onRefreshComplete();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<RecyclerView> refreshView) {
                 Toast.makeText(PullUpDownActivity.this, "Pull Up!", Toast.LENGTH_SHORT).show();
-                //new GetDataTask().execute();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dataList.add("new item" + dataList.size());
+                        //mAdapter.notifyItemInserted(dataList.size() - 1);
+                        mAdapter.notifyDataSetChanged();
 
-                dataList.add("added a new item");
-                //mAdapter.notifyItemInserted(dataList.size() - 1);
-                mAdapter.notifyDataSetChanged();
-
-                // Call onRefreshComplete when the list has been refreshed.
-                mRvList.onRefreshComplete();
+                        // Call onRefreshComplete when the list has been refreshed.
+                        mRvList.onRefreshComplete();
+                    }
+                }, 1000);
             }
         });
 
@@ -126,6 +136,15 @@ public class PullUpDownActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //MenuItem setModeItem = menu.findItem(MENU_SET_MODE);
+        MenuItem modeItem = menu.getItem(0);
+        modeItem.setTitle(mRvList.getMode() == Mode.BOTH ? "Change to MODE_PULL_FROM_START"
+                : "Change to MODE_PULL_BOTH");
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -133,12 +152,9 @@ public class PullUpDownActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_mode) {
-
-            mRvList.setMode(mRvList.getMode() == Mode.BOTH ?
-                    Mode.PULL_FROM_START : Mode.BOTH);
+            mRvList.setMode(mRvList.getMode() == Mode.BOTH ? Mode.PULL_FROM_START : Mode.BOTH);
             return true;
         } else if (id == R.id.action_sound) {
-
             /*!* Add Sound Event Listener */
             SoundPullEventListener<RecyclerView> soundListener = new SoundPullEventListener<>(this);
             soundListener.addSoundEvent(PullToRefreshBase.State.PULL_TO_REFRESH, R.raw.pull_event);
@@ -149,12 +165,11 @@ public class PullUpDownActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_pull_jd_style) {
             mRvList.setHeaderLayout(new JingDongHeaderLayout(this));
-            mRvList.getRefreshableView().setAdapter(mAdapter);
-            Toast.makeText(this, "there exist a bug here!", Toast.LENGTH_SHORT).show();
-
+            Log.e(TAG, "error in ui when reset head layout");
             return true;
-        }else if (id == R.id.action_pull_weibo_style) {
+        } else if (id == R.id.action_pull_weibo_style) {
             mRvList.setHeaderLayout(new WeiboHeaderLayout(this));
+            Log.e(TAG, "error in ui when reset head layout");
 
             return true;
         }

@@ -29,7 +29,8 @@ public class WeiboHeaderLayout extends LoadingLayout {
         this(context, PullToRefreshBase.Mode.PULL_FROM_START, PullToRefreshBase.Orientation.VERTICAL, null);
     }
 
-    public WeiboHeaderLayout(Context context, PullToRefreshBase.Mode mode, PullToRefreshBase.Orientation scrollDirection, TypedArray attrs) {
+    public WeiboHeaderLayout(Context context, PullToRefreshBase.Mode mode,
+                             PullToRefreshBase.Orientation scrollDirection, TypedArray attrs) {
 
         super(context, mode, scrollDirection, attrs);
 
@@ -46,6 +47,10 @@ public class WeiboHeaderLayout extends LoadingLayout {
         mResetRotateAnimation.setInterpolator(ANIMATION_INTERPOLATOR);
         mResetRotateAnimation.setDuration(FLIP_ANIMATION_DURATION);
         mResetRotateAnimation.setFillAfter(true);
+
+        // set loading drawable
+        this.setLoadingDrawable(context.getResources().getDrawable(R.drawable.refresh_head_arrow));
+
     }
 
     @Override

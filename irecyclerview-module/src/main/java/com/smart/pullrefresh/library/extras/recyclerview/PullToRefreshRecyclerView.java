@@ -92,12 +92,10 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<RecyclerView> {
                 Log.d(LOG_TAG, "isFirstItemVisible. Empty View.");
             }
             return true;
-
         } else {
             // 第一个条目完全展示,可以刷新
             if (getFirstVisiblePosition() == 0) {
-                return mRefreshableView.getChildAt(0).getTop() >= mRefreshableView
-                        .getTop();
+                return mRefreshableView.getChildAt(0).getTop() >= mRefreshableView.getTop();
             }
         }
 
@@ -113,8 +111,8 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<RecyclerView> {
      */
     private int getFirstVisiblePosition() {
         View firstVisibleChild = mRefreshableView.getChildAt(0);
-        return firstVisibleChild != null ? mRefreshableView
-                .getChildAdapterPosition(firstVisibleChild) : -1;
+        return firstVisibleChild != null ?
+                mRefreshableView.getChildAdapterPosition(firstVisibleChild) : -1;
     }
 
     /**
@@ -138,9 +136,8 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<RecyclerView> {
             // 最后一个条目View完全展示,可以刷新
             int lastVisiblePosition = getLastVisiblePosition();
             if (lastVisiblePosition >= mRefreshableView.getAdapter().getItemCount() - 1) {
-                return mRefreshableView.getChildAt(
-                        mRefreshableView.getChildCount() - 1).getBottom() <= mRefreshableView
-                        .getBottom();
+                return mRefreshableView.getChildAt(mRefreshableView.getChildCount() - 1).getBottom()
+                        <= mRefreshableView.getBottom();
             }
         }
 

@@ -1,4 +1,4 @@
-package com.smart.recycler.loader;
+package com.smart.recycler.demo.loader;
 
 /**
  * Description: AudioModel

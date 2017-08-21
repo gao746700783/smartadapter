@@ -1,4 +1,4 @@
-package com.smart.recycler.loader;
+package com.smart.recycler.demo.loader;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

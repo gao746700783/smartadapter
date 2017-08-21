@@ -26,11 +26,11 @@
         <activity android:name=".PullUpDownActivity"/>
         <activity android:name=".DragnDropActivity"/>
         <activity android:name=".DragnDropGridActivity"/>
-        <activity android:name=".loader.LoaderAudioActivity"/>
+        <activity android:name=".demo.loader.LoaderAudioActivity"/>
         <activity android:name=".demo.AudioPlayActivity"/>
         <activity android:name=".demo.SingleAudioServiceActivity"/>
         <activity android:name=".demo.MultiAudioServiceActivity"/>
-        <activity android:name=".loader.LoaderVideoActivity"/>
+        <activity android:name=".demo.loader.LoaderVideoActivity"/>
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"

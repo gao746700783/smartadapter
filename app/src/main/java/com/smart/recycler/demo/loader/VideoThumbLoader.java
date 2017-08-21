@@ -1,4 +1,4 @@
-package com.smart.recycler.loader;
+package com.smart.recycler.demo.loader;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;

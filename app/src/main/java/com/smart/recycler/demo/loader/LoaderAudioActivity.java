@@ -1,4 +1,4 @@
-package com.smart.recycler.loader;
+package com.smart.recycler.demo.loader;
 
 import android.app.FragmentManager;
 import android.app.ListFragment;

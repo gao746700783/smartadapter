@@ -1614,7 +1614,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         void onSmoothScrollFinished();
     }
 
-    final class SmoothScrollRunnable implements Runnable {
+    private final class SmoothScrollRunnable implements Runnable {
         private final Interpolator mInterpolator;
         private final int mScrollToY;
         private final int mScrollFromY;
