@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
-import com.bumptech.glide.signature.MediaStoreSignature;
 import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.view.decoration.DividerItemDecoration;
 
@@ -38,12 +37,6 @@ public class HorizontalGalleryFragment extends Fragment
         View result = inflater.inflate(R.layout.recycler_view, container, false);
         recyclerView = (RecyclerView) result.findViewById(R.id.recycler_view);
 
-//    GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 1);
-//    layoutManager.setOrientation(RecyclerView.VERTICAL);
-//    //LinearLayoutManager layoutManager1 = new LinearLayoutManager(getActivity());
-//    recyclerView.setLayoutManager(layoutManager);
-//    recyclerView.setHasFixedSize(true);
-
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -66,33 +59,20 @@ public class HorizontalGalleryFragment extends Fragment
                                List<MediaStoreData> mediaStoreData) {
         GlideRequests glideRequests = GlideApp.with(this);
 
-//    RecyclerAdapter adapter =
-//        new RecyclerAdapter(getActivity(), mediaStoreData, glideRequests);
-//    RecyclerViewPreloader<MediaStoreData> preloader =
-//        new RecyclerViewPreloader<>(glideRequests, adapter, adapter, 3);
-//    recyclerView.addOnScrollListener(preloader);
-//    recyclerView.setAdapter(adapter);
-
-
-        //dataList = VideoLoader.loadVideos(this);
-
         RecyclerCommonAdapter mAdapter = new RecyclerCommonAdapter<MediaStoreData>(getActivity(),
                 R.layout.layout_list_item_video, mediaStoreData, glideRequests) {
             @Override
             protected void convert(final ViewHolder holder, MediaStoreData o) {
-
-
-                loadImages(o,(ImageView)holder.getView(R.id.iv_video_thumb));
-
+                holder.setText(R.id.tv_video_title, o.title);
+                holder.setText(R.id.tv_video_artist, o.uri.toString());
+                loadImages(o, (ImageView) holder.getView(R.id.iv_video_thumb));
             }
         };
 
-        RecyclerViewPreloader<MediaStoreData> preloader =
+        RecyclerViewPreloader<MediaStoreData> preLoader =
                 new RecyclerViewPreloader<MediaStoreData>(glideRequests, mAdapter, mAdapter, 3);
-        recyclerView.addOnScrollListener(preloader);
+        recyclerView.addOnScrollListener(preLoader);
         recyclerView.setAdapter(mAdapter);
-
-
     }
 
     @Override

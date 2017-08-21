@@ -26,33 +26,44 @@
         android:text="Drag-n-Drop"/>
 
     <Button
+        android:id="@+id/btn_drag_n_drop_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Grid"/>
+
+    <Button
         android:id="@+id/btn_audio_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Audio Loader"/>
+        android:text="Audio Loader"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btn_video_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Video Loader"/>
+        android:text="Video Loader"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btn_audio_play"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Audio Play"/>
+        android:text="Audio Play"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btn_audio_play_single"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Audio Play Service"/>
+        android:text="Audio Play Service"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/btn_audio_play_multi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Multi Audio Play Service"/>
+        android:text="Multi Audio Play Service"
+        android:visibility="gone"/>
 
 </LinearLayout>

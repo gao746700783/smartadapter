@@ -48,7 +48,8 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
         ViewHolder viewHolder = ViewHolder.get(mContext, null, parent, mLayoutId, -1);
         //设置背景
-        viewHolder.itemView.setBackgroundResource(R.drawable.recycler_bg);
+        //viewHolder.itemView.setBackgroundResource(R.drawable.recycler_bg);
+        // ?android:attr/selectableItemBackground
 
         setListener(parent, viewHolder, viewType);
         return viewHolder;

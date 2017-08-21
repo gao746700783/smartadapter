@@ -25,6 +25,7 @@
         <activity android:name=".BaseUseActivity"/>
         <activity android:name=".PullUpDownActivity"/>
         <activity android:name=".DragnDropActivity"/>
+        <activity android:name=".DragnDropGridActivity"/>
         <activity android:name=".loader.LoaderAudioActivity"/>
         <activity android:name=".demo.AudioPlayActivity"/>
         <activity android:name=".demo.SingleAudioServiceActivity"/>

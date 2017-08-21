@@ -2,6 +2,7 @@ package com.bumptech.glide.samples.gallery;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+
 import com.bumptech.glide.MemoryCategory;
 
 /**

@@ -9,15 +9,19 @@
     <ImageView
         android:id="@+id/iv_video_thumb"
         android:layout_width="40dp"
-        android:layout_height="80dp"
-        app:srcCompat="@android:drawable/presence_video_away"/>
+        android:layout_height="40dp"
+        android:contentDescription="@null"
+        app:srcCompat="@android:drawable/ic_menu_report_image"/>
 
     <LinearLayout
-        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/iv_video_thumb"
         android:layout_toRightOf="@+id/iv_video_thumb"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
@@ -32,7 +36,6 @@
             android:id="@+id/tv_video_artist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_video_title"
             android:text="safdasdfasdfasdfasdfasdf"
             android:textSize="14sp"/>
     </LinearLayout>

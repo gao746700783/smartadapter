@@ -155,10 +155,9 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<RecyclerView> {
      * @Author zhou.wenkai
      */
     private int getLastVisiblePosition() {
-        View lastVisibleChild = mRefreshableView.getChildAt(mRefreshableView
-                .getChildCount() - 1);
-        return lastVisibleChild != null ? mRefreshableView
-                .getChildAdapterPosition(lastVisibleChild) : -1;
+        View lastVisibleChild = mRefreshableView.getChildAt(mRefreshableView.getChildCount() - 1);
+        return lastVisibleChild != null ?
+                mRefreshableView.getChildAdapterPosition(lastVisibleChild) : -1;
     }
 
 }

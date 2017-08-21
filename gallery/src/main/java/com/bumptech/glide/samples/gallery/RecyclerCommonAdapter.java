@@ -62,45 +62,6 @@ public abstract class RecyclerCommonAdapter<T> extends CommonAdapter<T>
         return actualDimensions;
     }
 
-//    @Override
-//    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-//        LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-//        final View view = inflater.inflate(mLayoutId, viewGroup, false);
-//        view.getLayoutParams().width = screenWidth;
-//
-//        if (actualDimensions == null) {
-//            view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//                @Override
-//                public boolean onPreDraw() {
-//                    if (actualDimensions == null) {
-//                        actualDimensions = new int[]{view.getWidth(), view.getHeight()};
-//                    }
-//                    view.getViewTreeObserver().removeOnPreDrawListener(this);
-//                    return true;
-//                }
-//            });
-//        }
-//
-//        return new ViewHolder(view);
-//    }
-
-//    @Override
-//    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-//        T item = mDataList.get(position);
-//        if (item instanceof MediaStoreData) {
-//            MediaStoreData dataItem = (MediaStoreData) item;
-//
-//            MediaStoreSignature signature =
-//                    new MediaStoreSignature(dataItem.mimeType, dataItem.dateModified, dataItem.orientation);
-//            requestBuilder
-//                    .clone()
-//                    .signature(signature)
-//                    .load(dataItem.uri)
-//                    .into(viewHolder.image);
-//
-//        }
-//    }
-
     public void loadImages(MediaStoreData dataItem,ImageView image){
         MediaStoreSignature signature =
                 new MediaStoreSignature(dataItem.mimeType, dataItem.dateModified, dataItem.orientation);
