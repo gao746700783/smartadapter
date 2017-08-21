@@ -3,8 +3,11 @@ package com.smart.recycler;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +20,7 @@ import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.pullrefresh.library.PullToRefreshBase;
 import com.smart.pullrefresh.library.PullToRefreshBase.Mode;
 import com.smart.pullrefresh.library.extras.SoundPullEventListener;
+import com.smart.view.decoration.DividerGridItemDecoration;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 import com.smart.view.recyclerview.LazyRecyclerView;
@@ -58,7 +62,7 @@ public class PullUpDownActivity extends AppCompatActivity {
         dataList.addAll(Arrays.asList(mDatas));
 
         mEmptyView = (LinearLayout) findViewById(R.id.linear_empty);
-        mRvList = (LazyRecyclerView) findViewById(R.id.rv_base_use);
+        mRvList = (LazyRecyclerView) findViewById(R.id.rv_pull_up_down);
 
         mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList) {
             @Override
@@ -67,13 +71,16 @@ public class PullUpDownActivity extends AppCompatActivity {
             }
         };
 
-        // use a linear layout manager
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRvList.getRefreshableView().setLayoutManager(mLayoutManager);
+        // use a s layout manager
+        StaggeredGridLayoutManager mstaggerdLayoutManager =
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRvList.getRefreshableView().setLayoutManager(mstaggerdLayoutManager);
 
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST);
+        // 动画
+        mRvList.getRefreshableView().setItemAnimator(new DefaultItemAnimator());
+
+        // 分割线
+        DividerGridItemDecoration itemDecoration = new DividerGridItemDecoration(this);
         mRvList.getRefreshableView().addItemDecoration(itemDecoration);
 
         mRvList.getRefreshableView().setAdapter(mAdapter);
@@ -170,6 +177,49 @@ public class PullUpDownActivity extends AppCompatActivity {
         } else if (id == R.id.action_pull_weibo_style) {
             mRvList.setHeaderLayout(new WeiboHeaderLayout(this));
             Log.e(TAG, "error in ui when reset head layout");
+
+            return true;
+        } else if (id == R.id.action_layout_linear) {
+
+            RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
+            if (layoutManager instanceof GridLayoutManager ||
+                    !(layoutManager instanceof LinearLayoutManager)) {
+                // use a linear layout manager
+                LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+                mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                mRvList.getRefreshableView().setLayoutManager(mLayoutManager);
+
+                // 分割线
+                DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
+                        DividerItemDecoration.VERTICAL);
+                mRvList.getRefreshableView().addItemDecoration(itemDecoration);
+            }
+
+            return true;
+        } else if (id == R.id.action_layout_grid) {
+
+            RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
+            if (!(layoutManager instanceof GridLayoutManager)) {
+                // use a grid layout manager
+                GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);
+                mGridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
+                mRvList.getRefreshableView().setLayoutManager(mGridLayoutManager);
+            }
+
+            return true;
+        } else if (id == R.id.action_layout_stagger) {
+
+            RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
+            if (!(layoutManager instanceof StaggeredGridLayoutManager)) {
+                // use a s layout manager
+                StaggeredGridLayoutManager mStaggerdLayoutManager =
+                        new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mRvList.getRefreshableView().setLayoutManager(mStaggerdLayoutManager);
+
+                // 分割线
+                DividerGridItemDecoration itemDecoration = new DividerGridItemDecoration(this);
+                mRvList.getRefreshableView().addItemDecoration(itemDecoration);
+            }
 
             return true;
         }

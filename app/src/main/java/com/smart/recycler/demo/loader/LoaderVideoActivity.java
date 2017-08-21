@@ -43,7 +43,7 @@ public class LoaderVideoActivity extends AppCompatActivity {
         rv_video_multi.setLayoutManager(mLayoutManager);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST);
+                DividerItemDecoration.VERTICAL);
         rv_video_multi.addItemDecoration(itemDecoration);
 
 

@@ -21,4 +21,19 @@
           android:title="微博下拉"
           app:showAsAction="never"/>
 
+    <item android:id="@+id/action_layout_linear"
+          android:orderInCategory="100"
+          android:title="线性布局"
+          app:showAsAction="never"/>
+
+    <item android:id="@+id/action_layout_grid"
+          android:orderInCategory="100"
+          android:title="Grid"
+          app:showAsAction="never"/>
+
+    <item android:id="@+id/action_layout_stagger"
+          android:orderInCategory="100"
+          android:title="瀑布流"
+          app:showAsAction="never"/>
+
 </menu>

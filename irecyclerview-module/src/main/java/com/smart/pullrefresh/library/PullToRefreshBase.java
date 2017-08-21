@@ -823,9 +823,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
             mScrollingWhileRefreshingEnabled = bundle.getBoolean(STATE_SCROLLING_REFRESHING_ENABLED, false);
             mShowViewWhileRefreshing = bundle.getBoolean(STATE_SHOW_REFRESHING_VIEW, true);
 
-            // Let super Restore Itself
-            super.onRestoreInstanceState(bundle.getParcelable(STATE_SUPER));
-
             State viewState = State.mapIntToValue(bundle.getInt(STATE_STATE, 0));
             if (viewState == State.REFRESHING || viewState == State.MANUAL_REFRESHING) {
                 setState(viewState, true);
@@ -833,10 +830,25 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
             // Now let derivative classes restore their state
             onPtrRestoreInstanceState(bundle);
+
+            // Let super Restore Itself
+            state = bundle.getParcelable(STATE_SUPER);
+            super.onRestoreInstanceState(state);
+
             return;
         }
 
-        super.onRestoreInstanceState(state);
+        try {
+            super.onRestoreInstanceState(state);
+        } catch (Exception e) {
+            // TODO
+            // java.lang.IllegalArgumentException: Wrong state class,
+            // expecting View State but received class android.support.v7.widget.RecyclerView$SavedState instead.
+            // This usually happens when two views of different type have the same id in the same hierarchy.
+            // This view's id is id/rv_pull_up_down. Make sure other views do not use the same id.
+            Log.e(LOG_TAG, e.getLocalizedMessage(), e);
+        }
+
     }
 
     @Override

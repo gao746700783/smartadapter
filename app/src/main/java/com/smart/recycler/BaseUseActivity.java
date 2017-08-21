@@ -63,7 +63,7 @@ public class BaseUseActivity extends AppCompatActivity {
         mRvList.setLayoutManager(mLayoutManager);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST);
+                DividerItemDecoration.VERTICAL);
         mRvList.addItemDecoration(itemDecoration);
 
         mRvList.setAdapter(mAdapter);

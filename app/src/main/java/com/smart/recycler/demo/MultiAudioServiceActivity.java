@@ -84,7 +84,7 @@ public class MultiAudioServiceActivity extends AppCompatActivity
         rv_audio_multi.setLayoutManager(mLayoutManager);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST);
+                DividerItemDecoration.VERTICAL);
         rv_audio_multi.addItemDecoration(itemDecoration);
 
         rv_audio_multi.setAdapter(mAdapter);

@@ -2,12 +2,13 @@ package com.smart.recycler;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.LinearLayout;
 
 import com.smart.adapter.recyclerview.ViewHolder;
-import com.smart.view.decoration.DividerItemDecoration;
+import com.smart.view.decoration.DividerGridItemDecoration;
 import com.smart.view.dragndrop.adapter.DragDropRecyclerAdapter;
 import com.smart.view.dragndrop.helper.SimpleItemTouchHelperCallback;
 import com.smart.view.recyclerview.EmptyRecyclerView;
@@ -70,9 +71,12 @@ public class DragnDropGridActivity extends AppCompatActivity {
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);
         mGridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         mRvList.setLayoutManager(mGridLayoutManager);
-        // divider item decoration
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
-                DividerItemDecoration.VERTICAL_LIST);
+
+        // 动画
+        mRvList.setItemAnimator(new DefaultItemAnimator());
+
+        // 分割线
+        DividerGridItemDecoration itemDecoration = new DividerGridItemDecoration(this);
         mRvList.addItemDecoration(itemDecoration);
 
         mRvList.setAdapter(mAdapter);

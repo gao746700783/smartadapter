@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <com.smart.view.recyclerview.LazyRecyclerView
-            android:id="@+id/rv_base_use"
+            android:id="@+id/rv_pull_up_down"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
