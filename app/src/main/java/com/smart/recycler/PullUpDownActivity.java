@@ -72,9 +72,9 @@ public class PullUpDownActivity extends AppCompatActivity {
         };
 
         // use a s layout manager
-        StaggeredGridLayoutManager mstaggerdLayoutManager =
+        StaggeredGridLayoutManager mStaggeredLayoutManager =
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-        mRvList.getRefreshableView().setLayoutManager(mstaggerdLayoutManager);
+        mRvList.getRefreshableView().setLayoutManager(mStaggeredLayoutManager);
 
         // 动画
         mRvList.getRefreshableView().setItemAnimator(new DefaultItemAnimator());
@@ -212,13 +212,9 @@ public class PullUpDownActivity extends AppCompatActivity {
             RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
             if (!(layoutManager instanceof StaggeredGridLayoutManager)) {
                 // use a s layout manager
-                StaggeredGridLayoutManager mStaggerdLayoutManager =
+                StaggeredGridLayoutManager mStaggeredLayoutManager =
                         new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                mRvList.getRefreshableView().setLayoutManager(mStaggerdLayoutManager);
-
-                // 分割线
-                DividerGridItemDecoration itemDecoration = new DividerGridItemDecoration(this);
-                mRvList.getRefreshableView().addItemDecoration(itemDecoration);
+                mRvList.getRefreshableView().setLayoutManager(mStaggeredLayoutManager);
             }
 
             return true;
