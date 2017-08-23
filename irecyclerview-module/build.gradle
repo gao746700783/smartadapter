@@ -33,5 +33,5 @@ dependencies {
 
 }
 
-// bintray upload
-apply from :'bintray.gradle'
+//// bintray upload
+//apply from :'bintray.gradle'

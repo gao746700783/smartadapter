@@ -68,14 +68,15 @@ publishing {
     }
 }
 
+
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 bintray {
     user = System.getenv("BINTRAY_USER")  // user = "$System.env.BINTRAY_USER"
     key = System.getenv("BINTRAY_APIKEY") // key = "$System.env.BINTRAY_APIKEY"
+    println(user + "," + key)
     if (user == "null" || user == null || key == null) {
-        //println(user+","+key)
         user = properties.getProperty("bintray.user")
         key = properties.getProperty("bintray.apikey")
     }
