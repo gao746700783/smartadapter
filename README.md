@@ -42,17 +42,17 @@ repositories {
 }
 dependencies {
     ...
-    compile 'com.marshalchen.ultimaterecyclerview:library:0.7.2'
+    compile 'com.smart:irecyclerview:0.0.1'
 }
 `
 
-or grab via Maven
+or grab via Maven,not work here
 
 `
 <dependency>
-  <groupId>com.marshalchen.ultimaterecyclerview</groupId>
-  <artifactId>library</artifactId>
-  <version>0.7.2</version>
+  <groupId>com.smart</groupId>
+  <artifactId>irecyclerview</artifactId>
+  <version>0.0.1</version>
 </dependency>
 `
 
