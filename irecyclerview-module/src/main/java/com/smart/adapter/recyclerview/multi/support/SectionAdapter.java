@@ -1,10 +1,10 @@
-package com.smart.adapter.recyclerview.support;
+package com.smart.adapter.recyclerview.multi.support;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
-import com.smart.adapter.recyclerview.MultiItemCommonAdapter;
-import com.smart.adapter.recyclerview.MultiItemTypeSupport;
+import com.smart.adapter.recyclerview.multi.MultiItemCommonAdapter;
+import com.smart.adapter.recyclerview.multi.MultiItemTypeSupport;
 import com.smart.adapter.recyclerview.ViewHolder;
 
 import java.util.LinkedHashMap;

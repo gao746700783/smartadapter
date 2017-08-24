@@ -31,11 +31,14 @@
         <activity android:name=".demo.SingleAudioServiceActivity"/>
         <activity android:name=".demo.MultiAudioServiceActivity"/>
         <activity android:name=".demo.loader.LoaderVideoActivity"/>
+        <activity android:name=".AnimActivity"/>
+        <activity android:name=".SearchViewActivity"
+                  android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"
-                 android:process=":remote"
-                 android:exported="true"/>
+                 android:exported="true"
+                 android:process=":remote"/>
 
     </application>
 

@@ -1,4 +1,4 @@
-package com.smart.adapter.recyclerview.support;
+package com.smart.adapter.recyclerview.multi.support;
 
 /**
  * Created by zhy on 16/4/9.

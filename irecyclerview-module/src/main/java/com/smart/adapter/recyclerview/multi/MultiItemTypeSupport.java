@@ -1,4 +1,4 @@
-package com.smart.adapter.recyclerview;
+package com.smart.adapter.recyclerview.multi;
 
 /**
  * Description: MultiItemTypeSupport

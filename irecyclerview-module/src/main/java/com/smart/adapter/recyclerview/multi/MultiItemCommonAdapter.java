@@ -1,7 +1,10 @@
-package com.smart.adapter.recyclerview;
+package com.smart.adapter.recyclerview.multi;
 
 import android.content.Context;
 import android.view.ViewGroup;
+
+import com.smart.adapter.recyclerview.CommonAdapter;
+import com.smart.adapter.recyclerview.ViewHolder;
 
 import java.util.List;
 

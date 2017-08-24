@@ -43,7 +43,7 @@ public class HorizontalGalleryFragment extends Fragment
         recyclerView.setLayoutManager(mLayoutManager);
 
         DividerItemDecoration itemDecoration = new DividerItemDecoration(getActivity(),
-                DividerItemDecoration.VERTICAL_LIST);
+                DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
 
         return result;

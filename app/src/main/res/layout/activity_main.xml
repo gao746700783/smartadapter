@@ -66,4 +66,16 @@
         android:text="Multi Audio Play Service"
         android:visibility="gone"/>
 
+    <Button
+        android:id="@+id/btn_base_anim"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="动画"/>
+
+    <Button
+        android:id="@+id/btn_base_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="搜索框"/>
+
 </LinearLayout>

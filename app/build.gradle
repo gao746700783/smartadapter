@@ -35,6 +35,8 @@ dependencies {
     //    }
     //    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     //compile 'com.smart:icore:0.0.3'
+    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+
 }
 
 task run(type: Exec, dependsOn: 'installDebug') {

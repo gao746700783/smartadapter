@@ -98,6 +98,15 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
         holder.updatePosition(position);
         convert(holder, mDataList.get(position));
     }
+    @Override
+    public void onViewAttachedToWindow(ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+    }
 
     protected abstract void convert(ViewHolder holder, T t);
 
