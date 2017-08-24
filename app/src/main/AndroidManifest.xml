@@ -32,8 +32,7 @@
         <activity android:name=".demo.MultiAudioServiceActivity"/>
         <activity android:name=".demo.loader.LoaderVideoActivity"/>
         <activity android:name=".AnimActivity"/>
-        <activity android:name=".SearchViewActivity"
-                  android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
+        <activity android:name=".SearchViewActivity"/>
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"

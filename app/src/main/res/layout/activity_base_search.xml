@@ -24,7 +24,9 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="输入搜索"/>
+            android:hint="输入搜索"
+            app:searchBackIcon="@drawable/ic_action_navigation_close"
+            app:searchBackground="?attr/colorPrimary"/>
 
     </FrameLayout>
 

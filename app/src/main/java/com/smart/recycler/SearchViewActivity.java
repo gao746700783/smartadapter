@@ -1,12 +1,16 @@
 package com.smart.recycler;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
@@ -17,6 +21,7 @@ import com.smart.view.recyclerview.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SearchViewActivity extends AppCompatActivity {
@@ -37,7 +42,7 @@ public class SearchViewActivity extends AppCompatActivity {
     private List<String> dataList = new ArrayList<>();
 
     EmptyRecyclerView mRvList;
-    CommonAdapter mAdapter;
+    SearchAdapter mAdapter;
 
     LinearLayout mEmptyView;
     private MaterialSearchView mSearchView;
@@ -54,7 +59,7 @@ public class SearchViewActivity extends AppCompatActivity {
 
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
-        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList) {
+        mAdapter = new SearchAdapter<String>(this, R.layout.layout_list_item, dataList) {
             @Override
             protected void convert(ViewHolder holder, String o) {
                 holder.setText(R.id.tv_data, o);
@@ -74,28 +79,43 @@ public class SearchViewActivity extends AppCompatActivity {
 
         mRvList.setEmptyView(mEmptyView);
 
-        mSearchView = (MaterialSearchView) findViewById(R.id.search_view);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        setSupportActionBar(toolbar);
+        initToolbar();
 
         initSearchView();
 
     }
 
-    private void initSearchView() {
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("SearchView");
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolbar);
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setHomeAsUpIndicator();
+            //actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
+
+        //toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+    }
+
+    private void initSearchView() {
+        mSearchView = (MaterialSearchView) findViewById(R.id.search_view);
+
+        //mSearchView.setAnimation(new AlphaAnimation(0,1f));
+        //mSearchView.setAnimationDuration(1000);
         mSearchView.setVoiceSearch(false);
         mSearchView.setCursorDrawable(R.drawable.shape_cursor);
         mSearchView.setEllipsize(true);
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //SnackBarUtil.show(MainActivity.this, String.format(Locale.getDefault(), "哥，别搜%s了", query));
+                // filter text
+                mAdapter.getFilter().filter(query);
+
                 return false;
             }
 
@@ -137,5 +157,70 @@ public class SearchViewActivity extends AppCompatActivity {
         }
     }
 
+    abstract class SearchAdapter<T> extends CommonAdapter<T> implements Filterable {
+
+        private List<String> filteredList;
+
+        private SearchFilter userFilter;
+
+        public SearchAdapter(Context context, int layoutId, List datas) {
+            super(context, layoutId, datas);
+
+            this.filteredList = new ArrayList<>();
+        }
+
+        @Override
+        public Filter getFilter() {
+            if (userFilter == null)
+                userFilter = new SearchFilter(this, dataList);
+            return userFilter;
+        }
+
+    }
+
+    private class SearchFilter extends Filter {
+
+        private final SearchAdapter adapter;
+
+        private final List<String> originalList;
+
+        private final List<String> filteredList;
+
+        private SearchFilter(SearchAdapter adapter, List<String> originalList) {
+            super();
+            this.adapter = adapter;
+            this.originalList = new LinkedList<>(originalList);
+            this.filteredList = new ArrayList<>();
+        }
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            filteredList.clear();
+            final FilterResults results = new FilterResults();
+
+            if (TextUtils.isEmpty(constraint) || constraint.length() == 0) {
+                filteredList.addAll(originalList);
+            } else {
+                final String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (final String user : originalList) {
+                    if (user.contains(filterPattern)) {
+                        filteredList.add(user);
+                    }
+                }
+            }
+            results.values = filteredList;
+            results.count = filteredList.size();
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            adapter.filteredList.clear();
+            adapter.filteredList.addAll((ArrayList<String>) results.values);
+
+            adapter.setDataList(adapter.filteredList);
+        }
+    }
 
 }

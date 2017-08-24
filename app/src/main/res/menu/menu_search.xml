@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/search"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_action_action_search"
         android:orderInCategory="100"
         android:title="搜索"
         app:showAsAction="always" />
