@@ -33,6 +33,7 @@
         <activity android:name=".demo.loader.LoaderVideoActivity"/>
         <activity android:name=".AnimActivity"/>
         <activity android:name=".SearchViewActivity"/>
+        <activity android:name=".MultiItemActivity"/>
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"

@@ -2,7 +2,9 @@ package com.smart.recycler;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.smart.recycler.demo.AudioPlayActivity;
@@ -18,6 +20,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+        initToolbar();
+
         findViewById(R.id.btn_base_use).setOnClickListener(this);
         findViewById(R.id.btn_pull_up_down).setOnClickListener(this);
         findViewById(R.id.btn_drag_n_drop).setOnClickListener(this);
@@ -29,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_audio_play_multi).setOnClickListener(this);
         findViewById(R.id.btn_base_anim).setOnClickListener(this);
         findViewById(R.id.btn_base_search).setOnClickListener(this);
+        findViewById(R.id.btn_base_multi).setOnClickListener(this);
 
     }
 
@@ -69,9 +75,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_base_search:
                 startActivity(new Intent(this, SearchViewActivity.class));
                 break;
+            case R.id.btn_base_multi:
+                startActivity(new Intent(this, MultiItemActivity.class));
+                break;
             default:
                 break;
         }
-
     }
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("首页");
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            //actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setHomeAsUpIndicator();
+            //actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
+    }
+
+
 }

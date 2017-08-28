@@ -32,6 +32,7 @@ https://developer.android.google.cn/reference/android/support/v7/widget/Recycler
 - 和SearchView的结合使用
 - 加载item 动画，动画类型-透明度渐变，缩放，左移，右移等，动画执行时间设置，动画差值器设置；
 - multiple type support
+- footer and header
 
 ### Usage
 
