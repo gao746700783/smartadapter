@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_base_anim).setOnClickListener(this);
         findViewById(R.id.btn_base_search).setOnClickListener(this);
         findViewById(R.id.btn_base_multi).setOnClickListener(this);
+        findViewById(R.id.btn_base_header).setOnClickListener(this);
 
     }
 
@@ -77,6 +78,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_base_multi:
                 startActivity(new Intent(this, MultiItemActivity.class));
+                break;
+            case R.id.btn_base_header:
+                startActivity(new Intent(this, HeaderFooterActivity.class));
                 break;
             default:
                 break;

@@ -2,7 +2,6 @@ package com.smart.adapter.recyclerview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,12 +18,10 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
     protected Context mContext;
     protected int mLayoutId;
     protected List<T> mDataList;
-    protected LayoutInflater mInflater;
+    //protected LayoutInflater mInflater;
 
     // add by me
-    protected boolean mHasHeaderOrFooter;
-
-    private OnItemClickListener<T> mOnItemClickListener;
+    //protected boolean mHasHeaderOrFooter;
 
     public CommonAdapter(Context context, int layoutId, List<T> datas) {
         this(context, layoutId, datas, false);
@@ -32,19 +29,15 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 
     public CommonAdapter(Context context, int layoutId, List<T> datas, boolean isHasHeaderOrFooter) {
         this.mContext = context;
-        this.mInflater = LayoutInflater.from(context);
+        //this.mInflater = LayoutInflater.from(context);
         this.mLayoutId = layoutId;
         this.mDataList = datas;
-        this.mHasHeaderOrFooter = isHasHeaderOrFooter;
-    }
-
-    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
+        //this.mHasHeaderOrFooter = isHasHeaderOrFooter;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        ViewHolder viewHolder = ViewHolder.get(mContext, null, parent, mLayoutId, -1);
+        ViewHolder viewHolder = ViewHolder.get(mContext, null, parent, mLayoutId);
         //设置背景
         //viewHolder.itemView.setBackgroundResource(R.drawable.recycler_bg);
         // ?android:attr/selectableItemBackground
@@ -57,36 +50,52 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
         return viewHolder.getAdapterPosition();
     }
 
+    /**
+     * is or not enabled
+     * need to override in SectionAdapter
+     *
+     * @param viewType viewType
+     * @return true for default
+     */
     protected boolean isEnabled(int viewType) {
         return true;
     }
 
+    /**
+     * set click listener
+     *
+     * @param parent     parent
+     * @param viewHolder viewHolder
+     * @param viewType   viewType
+     */
     protected void setListener(final ViewGroup parent, final ViewHolder viewHolder, int viewType) {
         if (!isEnabled(viewType)) return;
-        viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
+        View mConvertView = viewHolder.getConvertView();
+        if (null == mConvertView) return;
+
+        mConvertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = getPosition(viewHolder);
-                    if (mHasHeaderOrFooter) {
-                        position -= 1;
-                    }
-                    mOnItemClickListener.onItemClick(
-                            parent, v, mDataList.get(position), position);
+//                    if (mHasHeaderOrFooter) {
+//                        position -= 1;
+//                    }
+                    mOnItemClickListener.onItemClick(parent, v, mDataList.get(position), position);
                 }
             }
         });
 
-        viewHolder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
+        mConvertView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = getPosition(viewHolder);
-                    if (mHasHeaderOrFooter) {
-                        position -= 1;
-                    }
-                    return mOnItemClickListener.onItemLongClick(
-                            parent, v, mDataList.get(position), position);
+//                    if (mHasHeaderOrFooter) {
+//                        position -= 1;
+//                    }
+                    return mOnItemClickListener.onItemLongClick(parent, v, mDataList.get(position),
+                            position);
                 }
                 return false;
             }
@@ -95,7 +104,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.updatePosition(position);
+        //holder.updatePosition(position);
         convert(holder, mDataList.get(position));
     }
 
@@ -109,16 +118,22 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
         super.onViewDetachedFromWindow(holder);
     }
 
-    protected abstract void convert(ViewHolder holder, T t);
-
     @Override
     public int getItemCount() {
         return mDataList.size();
     }
 
-    public void setDataList(List<T> dataList){
+    public void setDataList(List<T> dataList) {
         this.mDataList = dataList;
         this.notifyDataSetChanged();
+    }
+
+    protected abstract void convert(ViewHolder holder, T t);
+
+    private OnItemClickListener<T> mOnItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
+        this.mOnItemClickListener = onItemClickListener;
     }
 
 }

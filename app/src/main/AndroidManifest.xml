@@ -34,6 +34,7 @@
         <activity android:name=".AnimActivity"/>
         <activity android:name=".SearchViewActivity"/>
         <activity android:name=".MultiItemActivity"/>
+        <activity android:name=".HeaderFooterActivity"/>
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"
