@@ -262,6 +262,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         return mScrollingWhileRefreshingEnabled;
     }
 
+    @Override
     public final void setScrollingWhileRefreshingEnabled(boolean allowScrollingWhileRefreshing) {
         mScrollingWhileRefreshingEnabled = allowScrollingWhileRefreshing;
     }
@@ -338,6 +339,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 }
                 break;
             }
+            default:
+                break;
         }
 
         return mIsBeingDragged;
@@ -411,6 +414,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 }
                 break;
             }
+            default:
+                break;
         }
 
         return false;
@@ -446,6 +451,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
         getRefreshableView().setLongClickable(longClickable);
     }
 
+    @Override
     public void setOnPullEventListener(OnPullEventListener<T> listener) {
         mOnPullEventListener = listener;
     }
@@ -531,6 +537,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 releaseLabel);
     }
 
+    @Override
     public void setScrollAnimationInterpolator(Interpolator interpolator) {
         mScrollAnimationInterpolator = interpolator;
     }
@@ -563,6 +570,8 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 break;
             case OVERSCROLLING:
                 // NO-OP
+                break;
+            default:
                 break;
         }
 
@@ -925,6 +934,7 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
                 break;
 
             case VERTICAL:
+            default:
                 if (mMode.showHeaderLoadingLayout()) {
                     mHeaderLayout.setHeight(maximumPullScroll);
                     pTop = -maximumPullScroll;

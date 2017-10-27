@@ -144,10 +144,9 @@ public class PullUpDownActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        //MenuItem setModeItem = menu.findItem(MENU_SET_MODE);
-        MenuItem modeItem = menu.getItem(0);
-        modeItem.setTitle(mRvList.getMode() == Mode.BOTH ? "Change to MODE_PULL_FROM_START"
-                : "Change to MODE_PULL_BOTH");
+        MenuItem setModeItem = menu.findItem(R.id.action_mode);
+        setModeItem.setTitle(mRvList.getMode() == Mode.BOTH ?
+                "Change to MODE_PULL_FROM_START" : "Change to MODE_PULL_BOTH");
         return super.onPrepareOptionsMenu(menu);
     }
 
