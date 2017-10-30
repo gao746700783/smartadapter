@@ -90,12 +90,14 @@ public class PullUpDownActivity extends AppCompatActivity {
 
         mRvList.getRefreshableView().addItemDecoration(itemDecoration_stagger);
 
+        mRvList.setHeaderLayout(new WeiboHeaderLayout(this));
+        mRvList.setFooterLayout(new WeiboHeaderLayout(this));
+
         mRvList.getRefreshableView().setAdapter(mAdapter);
         if (mRvList.getRefreshableView() instanceof EmptyRecyclerView) {
             EmptyRecyclerView view = (EmptyRecyclerView) mRvList.getRefreshableView();
             view.setEmptyView(mEmptyView);
         }
-        mRvList.setHeaderLayout(new WeiboHeaderLayout(this));
         // Set a listener to be invoked when the list should be refreshed.
         mRvList.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<RecyclerView>() {
 

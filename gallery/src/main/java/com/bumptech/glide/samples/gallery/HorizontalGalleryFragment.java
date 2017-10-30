@@ -6,6 +6,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,11 +57,12 @@ public class HorizontalGalleryFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<List<MediaStoreData>> loader,
-                               List<MediaStoreData> mediaStoreData) {
+                               List<MediaStoreData> mediaStoreDataList) {
+        Log.d("Loader fragment", "onLoadFinished called!");
         GlideRequests glideRequests = GlideApp.with(this);
 
         RecyclerCommonAdapter mAdapter = new RecyclerCommonAdapter<MediaStoreData>(getActivity(),
-                R.layout.layout_list_item_video, mediaStoreData, glideRequests) {
+                R.layout.layout_list_item_video, mediaStoreDataList, glideRequests) {
             @Override
             protected void convert(final ViewHolder holder, MediaStoreData o) {
                 holder.setText(R.id.tv_video_title, o.title);

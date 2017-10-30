@@ -89,5 +89,6 @@ public class MediaStoreData implements Parcelable {
     public enum Type {
         VIDEO,
         IMAGE,
+        AUDIO,
     }
 }
