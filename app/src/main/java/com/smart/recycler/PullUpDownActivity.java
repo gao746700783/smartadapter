@@ -2,12 +2,14 @@ package com.smart.recycler;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -53,6 +55,8 @@ public class PullUpDownActivity extends AppCompatActivity {
     CommonAdapter mAdapter;
 
     LinearLayout mEmptyView;
+    DividerGridItemDecoration itemDecoration_stagger;
+    DividerItemDecoration itemDecoration_linear_grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +84,11 @@ public class PullUpDownActivity extends AppCompatActivity {
         mRvList.getRefreshableView().setItemAnimator(new DefaultItemAnimator());
 
         // 分割线
-        DividerGridItemDecoration itemDecoration = new DividerGridItemDecoration(this);
-        mRvList.getRefreshableView().addItemDecoration(itemDecoration);
+        itemDecoration_stagger = new DividerGridItemDecoration(this);
+        itemDecoration_linear_grid = new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL);
+
+        mRvList.getRefreshableView().addItemDecoration(itemDecoration_stagger);
 
         mRvList.getRefreshableView().setAdapter(mAdapter);
         if (mRvList.getRefreshableView() instanceof EmptyRecyclerView) {
@@ -131,7 +138,7 @@ public class PullUpDownActivity extends AppCompatActivity {
                 }, 1000);
             }
         });
-
+        initToolbar();
 
     }
 
@@ -157,6 +164,21 @@ public class PullUpDownActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+        RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
+        // 获取当前第一个可见Item的position
+        int scrollPosition = 0;
+        // If a layout manager has already been set, get current scroll position.
+        if (mRvList.getRefreshableView().getLayoutManager() != null) {
+            if (layoutManager instanceof StaggeredGridLayoutManager) {
+                scrollPosition = ((StaggeredGridLayoutManager) mRvList.getRefreshableView().getLayoutManager())
+                        .findFirstCompletelyVisibleItemPositions(null)[0];
+            } else {
+                scrollPosition = ((LinearLayoutManager) mRvList.getRefreshableView().getLayoutManager())
+                        .findFirstCompletelyVisibleItemPosition();
+            }
+        }
+
         if (id == R.id.action_mode) {
             mRvList.setMode(mRvList.getMode() == Mode.BOTH ? Mode.PULL_FROM_START : Mode.BOTH);
             return true;
@@ -180,7 +202,6 @@ public class PullUpDownActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.action_layout_linear) {
 
-            RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
             if (layoutManager instanceof GridLayoutManager ||
                     !(layoutManager instanceof LinearLayoutManager)) {
                 // use a linear layout manager
@@ -188,37 +209,59 @@ public class PullUpDownActivity extends AppCompatActivity {
                 mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
                 mRvList.getRefreshableView().setLayoutManager(mLayoutManager);
 
-                // 分割线
-                DividerItemDecoration itemDecoration = new DividerItemDecoration(this,
-                        DividerItemDecoration.VERTICAL);
-                mRvList.getRefreshableView().addItemDecoration(itemDecoration);
+                // 分割线处理
+                mRvList.getRefreshableView().removeItemDecoration(itemDecoration_stagger);
+                mRvList.getRefreshableView().addItemDecoration(itemDecoration_linear_grid);
             }
+            mRvList.getRefreshableView().scrollToPosition(scrollPosition);
 
             return true;
         } else if (id == R.id.action_layout_grid) {
 
-            RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
             if (!(layoutManager instanceof GridLayoutManager)) {
                 // use a grid layout manager
                 GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);
                 mGridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
                 mRvList.getRefreshableView().setLayoutManager(mGridLayoutManager);
+
+                // 分割线处理
+                mRvList.getRefreshableView().addItemDecoration(itemDecoration_stagger);
+                mRvList.getRefreshableView().removeItemDecoration(itemDecoration_linear_grid);
             }
+            mRvList.getRefreshableView().scrollToPosition(scrollPosition);
 
             return true;
         } else if (id == R.id.action_layout_stagger) {
-
-            RecyclerView.LayoutManager layoutManager = mRvList.getRefreshableView().getLayoutManager();
             if (!(layoutManager instanceof StaggeredGridLayoutManager)) {
                 // use a s layout manager
                 StaggeredGridLayoutManager mStaggeredLayoutManager =
                         new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 mRvList.getRefreshableView().setLayoutManager(mStaggeredLayoutManager);
+
+                // 分割线处理
+                mRvList.getRefreshableView().removeItemDecoration(itemDecoration_linear_grid);
+                mRvList.getRefreshableView().addItemDecoration(itemDecoration_stagger);
             }
+            mRvList.getRefreshableView().scrollToPosition(scrollPosition);
 
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Pull-up-down");
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            //actionBar.setHomeAsUpIndicator();
+            //actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
     }
 }

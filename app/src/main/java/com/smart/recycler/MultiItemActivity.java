@@ -42,7 +42,7 @@ public class MultiItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_search);
+        setContentView(R.layout.activity_base_multi);
 
 
         mEmptyView = (LinearLayout) findViewById(R.id.linear_empty);
