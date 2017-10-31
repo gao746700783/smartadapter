@@ -2,12 +2,11 @@ package com.bumptech.glide.samples.gallery;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.Key;
 import com.bumptech.glide.signature.MediaStoreSignature;
 import com.smart.adapter.recyclerview.CommonAdapter;
 
@@ -21,19 +20,20 @@ public abstract class RecyclerCommonAdapter<T> extends CommonAdapter<T>
         implements ListPreloader.PreloadSizeProvider<T>,
         ListPreloader.PreloadModelProvider<T> {
 
+    private GlideRequests glideRequests;
     private GlideRequest<Drawable> requestBuilder;
     private int[] actualDimensions;
 
-    public RecyclerCommonAdapter(Context context, int layoutId, List<T> datas, GlideRequests glideRequests) {
-        super(context, layoutId, datas);
-        requestBuilder = glideRequests.asDrawable().fitCenter();
-
-        setHasStableIds(true);
-
-    }
-
     public RecyclerCommonAdapter(Context context, int layoutId, List<T> datas) {
         super(context, layoutId, datas);
+
+        // init glide request
+        glideRequests = GlideApp.with(context);
+        // init glide request builder
+        requestBuilder = glideRequests.asDrawable().fitCenter();
+        // Indicates whether each item in the data set can be represented with a unique identifier
+        // of type {@link java.lang.Long}.
+        setHasStableIds(true);
     }
 
     @Override
@@ -62,14 +62,21 @@ public abstract class RecyclerCommonAdapter<T> extends CommonAdapter<T>
         return actualDimensions;
     }
 
-    public void loadImages(MediaStoreData dataItem,ImageView image){
-        MediaStoreSignature signature =
-                new MediaStoreSignature(dataItem.mimeType, dataItem.dateModified, dataItem.orientation);
-        requestBuilder
-                .clone()
-                .signature(signature)
+    /**
+     * load images
+     *
+     * @param dataItem dataItem
+     * @param image    image
+     */
+    void loadImages(MediaStoreData dataItem, ImageView image) {
+        Key signature = new MediaStoreSignature(dataItem.mimeType, dataItem.dateModified,
+                dataItem.orientation);
+        requestBuilder.clone().signature(signature)
                 .load(dataItem.uri)
                 .into(image);
     }
 
+    GlideRequests getGlideRequests() {
+        return glideRequests;
+    }
 }

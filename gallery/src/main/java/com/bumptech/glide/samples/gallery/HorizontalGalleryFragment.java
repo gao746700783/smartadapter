@@ -59,20 +59,22 @@ public class HorizontalGalleryFragment extends Fragment
     public void onLoadFinished(Loader<List<MediaStoreData>> loader,
                                List<MediaStoreData> mediaStoreDataList) {
         Log.d("Loader fragment", "onLoadFinished called!");
-        GlideRequests glideRequests = GlideApp.with(this);
 
-        RecyclerCommonAdapter mAdapter = new RecyclerCommonAdapter<MediaStoreData>(getActivity(),
-                R.layout.layout_list_item_video, mediaStoreDataList, glideRequests) {
+        RecyclerCommonAdapter<MediaStoreData> mAdapter = new RecyclerCommonAdapter<MediaStoreData>(
+                getActivity(), R.layout.layout_list_item_video,
+                mediaStoreDataList) {
+
             @Override
-            protected void convert(final ViewHolder holder, MediaStoreData o) {
-                holder.setText(R.id.tv_video_title, o.title);
-                holder.setText(R.id.tv_video_artist, o.uri.toString());
-                loadImages(o, (ImageView) holder.getView(R.id.iv_video_thumb));
+            protected void convert(final ViewHolder holder, MediaStoreData data) {
+                holder.setText(R.id.tv_video_title, data.title);
+                holder.setText(R.id.tv_video_artist, data.uri.toString());
+
+                this.loadImages(data, (ImageView) holder.getView(R.id.iv_video_thumb));
             }
         };
 
         RecyclerViewPreloader<MediaStoreData> preLoader =
-                new RecyclerViewPreloader<MediaStoreData>(glideRequests, mAdapter, mAdapter, 3);
+                new RecyclerViewPreloader<>(mAdapter.getGlideRequests(), mAdapter, mAdapter, 3);
         recyclerView.addOnScrollListener(preLoader);
         recyclerView.setAdapter(mAdapter);
     }

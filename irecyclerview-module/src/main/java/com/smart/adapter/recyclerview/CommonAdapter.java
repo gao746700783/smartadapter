@@ -29,7 +29,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 
     public CommonAdapter(Context context, int layoutId, List<T> datas, boolean isHasHeaderOrFooter) {
         this.mContext = context;
-        //this.mInflater = LayoutInflater.from(context);
+
         this.mLayoutId = layoutId;
         this.mDataList = datas;
         //this.mHasHeaderOrFooter = isHasHeaderOrFooter;
@@ -69,9 +69,9 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
      * @param viewType   viewType
      */
     protected void setListener(final ViewGroup parent, final ViewHolder viewHolder, int viewType) {
-        if (!isEnabled(viewType)) return;
+        if (!isEnabled(viewType)) {return;}
         View mConvertView = viewHolder.getConvertView();
-        if (null == mConvertView) return;
+        if (null == mConvertView) {return;}
 
         mConvertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +104,6 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //holder.updatePosition(position);
         convert(holder, mDataList.get(position));
     }
 
@@ -118,9 +117,20 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
         super.onViewDetachedFromWindow(holder);
     }
 
+    // may cause error
+    @Override
+    public long getItemId(int position) {
+        return mDataList.get(position).hashCode();
+    }
+
     @Override
     public int getItemCount() {
         return mDataList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return 0;
     }
 
     public void setDataList(List<T> dataList) {

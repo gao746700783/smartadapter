@@ -148,7 +148,7 @@ public class MediaStoreDataLoader extends AsyncTaskLoader<List<MediaStoreData>> 
     }
 
     private List<MediaStoreData> queryAudios() {
-        return query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, AUDIO_PROJECTION,
+        return query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, AUDIO_PROJECTION,
                 MediaStore.Audio.AudioColumns.DATE_ADDED,
                 MediaStore.Audio.AudioColumns._ID, MediaStore.Audio.AudioColumns.TITLE,
                 MediaStore.Audio.AudioColumns.DATE_ADDED, MediaStore.Audio.AudioColumns.DATE_MODIFIED,
