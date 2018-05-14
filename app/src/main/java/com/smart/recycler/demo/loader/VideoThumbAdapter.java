@@ -11,7 +11,7 @@ import java.util.List;
  * Created by qiangzhang on 2017/6/30.
  */
 
-public abstract class VideoThumbAdapter<T> extends CommonAdapter<T> {
+public class VideoThumbAdapter<T> extends CommonAdapter<T> {
 
     VideoThumbLoader mVideoThumbLoader;
 

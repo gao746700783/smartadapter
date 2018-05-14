@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.smart.adapter.recyclerview.CommonAdapter;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
@@ -59,12 +61,13 @@ public class SearchViewActivity extends AppCompatActivity {
 
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
-        mAdapter = new SearchAdapter<String>(this, R.layout.layout_list_item, dataList) {
-            @Override
-            protected void convert(ViewHolder holder, String o) {
-                holder.setText(R.id.tv_data, o);
-            }
-        };
+        mAdapter = (SearchAdapter) new SearchAdapter<String>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
 
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -157,7 +160,7 @@ public class SearchViewActivity extends AppCompatActivity {
         }
     }
 
-    abstract class SearchAdapter<T> extends CommonAdapter<T> implements Filterable {
+    class SearchAdapter<T> extends CommonAdapter<T> implements Filterable {
 
         private List<String> filteredList;
 

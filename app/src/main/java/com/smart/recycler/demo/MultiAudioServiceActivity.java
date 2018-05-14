@@ -14,7 +14,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
-import com.smart.adapter.recyclerview.ViewHolder;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.recycler.R;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
@@ -57,27 +58,28 @@ public class MultiAudioServiceActivity extends AppCompatActivity
 
         rv_audio_multi = (EmptyRecyclerView) findViewById(R.id.rv_audio_multi);
         mEmptyView = (LinearLayout) findViewById(R.id.linear_empty);
-        mAdapter = new CommonAdapter<AudioInfo>(this, R.layout.layout_list_item_audio_play_multi, dataList) {
-            @Override
-            protected void convert(final ViewHolder holder, AudioInfo o) {
-                holder.setText(R.id.tv_multi_audio_name, o.getName());
-                holder.setOnClickListener(R.id.iv_multi_play_pause, new View.OnClickListener() {
+        mAdapter = new CommonAdapter<AudioInfo>(this, R.layout.layout_list_item_audio_play_multi, dataList)
+                .bindViewAndData(new IConverter<AudioInfo>() {
                     @Override
-                    public void onClick(View v) {
-                        // play options
-                        oldIndex = curIndex;
-                        curIndex = holder.getLayoutPosition();
+                    public void convert(final IHolder holder, AudioInfo o, int position) {
+                        holder.setText(R.id.tv_multi_audio_name, o.getName());
+                        holder.setOnClickListener(R.id.iv_multi_play_pause, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // play options
+                                oldIndex = curIndex;
+                                curIndex = holder.getPosition();
 
-                        playControl(curIndex);
+                                playControl(curIndex);
+                            }
+                        });
+                        boolean isPlaying = false;
+                        if (curIndex == holder.getPosition() && o.getState() == AudioStreamService.STATE_PLAYING) {
+                            isPlaying = true;
+                        }
+                        holder.setImageResource(R.id.iv_multi_play_pause, isPlaying ? R.drawable.pause : R.drawable.play);
                     }
                 });
-                boolean isPlaying = false;
-                if (curIndex == holder.getLayoutPosition() && o.getState() == AudioStreamService.STATE_PLAYING) {
-                    isPlaying = true;
-                }
-                holder.setImageResource(R.id.iv_multi_play_pause, isPlaying ? R.drawable.pause : R.drawable.play);
-            }
-        };
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -196,10 +198,12 @@ public class MultiAudioServiceActivity extends AppCompatActivity
     public IAudioStreamService mAudioPlayerSrv = null;
 
     private ServiceConnection mSrvConnection = new ServiceConnection() {
+        @Override
         public void onServiceConnected(ComponentName classname, IBinder service) {
             mAudioPlayerSrv = IAudioStreamService.Stub.asInterface(service);
         }
 
+        @Override
         public void onServiceDisconnected(ComponentName name) {
             mAudioPlayerSrv = null;
         }

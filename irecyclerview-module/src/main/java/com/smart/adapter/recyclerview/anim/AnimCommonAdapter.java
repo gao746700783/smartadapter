@@ -22,7 +22,7 @@ import java.util.List;
  * User: qiangzhang <br/>
  * Date: 2017/6/23 上午11:22 <br/>
  */
-public abstract class AnimCommonAdapter<T> extends CommonAdapter<T> {
+public class AnimCommonAdapter<T> extends CommonAdapter<T> {
 
     // animation enabled
     private boolean animationEnabled = true;
@@ -50,13 +50,13 @@ public abstract class AnimCommonAdapter<T> extends CommonAdapter<T> {
      */
     public static final int SLIDEIN_RIGHT = 0x00000005;
 
-    // interpolator
+    /*<!-- interpolator --> */
     private Interpolator mInterpolator = new LinearInterpolator();
-    // animation duration
+    /*<!-- animation duration --> */
     private int mDuration = 300;
-    // base animation
+    /*<!-- base animation --> */
     private BaseAnimation mSelectAnimation = new AlphaInAnimation();
-    // load animation first time only
+    /*<!-- load animation first time only --> */
     private boolean mFirstOnlyEnable = true;
 
     public AnimCommonAdapter(Context context, int layoutId, List datas) {

@@ -18,7 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
-import com.smart.adapter.recyclerview.ViewHolder;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.view.decoration.DividerGridItemDecoration;
 import com.smart.view.decoration.DividerItemDecoration;
 
@@ -74,17 +75,17 @@ public class HorizontalGalleryFragment extends Fragment
                                List<MediaStoreData> mediaStoreDataList) {
         Log.d("Loader fragment", "onLoadFinished called!");
 
-        RecyclerCommonAdapter<MediaStoreData> mAdapter = new RecyclerCommonAdapter<MediaStoreData>(
-                getActivity(), R.layout.layout_list_item_video, mediaStoreDataList) {
+        RecyclerCommonAdapter<MediaStoreData> mAdapter = (RecyclerCommonAdapter<MediaStoreData>) new RecyclerCommonAdapter<MediaStoreData>(
+                getActivity(), R.layout.layout_list_item_video, mediaStoreDataList)
+                .bindViewAndData(new IConverter<MediaStoreData>() {
+                    @Override
+                    public void convert(IHolder holder, MediaStoreData data, int position) {
+                        holder.setText(R.id.tv_video_title, data.title);
+                        holder.setText(R.id.tv_video_artist, data.uri.toString());
 
-            @Override
-            protected void convert(final ViewHolder holder, MediaStoreData data) {
-                holder.setText(R.id.tv_video_title, data.title);
-                holder.setText(R.id.tv_video_artist, data.uri.toString());
-
-                this.loadImages(data, (ImageView) holder.getView(R.id.iv_video_thumb));
-            }
-        };
+                        //this.loadImages(data, (ImageView) holder.getView(R.id.iv_video_thumb));
+                    }
+                });
 
         RecyclerViewPreloader<MediaStoreData> preLoader =
                 new RecyclerViewPreloader<>(mAdapter.getGlideRequests(), mAdapter, mAdapter, 3);

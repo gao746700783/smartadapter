@@ -7,7 +7,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
-import com.smart.adapter.recyclerview.ViewHolder;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.recycler.R;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
@@ -49,21 +50,22 @@ public class LoaderVideoActivity extends AppCompatActivity {
 
         dataList = VideoLoader.loadVideos(this);
 
-        mAdapter = new VideoThumbAdapter<VideoModel>(this, R.layout.layout_list_item_video, dataList) {
-            @Override
-            protected void convert(final ViewHolder holder, VideoModel o) {
-                //holder.setText(R.id.tv_multi_audio_name, o.getName());
-                holder.setText(R.id.tv_video_title, o.getTitle());
-                holder.setText(R.id.tv_video_artist, o.getFilePath());
+        mAdapter = new VideoThumbAdapter<VideoModel>(this, R.layout.layout_list_item_video, dataList)
+                .bindViewAndData(new IConverter<VideoModel>() {
+                    @Override
+                    public void convert(IHolder holder, VideoModel o, int position) {
+                        //holder.setText(R.id.tv_multi_audio_name, o.getName());
+                        holder.setText(R.id.tv_video_title, o.getTitle());
+                        holder.setText(R.id.tv_video_artist, o.getFilePath());
 
-                //holder.setImageResource(R.id.iv_video_thumb,o.getFilePath());
-                ImageView ivVideo = holder.getView(R.id.iv_video_thumb);
-                //ivVideo.setImageURI(Uri.parse(o.getFilePath()));
-                ivVideo.setTag(o.getFilePath());
+                        //holder.setImageResource(R.id.iv_video_thumb,o.getFilePath());
+                        ImageView ivVideo = holder.getView(R.id.iv_video_thumb);
+                        //ivVideo.setImageURI(Uri.parse(o.getFilePath()));
+                        ivVideo.setTag(o.getFilePath());
 
-                loadThumb(ivVideo, o.getFilePath());
-            }
-        };
+                        //this.loadThumb(ivVideo, o.getFilePath());
+                    }
+                });
 
         rv_video_multi.setAdapter(mAdapter);
 

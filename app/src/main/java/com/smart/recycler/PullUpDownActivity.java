@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.pullrefresh.library.PullToRefreshBase;
 import com.smart.pullrefresh.library.PullToRefreshBase.Mode;
@@ -68,12 +70,13 @@ public class PullUpDownActivity extends AppCompatActivity {
         mEmptyView = (LinearLayout) findViewById(R.id.linear_empty);
         mRvList = (LazyRecyclerView) findViewById(R.id.rv_pull_up_down);
 
-        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList) {
-            @Override
-            protected void convert(ViewHolder holder, String o) {
-                holder.setText(R.id.tv_data, o);
-            }
-        };
+        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
 
         // use a s layout manager
         StaggeredGridLayoutManager mStaggeredLayoutManager =
@@ -91,7 +94,7 @@ public class PullUpDownActivity extends AppCompatActivity {
         mRvList.getRefreshableView().addItemDecoration(itemDecoration_stagger);
 
         mRvList.setHeaderLayout(new WeiboHeaderLayout(this));
-        mRvList.setFooterLayout(new WeiboHeaderLayout(this));
+        //mRvList.setFooterLayout(new WeiboHeaderLayout(this));
 
         mRvList.getRefreshableView().setAdapter(mAdapter);
         if (mRvList.getRefreshableView() instanceof EmptyRecyclerView) {

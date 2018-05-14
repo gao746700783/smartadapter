@@ -8,7 +8,10 @@ import com.smart.adapter.recyclerview.ViewHolder;
 
 import java.util.List;
 
-public abstract class MultiItemCommonAdapter<T> extends CommonAdapter<T> {
+/**
+ * @author che300
+ */
+public class MultiItemCommonAdapter<T> extends CommonAdapter<T> {
 
     protected MultiItemTypeSupport<T> mMultiItemTypeSupport;
 
@@ -24,7 +27,7 @@ public abstract class MultiItemCommonAdapter<T> extends CommonAdapter<T> {
     @Override
     public int getItemViewType(int position) {
         if (mMultiItemTypeSupport != null)
-            return mMultiItemTypeSupport.getItemViewType(position, mDataList.get(position));
+            return mMultiItemTypeSupport.getItemViewType(position, (T)mDataList.get(position));
         return super.getItemViewType(position);
     }
 

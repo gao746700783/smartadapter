@@ -10,18 +10,23 @@ import java.util.List;
 /**
  * Description: CommonAdapter
  * <p>
- * User: qiangzhang <br/>
+ * User: gxh <br/>
  * Date: 2017/6/23 上午11:22 <br/>
+ * @author che300
  */
-public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
+public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
+        implements IAdapter<RecyclerView.Adapter> {
 
     protected Context mContext;
     protected int mLayoutId;
-    protected List<T> mDataList;
+    //protected List<T> mDataList;
+    protected List<? super T> mDataList;
     //protected LayoutInflater mInflater;
 
     // add by me
     //protected boolean mHasHeaderOrFooter;
+
+    IConverter<? super T> mIConverter;
 
     public CommonAdapter(Context context, int layoutId, List<T> datas) {
         this(context, layoutId, datas, false);
@@ -69,9 +74,13 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
      * @param viewType   viewType
      */
     protected void setListener(final ViewGroup parent, final ViewHolder viewHolder, int viewType) {
-        if (!isEnabled(viewType)) {return;}
+        if (!isEnabled(viewType)) {
+            return;
+        }
         View mConvertView = viewHolder.getConvertView();
-        if (null == mConvertView) {return;}
+        if (null == mConvertView) {
+            return;
+        }
 
         mConvertView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +90,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 //                    if (mHasHeaderOrFooter) {
 //                        position -= 1;
 //                    }
-                    mOnItemClickListener.onItemClick(parent, v, mDataList.get(position), position);
+                    mOnItemClickListener.onItemClick(parent, v, (T) mDataList.get(position), position);
                 }
             }
         });
@@ -94,7 +103,7 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
 //                    if (mHasHeaderOrFooter) {
 //                        position -= 1;
 //                    }
-                    return mOnItemClickListener.onItemLongClick(parent, v, mDataList.get(position),
+                    return mOnItemClickListener.onItemLongClick(parent, v, (T) mDataList.get(position),
                             position);
                 }
                 return false;
@@ -102,9 +111,15 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
         });
     }
 
+    public CommonAdapter<T> bindViewAndData(IConverter<? super T> converter) {
+        this.mIConverter = converter;
+        return this;
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        convert(holder, mDataList.get(position));
+        //convert(holder, (T) mDataList.get(position));
+        mIConverter.convert(holder,(T) mDataList.get(position),position);
     }
 
     @Override
@@ -133,12 +148,34 @@ public abstract class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder> 
         return 0;
     }
 
-    public void setDataList(List<T> dataList) {
-        this.mDataList = dataList;
+    @Override
+    public List getDataList() {
+        return this.mDataList;
+    }
+
+    @Override
+    public void appendDataList(List list) {
+        this.mDataList.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public RecyclerView.Adapter getAdapter() {
+        return this;
+    }
+
+    @Override
+    public void notifyDataChanged() {
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void setDataList(List list) {
+        this.mDataList = list;
         this.notifyDataSetChanged();
     }
 
-    protected abstract void convert(ViewHolder holder, T t);
+    //protected abstract void convert(ViewHolder holder, T t);
 
     private OnItemClickListener<T> mOnItemClickListener;
 

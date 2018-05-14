@@ -7,7 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
-import com.smart.adapter.recyclerview.ViewHolder;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.multi.MultiItemCommonAdapter;
 import com.smart.adapter.recyclerview.multi.MultiItemTypeSupport;
 import com.smart.view.decoration.DividerItemDecoration;
@@ -50,27 +51,27 @@ public class MultiItemActivity extends AppCompatActivity {
         dataList.addAll(Arrays.asList(mDatas));
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
-        mAdapter = new MultiItemCommonAdapter<String>(this, dataList, new MultiItemTypeSupport<String>() {
-            @Override
-            public int getLayoutId(int itemType) {
-                if (itemType == 0) {
-                    return R.layout.layout_list_item;
-                } else {
-                    return R.layout.layout_list_item2;
-                }
-            }
+        mAdapter = (MultiItemCommonAdapter) new MultiItemCommonAdapter<String>(this, dataList,
+                new MultiItemTypeSupport<String>() {
+                    @Override
+                    public int getLayoutId(int itemType) {
+                        if (itemType == 0) {
+                            return R.layout.layout_list_item;
+                        } else {
+                            return R.layout.layout_list_item2;
+                        }
+                    }
 
+                    @Override
+                    public int getItemViewType(int position, String o) {
+                        return position % 2;
+                    }
+                }).bindViewAndData(new IConverter<String>() {
             @Override
-            public int getItemViewType(int position, String o) {
-                return position % 2;
+            public void convert(IHolder holder, String item, int position) {
+                holder.setText(R.id.tv_data, item);
             }
-        }) {
-
-            @Override
-            protected void convert(ViewHolder holder, String s) {
-                holder.setText(R.id.tv_data, s);
-            }
-        };
+        });
 
 
         // use a linear layout manager

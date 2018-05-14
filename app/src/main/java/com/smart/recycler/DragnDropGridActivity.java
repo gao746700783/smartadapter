@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.LinearLayout;
 
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.view.decoration.DividerGridItemDecoration;
 import com.smart.view.dragndrop.adapter.DragDropRecyclerAdapter;
@@ -62,12 +64,13 @@ public class DragnDropGridActivity extends AppCompatActivity {
 
         dataList.addAll(Arrays.asList(mDatas));
 
-        mAdapter = new DragDropRecyclerAdapter<String>(this, R.layout.layout_list_item, dataList) {
-            @Override
-            protected void convert(ViewHolder holder, String o) {
-                holder.setText(R.id.tv_data, o);
-            }
-        };
+        mAdapter = (DragDropRecyclerAdapter<String>) new DragDropRecyclerAdapter<String>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
 
         // use a linear layout manager
         GridLayoutManager mGridLayoutManager = new GridLayoutManager(this, 3);

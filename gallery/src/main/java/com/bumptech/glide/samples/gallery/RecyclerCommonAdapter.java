@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Displays {@link MediaStoreData} in a recycler view.
  */
-public abstract class RecyclerCommonAdapter<T> extends CommonAdapter<T>
+public class RecyclerCommonAdapter<T> extends CommonAdapter<T>
         implements ListPreloader.PreloadSizeProvider<T>,
         ListPreloader.PreloadModelProvider<T> {
 
@@ -38,7 +38,7 @@ public abstract class RecyclerCommonAdapter<T> extends CommonAdapter<T>
 
     @Override
     public List<T> getPreloadItems(int position) {
-        return Collections.singletonList(mDataList.get(position));
+        return Collections.singletonList((T)mDataList.get(position));
     }
 
     @Override

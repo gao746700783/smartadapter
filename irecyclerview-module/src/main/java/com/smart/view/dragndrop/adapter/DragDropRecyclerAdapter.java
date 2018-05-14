@@ -13,8 +13,9 @@ import java.util.List;
  * <p>
  * User: qiangzhang <br/>
  * Date: 2017/6/28 上午11:13 <br/>
+ * @author che300
  */
-public abstract class DragDropRecyclerAdapter<T> extends CommonAdapter<T>
+public class DragDropRecyclerAdapter<T> extends CommonAdapter<T>
         implements ItemTouchHelperAdapter {
 
     public DragDropRecyclerAdapter(Context context, int layoutId, List<T> datas) {

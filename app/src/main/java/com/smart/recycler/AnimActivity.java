@@ -9,7 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.smart.adapter.recyclerview.ViewHolder;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.anim.AnimCommonAdapter;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
@@ -52,12 +53,13 @@ public class AnimActivity extends AppCompatActivity {
 
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
-        mAdapter = new AnimCommonAdapter<String>(this, R.layout.layout_list_item, dataList) {
-            @Override
-            protected void convert(ViewHolder holder, String o) {
-                holder.setText(R.id.tv_data, o);
-            }
-        };
+        mAdapter = (AnimCommonAdapter) new AnimCommonAdapter<String>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
 
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);

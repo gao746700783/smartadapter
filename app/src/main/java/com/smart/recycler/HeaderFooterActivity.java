@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.HeaderFooterWrapper;
+import com.smart.adapter.recyclerview.IConverter;
+import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
@@ -63,12 +65,13 @@ public class HeaderFooterActivity extends AppCompatActivity {
         mRvList.addItemDecoration(itemDecoration);
 
         // use head and footer
-        CommonAdapter<String> commonAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList) {
-            @Override
-            protected void convert(ViewHolder holder, String s) {
-                holder.setText(R.id.tv_data, s);
-            }
-        };
+        CommonAdapter<String> commonAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
         HeaderFooterWrapper<String> wrapper = new HeaderFooterWrapper<String>(commonAdapter);
         // add header
         View header = LayoutInflater.from(this).inflate(R.layout.layout_list_item_header, null);
