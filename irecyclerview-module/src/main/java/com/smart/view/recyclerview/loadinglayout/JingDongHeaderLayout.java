@@ -11,11 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nineoldandroids.view.ViewHelper;
+import com.smart.library.R;
 import com.smart.pullrefresh.library.LoadingLayoutBase;
 import com.smart.pullrefresh.library.PullToRefreshBase;
-
-import com.smart.library.R;
 
 /**
  * Created by zwenkai on 2015/12/19.
@@ -88,14 +86,20 @@ public class JingDongHeaderLayout extends LoadingLayoutBase {
         animAlphaG.setCurrentPlayTime((long) (scaleOfLayout * 300));
 
         //缩放动画
-        ViewHelper.setPivotX(mPersonImage, 0);  // 设置中心点
-        ViewHelper.setPivotY(mPersonImage, 0);
+        //    ViewHelper.setPivotX(mPersonImage, 0);  // 设置中心点
+        //    ViewHelper.setPivotY(mPersonImage, 0);
+
+        mPersonImage.setPivotX(0);
+        mPersonImage.setPivotY(0);
+
         ObjectAnimator animPX = ObjectAnimator.ofFloat(mPersonImage, "scaleX", 0, 1).setDuration(300);
         animPX.setCurrentPlayTime((long) (scaleOfLayout * 300));
         ObjectAnimator animPY = ObjectAnimator.ofFloat(mPersonImage, "scaleY", 0, 1).setDuration(300);
         animPY.setCurrentPlayTime((long) (scaleOfLayout * 300));
 
-        ViewHelper.setPivotX(mGoodsImage, mGoodsImage.getMeasuredWidth());
+        //ViewHelper.setPivotX(mGoodsImage, mGoodsImage.getMeasuredWidth());
+        mGoodsImage.setPivotX(mGoodsImage.getMeasuredWidth());
+
         ObjectAnimator animGX = ObjectAnimator.ofFloat(mGoodsImage, "scaleX", 0, 1).setDuration(300);
         animGX.setCurrentPlayTime((long) (scaleOfLayout * 300));
         ObjectAnimator animGY = ObjectAnimator.ofFloat(mGoodsImage, "scaleY", 0, 1).setDuration(300);
