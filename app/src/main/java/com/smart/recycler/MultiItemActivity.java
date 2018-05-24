@@ -66,12 +66,13 @@ public class MultiItemActivity extends AppCompatActivity {
                     public int getItemViewType(int position, String o) {
                         return position % 2;
                     }
-                }).bindViewAndData(new IConverter<String>() {
-            @Override
-            public void convert(IHolder holder, String item, int position) {
-                holder.setText(R.id.tv_data, item);
-            }
-        });
+                })
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
 
 
         // use a linear layout manager
