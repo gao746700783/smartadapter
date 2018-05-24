@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.smart.view.dragndrop.helper;
+package com.smart.adapter.recyclerview.dragndrop.helper;
 
 import android.support.v7.widget.RecyclerView;
 

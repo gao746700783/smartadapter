@@ -15,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.smart.adapter.recyclerview.IConverter;

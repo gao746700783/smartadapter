@@ -11,10 +11,9 @@ import android.widget.LinearLayout;
 
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
-import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.view.decoration.DividerGridItemDecoration;
-import com.smart.view.dragndrop.adapter.DragDropRecyclerAdapter;
-import com.smart.view.dragndrop.helper.SimpleItemTouchHelperCallback;
+import com.smart.adapter.recyclerview.dragndrop.adapter.DragDropRecyclerAdapter;
+import com.smart.adapter.recyclerview.dragndrop.helper.SimpleItemTouchHelperCallback;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 
 import java.util.ArrayList;

@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.smart.view.dragndrop.helper;
+package com.smart.adapter.recyclerview.dragndrop.helper;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;

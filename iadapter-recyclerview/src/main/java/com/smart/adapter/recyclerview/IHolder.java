@@ -2,19 +2,9 @@ package com.smart.adapter.recyclerview;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
-import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.text.util.Linkify;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-import android.widget.Button;
-import android.widget.Checkable;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 /**
  * IHolder

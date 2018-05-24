@@ -1,9 +1,9 @@
-package com.smart.view.dragndrop.adapter;
+package com.smart.adapter.recyclerview.dragndrop.adapter;
 
 import android.content.Context;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
-import com.smart.view.dragndrop.helper.ItemTouchHelperAdapter;
+import com.smart.adapter.recyclerview.dragndrop.helper.ItemTouchHelperAdapter;
 
 import java.util.Collections;
 import java.util.List;
