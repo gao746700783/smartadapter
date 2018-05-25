@@ -1,4 +1,4 @@
-package com.smart.view.recyclerview.loadinglayout;
+package com.smart.pullrefresh.loadinglayout;
 
 import android.content.Context;
 import android.content.res.TypedArray;
