@@ -31,9 +31,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
 
-    //compile project(':iadapter-recyclerview')
-    compile 'com.smart:iadapter-recyclerview:0.0.1'
-
 }
 
 //// bintray upload

@@ -49,24 +49,7 @@ public class BaseUseActivity extends AppCompatActivity {
 
         mEmptyView = (LinearLayout) findViewById(R.id.linear_empty);
 
-        dataList.addAll(Arrays.asList(mDatas));
-
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
-
-        //        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList) {
-        //            @Override
-        //            protected void convert(ViewHolder holder, String o) {
-        //                holder.setText(R.id.tv_data, o);
-        //            }
-        //        };
-
-        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
-                .bindViewAndData(new IConverter<String>() {
-                    @Override
-                    public void convert(IHolder holder, String item, int position) {
-                        holder.setText(R.id.tv_data, item);
-                    }
-                });
 
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -77,6 +60,14 @@ public class BaseUseActivity extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL);
         mRvList.addItemDecoration(itemDecoration);
 
+        dataList.addAll(Arrays.asList(mDatas));
+        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
         mRvList.setAdapter(mAdapter);
 
         mRvList.setEmptyView(mEmptyView);

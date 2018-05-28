@@ -37,8 +37,14 @@ dependencies {
     //compile 'com.smart:icore:0.0.3'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
 
-    //compile project(':irecyclerview-module')
-    compile 'com.smart:irecyclerview:0.0.4'
+    compile project(':irecyclerview-module')
+    //compile 'com.smart:irecyclerview:0.0.4'
+
+    compile project(':iadapter-recyclerview')
+    //compile 'com.smart:iadapter-recyclerview:0.0.1'
+    //compile project(':iadapter-abslistview')
+    //compile 'com.smart:iadapter-abslistview:0.0.1'
+
 }
 
 task run(type: Exec, dependsOn: 'installDebug') {

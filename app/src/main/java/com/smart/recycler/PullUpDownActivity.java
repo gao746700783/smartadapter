@@ -23,12 +23,12 @@ import com.smart.adapter.recyclerview.IHolder;
 import com.smart.pullrefresh.library.PullToRefreshBase;
 import com.smart.pullrefresh.library.PullToRefreshBase.Mode;
 import com.smart.pullrefresh.library.extras.SoundPullEventListener;
+import com.smart.pullrefresh.loadinglayout.JingDongHeaderLayout;
+import com.smart.pullrefresh.loadinglayout.WeiboHeaderLayout;
 import com.smart.view.decoration.DividerGridItemDecoration;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 import com.smart.view.recyclerview.LazyRecyclerView;
-import com.smart.pullrefresh.loadinglayout.JingDongHeaderLayout;
-import com.smart.pullrefresh.loadinglayout.WeiboHeaderLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;

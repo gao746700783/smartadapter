@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bumptech.glide.integration.recyclerview.RecyclerViewPreloader;
 import com.smart.adapter.recyclerview.IConverter;
@@ -74,7 +75,7 @@ public class HorizontalGalleryFragment extends Fragment
                                List<MediaStoreData> mediaStoreDataList) {
         Log.d("Loader fragment", "onLoadFinished called!");
 
-        RecyclerCommonAdapter<MediaStoreData> mAdapter = (RecyclerCommonAdapter<MediaStoreData>) new RecyclerCommonAdapter<MediaStoreData>(
+        final RecyclerCommonAdapter<MediaStoreData> mAdapter = (RecyclerCommonAdapter<MediaStoreData>) new RecyclerCommonAdapter<MediaStoreData>(
                 getActivity(), R.layout.layout_list_item_video, mediaStoreDataList)
                 .bindViewAndData(new IConverter<MediaStoreData>() {
                     @Override
@@ -82,7 +83,11 @@ public class HorizontalGalleryFragment extends Fragment
                         holder.setText(R.id.tv_video_title, data.title);
                         holder.setText(R.id.tv_video_artist, data.uri.toString());
 
-                        //this.loadImages(data, (ImageView) holder.getView(R.id.iv_video_thumb));
+                        GlideApp.with(getActivity())
+                                .asDrawable()
+                                .centerCrop()
+                                .load(data.uri)
+                                .into((ImageView) holder.getView(R.id.iv_video_thumb));
                     }
                 });
 

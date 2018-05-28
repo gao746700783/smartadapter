@@ -1,29 +1,23 @@
 package com.smart.recycler;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.LinearLayout;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
-import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
-import com.smart.adapter.recyclerview.ViewHolder;
+import com.smart.adapter.recyclerview.filter.SearchAdapter;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 public class SearchViewActivity extends AppCompatActivity {
@@ -68,6 +62,7 @@ public class SearchViewActivity extends AppCompatActivity {
                         holder.setText(R.id.tv_data, item);
                     }
                 });
+        mAdapter.registerFilter(String.class,null);
 
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -160,70 +155,70 @@ public class SearchViewActivity extends AppCompatActivity {
         }
     }
 
-    class SearchAdapter<T> extends CommonAdapter<T> implements Filterable {
-
-        private List<String> filteredList;
-
-        private SearchFilter userFilter;
-
-        public SearchAdapter(Context context, int layoutId, List datas) {
-            super(context, layoutId, datas);
-
-            this.filteredList = new ArrayList<>();
-        }
-
-        @Override
-        public Filter getFilter() {
-            if (userFilter == null)
-                userFilter = new SearchFilter(this, dataList);
-            return userFilter;
-        }
-
-    }
-
-    private class SearchFilter extends Filter {
-
-        private final SearchAdapter adapter;
-
-        private final List<String> originalList;
-
-        private final List<String> filteredList;
-
-        private SearchFilter(SearchAdapter adapter, List<String> originalList) {
-            super();
-            this.adapter = adapter;
-            this.originalList = new LinkedList<>(originalList);
-            this.filteredList = new ArrayList<>();
-        }
-
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            filteredList.clear();
-            final FilterResults results = new FilterResults();
-
-            if (TextUtils.isEmpty(constraint) || constraint.length() == 0) {
-                filteredList.addAll(originalList);
-            } else {
-                final String filterPattern = constraint.toString().toLowerCase().trim();
-
-                for (final String user : originalList) {
-                    if (user.contains(filterPattern)) {
-                        filteredList.add(user);
-                    }
-                }
-            }
-            results.values = filteredList;
-            results.count = filteredList.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            adapter.filteredList.clear();
-            adapter.filteredList.addAll((ArrayList<String>) results.values);
-
-            adapter.setDataList(adapter.filteredList);
-        }
-    }
+//    class SearchAdapter<T> extends CommonAdapter<T> implements Filterable {
+//
+//        private List<String> filteredList;
+//
+//        private SearchFilter userFilter;
+//
+//        public SearchAdapter(Context context, int layoutId, List datas) {
+//            super(context, layoutId, datas);
+//
+//            this.filteredList = new ArrayList<>();
+//        }
+//
+//        @Override
+//        public Filter getFilter() {
+//            if (userFilter == null)
+//                userFilter = new SearchFilter(this, dataList);
+//            return userFilter;
+//        }
+//
+//    }
+//
+//    private class SearchFilter extends Filter {
+//
+//        private final SearchAdapter adapter;
+//
+//        private final List<String> originalList;
+//
+//        private final List<String> filteredList;
+//
+//        private SearchFilter(SearchAdapter adapter, List<String> originalList) {
+//            super();
+//            this.adapter = adapter;
+//            this.originalList = new LinkedList<>(originalList);
+//            this.filteredList = new ArrayList<>();
+//        }
+//
+//        @Override
+//        protected FilterResults performFiltering(CharSequence constraint) {
+//            filteredList.clear();
+//            final FilterResults results = new FilterResults();
+//
+//            if (TextUtils.isEmpty(constraint) || constraint.length() == 0) {
+//                filteredList.addAll(originalList);
+//            } else {
+//                final String filterPattern = constraint.toString().toLowerCase().trim();
+//
+//                for (final String user : originalList) {
+//                    if (user.contains(filterPattern)) {
+//                        filteredList.add(user);
+//                    }
+//                }
+//            }
+//            results.values = filteredList;
+//            results.count = filteredList.size();
+//            return results;
+//        }
+//
+//        @Override
+//        protected void publishResults(CharSequence constraint, FilterResults results) {
+//            adapter.filteredList.clear();
+//            adapter.filteredList.addAll((ArrayList<String>) results.values);
+//
+//            adapter.setDataList(adapter.filteredList);
+//        }
+//    }
 
 }

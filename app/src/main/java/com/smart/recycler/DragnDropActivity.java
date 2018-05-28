@@ -52,16 +52,6 @@ public class DragnDropActivity extends AppCompatActivity {
         mEmptyView = (LinearLayout) findViewById(R.id.linear_empty);
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
-        dataList.addAll(Arrays.asList(mDatas));
-
-        mAdapter = (DragDropRecyclerAdapter<String>) new DragDropRecyclerAdapter<String>(this, R.layout.layout_list_item, dataList)
-                .bindViewAndData(new IConverter<String>() {
-                    @Override
-                    public void convert(IHolder holder, String item, int position) {
-                        holder.setText(R.id.tv_data, item);
-                    }
-                });
-
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -71,6 +61,15 @@ public class DragnDropActivity extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL);
         mRvList.addItemDecoration(itemDecoration);
 
+        dataList.addAll(Arrays.asList(mDatas));
+
+        mAdapter = (DragDropRecyclerAdapter<String>) new DragDropRecyclerAdapter<String>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
         mRvList.setAdapter(mAdapter);
 
         mRvList.setEmptyView(mEmptyView);
