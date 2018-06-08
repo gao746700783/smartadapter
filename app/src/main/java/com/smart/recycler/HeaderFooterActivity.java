@@ -10,10 +10,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
-import com.smart.adapter.recyclerview.HeaderFooterWrapper;
+import com.smart.adapter.recyclerview.headerfooter.HeaderFooterWrapper;
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
-import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 

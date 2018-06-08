@@ -37,6 +37,8 @@ dependencies {
     compile 'com.github.bumptech.glide:recyclerview-integration:4.0.0'
 
     compile project(':irecyclerview-module')
+    compile 'com.smart:iadapter-recyclerview:0.0.1'
+
 }
 
 task run(type: Exec, dependsOn: 'installDebug') {
