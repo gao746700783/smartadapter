@@ -15,7 +15,7 @@
  */
 
 
-package com.smart.view.decoration;
+package com.smart.swiperefresh.view.decoration;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

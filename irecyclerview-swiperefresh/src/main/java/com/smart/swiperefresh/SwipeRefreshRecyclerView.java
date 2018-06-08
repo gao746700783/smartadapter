@@ -15,9 +15,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.smart.adapter.recyclerview.IAdapter;
-import com.smart.view.decoration.DividerItemDecoration;
-import com.smart.view.recyclerview.EmptyRecyclerView;
-import com.smart.view.recyclerview.EndlessRecyclerOnScrollListener;
+import com.smart.swiperefresh.view.decoration.DividerItemDecoration;
+import com.smart.swiperefresh.view.recyclerview.EmptyRecyclerView;
+import com.smart.swiperefresh.view.recyclerview.EndlessRecyclerOnScrollListener;
 
 import java.util.List;
 

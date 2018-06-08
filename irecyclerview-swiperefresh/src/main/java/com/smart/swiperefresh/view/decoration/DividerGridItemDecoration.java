@@ -1,4 +1,4 @@
-package com.smart.view.decoration;
+package com.smart.swiperefresh.view.decoration;
 
 import android.content.Context;
 import android.content.res.TypedArray;

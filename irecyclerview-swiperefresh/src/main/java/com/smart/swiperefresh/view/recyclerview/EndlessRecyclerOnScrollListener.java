@@ -1,4 +1,4 @@
-package com.smart.view.recyclerview;
+package com.smart.swiperefresh.view.recyclerview;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
