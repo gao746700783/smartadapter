@@ -35,6 +35,7 @@
         <activity android:name=".SearchViewActivity"/>
         <activity android:name=".MultiItemActivity"/>
         <activity android:name=".HeaderFooterActivity"/>
+        <activity android:name=".SwipeRefreshViewActivity"/>
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"

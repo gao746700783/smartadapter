@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,18 +27,36 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
     // add by me
     //protected boolean mHasHeaderOrFooter;
 
-    IConverter<? super T> mIConverter;
+    private IConverter<? super T> mIConverter;
 
-    public CommonAdapter(Context context, int layoutId, List<T> datas) {
-        this(context, layoutId, datas, false);
+    public CommonAdapter(Context context, int layoutId) {
+        this(context, layoutId, null);
     }
 
-    public CommonAdapter(Context context, int layoutId, List<T> datas, boolean isHasHeaderOrFooter) {
+    public CommonAdapter(Context context, int layoutId, List<T> datas) {
         this.mContext = context;
-
         this.mLayoutId = layoutId;
+
+        if (null == datas){
+            datas = new ArrayList<>();
+        }
         this.mDataList = datas;
         //this.mHasHeaderOrFooter = isHasHeaderOrFooter;
+    }
+
+    public CommonAdapter<T> layout(int layoutId) {
+        this.mLayoutId = layoutId;
+        return this;
+    }
+
+    public CommonAdapter<T> list(List<T> datas ) {
+        this.mDataList = datas;
+        return this;
+    }
+
+    public CommonAdapter<T> bindViewAndData(IConverter<? super T> converter) {
+        this.mIConverter = converter;
+        return this;
     }
 
     @Override
@@ -109,11 +128,6 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
                 return false;
             }
         });
-    }
-
-    public CommonAdapter<T> bindViewAndData(IConverter<? super T> converter) {
-        this.mIConverter = converter;
-        return this;
     }
 
     @Override

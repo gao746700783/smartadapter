@@ -40,7 +40,10 @@ dependencies {
     compile project(':irecyclerview-module')
     //compile 'com.smart:irecyclerview:0.0.4'
 
-    compile project(':iadapter-recyclerview')
+    compile project(':irecyclerview-swiperefresh')
+    //compile 'com.smart:irecyclerview:0.0.4'
+
+    //compile project(':iadapter-recyclerview')
     //compile 'com.smart:iadapter-recyclerview:0.0.1'
     //compile project(':iadapter-abslistview')
     //compile 'com.smart:iadapter-abslistview:0.0.1'

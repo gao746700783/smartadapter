@@ -98,4 +98,10 @@
         android:layout_height="wrap_content"
         android:text="Header and Footer"/>
 
+    <Button
+        android:id="@+id/btn_base_swipeRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SwipeRefreshRecyclerView"/>
+
 </LinearLayout>

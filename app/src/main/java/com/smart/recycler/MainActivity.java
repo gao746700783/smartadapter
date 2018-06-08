@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_base_search).setOnClickListener(this);
         findViewById(R.id.btn_base_multi).setOnClickListener(this);
         findViewById(R.id.btn_base_header).setOnClickListener(this);
+        findViewById(R.id.btn_base_swipeRefresh).setOnClickListener(this);
 
     }
 
@@ -81,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_base_header:
                 startActivity(new Intent(this, HeaderFooterActivity.class));
+                break;
+            case R.id.btn_base_swipeRefresh:
+                startActivity(new Intent(this, SwipeRefreshViewActivity.class));
                 break;
             default:
                 break;

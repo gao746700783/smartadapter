@@ -7,9 +7,9 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
 project.ext.group = 'com.smart'
-project.ext.archivesBaseName = 'iadapter-recyclerview'
-project.ext.version = '0.0.2'
-project.ext.pomDesc = 'IAdapter-RecyclerView framework Android library'
+project.ext.archivesBaseName = 'irecyclerview-swiperefresh'
+project.ext.version = '0.0.1'
+project.ext.pomDesc = 'IRecyclerView swipeRefresh framework Android library'
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
@@ -61,7 +61,7 @@ publishing {
             version project.ext.version
 
             // Release AAR, Sources, and JavaDoc
-            artifact "$buildDir/outputs/aar/iadapter-recyclerview-release.aar"
+            artifact "$buildDir/outputs/aar/irecyclerview-swiperefresh-release.aar"
             artifact sourcesJar
             artifact javadocJar
         }

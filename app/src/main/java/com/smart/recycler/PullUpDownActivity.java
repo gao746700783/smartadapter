@@ -28,7 +28,7 @@ import com.smart.pullrefresh.loadinglayout.WeiboHeaderLayout;
 import com.smart.view.decoration.DividerGridItemDecoration;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
-import com.smart.view.recyclerview.LazyRecyclerView;
+import com.smart.pullrefresh.library.extras.recyclerview.PtrEmptyRecyclerView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +52,7 @@ public class PullUpDownActivity extends AppCompatActivity {
     };
     private List<String> dataList = new ArrayList<>();
 
-    LazyRecyclerView mRvList;
+    PtrEmptyRecyclerView mRvList;
     CommonAdapter mAdapter;
 
     LinearLayout mEmptyView;
@@ -67,7 +67,7 @@ public class PullUpDownActivity extends AppCompatActivity {
         dataList.addAll(Arrays.asList(mDatas));
 
         mEmptyView = (LinearLayout) findViewById(R.id.linear_empty);
-        mRvList = (LazyRecyclerView) findViewById(R.id.rv_pull_up_down);
+        mRvList = (PtrEmptyRecyclerView) findViewById(R.id.rv_pull_up_down);
 
         mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
                 .bindViewAndData(new IConverter<String>() {
