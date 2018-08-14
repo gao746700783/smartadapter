@@ -3,9 +3,9 @@ package com.smart.adapter.recyclerview.multi.support;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 
+import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.adapter.recyclerview.multi.MultiItemCommonAdapter;
 import com.smart.adapter.recyclerview.multi.MultiItemTypeSupport;
-import com.smart.adapter.recyclerview.ViewHolder;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -39,7 +39,7 @@ public abstract class SectionAdapter<T> extends MultiItemCommonAdapter<T> {
     public SectionAdapter(Context context, int layoutId, MultiItemTypeSupport multiItemTypeSupport, List<T> datas, SectionSupport sectionSupport) {
         super(context, datas, null);
         mLayoutId = layoutId;
-        initMulitiItemTypeSupport(layoutId, multiItemTypeSupport);
+        initMultiItemTypeSupport(layoutId, multiItemTypeSupport);
         mMultiItemTypeSupport = headerItemTypeSupport;
         mSectionSupport = sectionSupport;
         mSections = new LinkedHashMap<>();
@@ -52,7 +52,7 @@ public abstract class SectionAdapter<T> extends MultiItemCommonAdapter<T> {
         return mMultiItemTypeSupport.getItemViewType(position, null);
     }
 
-    private void initMulitiItemTypeSupport(int layoutId, final MultiItemTypeSupport multiItemTypeSupport) {
+    private void initMultiItemTypeSupport(int layoutId, final MultiItemTypeSupport multiItemTypeSupport) {
         if (layoutId != -1) {
             headerItemTypeSupport = new MultiItemTypeSupport<T>() {
                 @Override

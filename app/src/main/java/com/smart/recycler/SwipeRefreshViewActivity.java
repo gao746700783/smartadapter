@@ -6,7 +6,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
@@ -15,6 +14,7 @@ import com.smart.adapter.recyclerview.IHolder;
 import com.smart.swiperefresh.ILoadMoreListener;
 import com.smart.swiperefresh.IRefreshListener;
 import com.smart.swiperefresh.SwipeRefreshRecyclerView;
+import com.smart.swiperefresh.view.empty.EmptyLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,15 +75,17 @@ public class SwipeRefreshViewActivity extends AppCompatActivity {
                         postLoadMore();
                     }
                 })
-                .emptyText("没有记录")
-                .emptyImage(R.drawable.app_refresh_goods_0)
-                .emptyClick(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(SwipeRefreshViewActivity.this, "重新加载", Toast.LENGTH_SHORT).show();
-                        rv_base_swipe_refresh.doRefresh();
-                    }
-                })
+                .emptyView(EmptyLayout.newBuilder(this)
+                        .emptyText("没有记录")
+                        .emptyImage(R.drawable.app_refresh_goods_0)
+                        .emptyClick(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(SwipeRefreshViewActivity.this, "重新加载", Toast.LENGTH_SHORT).show();
+                                rv_base_swipe_refresh.doRefresh();
+                            }
+                        })
+                )
         ;
 
         // 手动调用一次刷新
