@@ -20,14 +20,10 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
 
     protected Context mContext;
     protected int mLayoutId;
-    //protected List<T> mDataList;
+
     protected List<? super T> mDataList;
-    //protected LayoutInflater mInflater;
 
-    // add by me
-    //protected boolean mHasHeaderOrFooter;
-
-    private IConverter<? super T> mIConverter;
+    protected IConverter<? super T> mIConverter;
 
     public CommonAdapter(Context context, int layoutId) {
         this(context, layoutId, null);
@@ -41,7 +37,6 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
             datas = new ArrayList<>();
         }
         this.mDataList = datas;
-        //this.mHasHeaderOrFooter = isHasHeaderOrFooter;
     }
 
     public CommonAdapter<T> layout(int layoutId) {

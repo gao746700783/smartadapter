@@ -12,6 +12,7 @@ import com.smart.recycler.demo.MultiAudioServiceActivity;
 import com.smart.recycler.demo.SingleAudioServiceActivity;
 import com.smart.recycler.demo.loader.LoaderAudioActivity;
 import com.smart.recycler.demo.loader.LoaderVideoActivity;
+import com.smart.recycler.modules.swipe.SwipeRefreshViewKtActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, HeaderFooterActivity.class));
                 break;
             case R.id.btn_base_swipeRefresh:
-                startActivity(new Intent(this, SwipeRefreshViewActivity.class));
+                startActivity(new Intent(this, SwipeRefreshViewKtActivity.class));
                 break;
             default:
                 break;

@@ -1,4 +1,4 @@
-package com.smart.swiperefresh.view.empty;
+package com.smart.swiperefresh.view.footer;
 
 import android.view.View;
 
@@ -20,18 +20,21 @@ import android.view.View;
  * ${date}       che300         1.0             1.0
  * Why & What is modified: <修改原因描述>
  */
-public interface IEmptyView {
+public interface IFooterView {
 
-    public IEmptyView emptyImage(int imageResId);
+//    public IFooterView footerLoading(View view);
 
-    public IEmptyView emptyText(String text);
+    public IFooterView footerView(View view);
 
-    public IEmptyView emptyClick(View.OnClickListener clickListener);
+    public IFooterView footerText(String text);
 
-    public IEmptyView emptyView(int viewResId);
+    public IFooterView footerRetry(View.OnClickListener retryListener);
 
-    public IEmptyView emptyView(View view);
+    public IFooterView footerLoading();
+    public IFooterView footerLoadComplete();
+    public IFooterView footerLoadFinish();
+    public IFooterView footerLoadFailure();
 
-    public View getView();
+    public View getFooterView();
 
 }

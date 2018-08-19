@@ -29,7 +29,7 @@ import com.smart.swiperefresh.R;
  * ${date}       che300         1.0             1.0
  * Why & What is modified: <修改原因描述>
  */
-public class EmptyLayout extends RelativeLayout implements IEmptyView {
+public class EmptyViewLayout extends RelativeLayout implements IEmptyView {
 
     private final RelativeLayout.LayoutParams wcParams = new RelativeLayout.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -40,22 +40,22 @@ public class EmptyLayout extends RelativeLayout implements IEmptyView {
     private TextView mEmptyTv;
     private Button mEmptyBtn;
 
-    public EmptyLayout(Context context) {
+    public EmptyViewLayout(Context context) {
         this(context, null);
     }
 
-    public EmptyLayout(Context context, AttributeSet attrs) {
+    public EmptyViewLayout(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public EmptyLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+    public EmptyViewLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         //
         init(context);
     }
 
-    public static EmptyLayout newBuilder(Context context) {
-        return new EmptyLayout(context);
+    public static EmptyViewLayout newBuilder(Context context) {
+        return new EmptyViewLayout(context);
     }
 
     private void init(Context context) {
@@ -70,7 +70,7 @@ public class EmptyLayout extends RelativeLayout implements IEmptyView {
     }
 
     @Override
-    public EmptyLayout emptyView(int viewResId) {
+    public EmptyViewLayout emptyView(int viewResId) {
         removeAllViews();
 
         View view = View.inflate(mContext, viewResId, null);
@@ -79,14 +79,19 @@ public class EmptyLayout extends RelativeLayout implements IEmptyView {
     }
 
     @Override
-    public EmptyLayout emptyView(View view) {
+    public EmptyViewLayout emptyView(View view) {
         removeAllViews();
         addView(view, mpParams);
         return this;
     }
 
     @Override
-    public EmptyLayout emptyImage(int imageResId) {
+    public View getView() {
+        return this;
+    }
+
+    @Override
+    public EmptyViewLayout emptyImage(int imageResId) {
         if (null != mEmptyIv) {
             mEmptyIv.setImageResource(imageResId);
         }
@@ -94,7 +99,7 @@ public class EmptyLayout extends RelativeLayout implements IEmptyView {
     }
 
     @Override
-    public EmptyLayout emptyText(String text) {
+    public EmptyViewLayout emptyText(String text) {
         if (null != mEmptyTv) {
             mEmptyTv.setText(text);
         }
@@ -102,7 +107,7 @@ public class EmptyLayout extends RelativeLayout implements IEmptyView {
     }
 
     @Override
-    public EmptyLayout emptyClick(OnClickListener clickListener) {
+    public EmptyViewLayout emptyClick(OnClickListener clickListener) {
         if (null != mEmptyBtn) {
             mEmptyBtn.setOnClickListener(clickListener);
         }

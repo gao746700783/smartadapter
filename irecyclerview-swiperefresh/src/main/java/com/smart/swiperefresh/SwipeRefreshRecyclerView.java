@@ -15,6 +15,10 @@ import android.widget.RelativeLayout;
 import com.smart.adapter.recyclerview.IAdapter;
 import com.smart.swiperefresh.view.decoration.DividerGridItemDecoration;
 import com.smart.swiperefresh.view.decoration.DividerItemDecoration;
+import com.smart.swiperefresh.view.empty.EmptyViewLayout;
+import com.smart.swiperefresh.view.empty.IEmptyView;
+import com.smart.swiperefresh.view.footer.FooterViewLayout;
+import com.smart.swiperefresh.view.footer.IFooterView;
 import com.smart.swiperefresh.view.recyclerview.EmptyRecyclerView;
 import com.smart.swiperefresh.view.recyclerview.EndlessRecyclerOnScrollListener;
 
@@ -49,20 +53,26 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
     private Context mContext;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
-    // 空布局
-    View mEmptyView;
+
     private RecyclerView.LayoutManager mLayoutManager;
 
     private IAdapter mAdapter;
 
-    private RecyclerView.OnScrollListener mRvScrollListener;
+    private EndlessRecyclerOnScrollListener mRvScrollListener;
+    // private RecyclerView.OnScrollListener mRvScrollListener;
     private boolean hasMoreData = true;
 
     private IRefreshListener mRefreshListener;
     private ILoadMoreListener mLoadMoreListener;
     private List<RecyclerView.ItemDecoration> mItemDecorations = new ArrayList<>();
+
     //View mGoTopView;
-    //View mFooterView;
+
+    // 空布局
+    //View mEmptyView;
+    IEmptyView iEmptyView;
+    // View mFooterView;
+    IFooterView iFooterView;
 
     public SwipeRefreshRecyclerView(Context context) {
         this(context, null);
@@ -81,13 +91,9 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
 
     private void init() {
 
+        // swipe refresh layout
         mSwipeRefreshLayout = new SwipeRefreshLayout(mContext);
-        addView(mSwipeRefreshLayout, mpLayoutParams);
-        //
-        mRecyclerView = new EmptyRecyclerView(mContext);
-        setupRecyclerView();
-        //
-        mSwipeRefreshLayout.addView(mRecyclerView, mpLayoutParams);
+        mSwipeRefreshLayout.setId(R.id.swipe_refresh_rv);
         //mSwipeRefreshLayout.setProgressViewOffset(false, 0, DensityUtils.dp2px(mContext, 10));
         mSwipeRefreshLayout.setColorSchemeColors(0xffff2500);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -98,6 +104,27 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
                 }
             }
         });
+        RelativeLayout.LayoutParams srLP = new RelativeLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        //srLP.addRule(RelativeLayout.ABOVE,R.id.swipe_refresh_footer);
+        addView(mSwipeRefreshLayout, srLP);
+
+        // footer view
+        iFooterView = FooterViewLayout.newBuilder(mContext);
+        View footerView = iFooterView.getFooterView();
+        footerView.setId(R.id.swipe_refresh_footer);
+        RelativeLayout.LayoutParams ftLP = new RelativeLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        ftLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+        addView(footerView, ftLP);
+
+        // recyclerView
+        mRecyclerView = new EmptyRecyclerView(mContext);
+        setupRecyclerView();
+        RelativeLayout.LayoutParams rvLP = new RelativeLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        srLP.addRule(RelativeLayout.ABOVE, R.id.swipe_refresh_footer);
+        mSwipeRefreshLayout.addView(mRecyclerView, rvLP);
 
     }
 
@@ -118,16 +145,27 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         // add scrollListener
         mRvScrollListener = new EndlessRecyclerOnScrollListener(mLayoutManager) {
             @Override
-            public void onLoadMore(int currentPage) {
+            public void onLoadMore(int currentPage, int lastViPosition) {
                 if (mLoadMoreListener != null) {
                     mLoadMoreListener.onLoadMore();
+
+//                    // footer view visible when load more
+//                    View footerView = iFooterView.getFooterView();
+//                    footerView.setVisibility(View.VISIBLE);
+//                    // recyclerView 滚动到底部
+//                    mLayoutManager.scrollToPosition(lastViPosition);
+//
+//                    iFooterView.footerText("拼命加载中");
+                    iFooterView.footerLoading();
                 }
             }
         };
         mRecyclerView.addOnScrollListener(mRvScrollListener);
 
+        iEmptyView = EmptyViewLayout.newBuilder(mContext).emptyText("没有记录");
         // set empty view here
-        if (mRecyclerView instanceof EmptyRecyclerView && mEmptyView != null) {
+        if (mRecyclerView instanceof EmptyRecyclerView && iEmptyView != null) {
+            View mEmptyView = iEmptyView.getView();
             ((EmptyRecyclerView) mRecyclerView).setEmptyView(mEmptyView);
         }
 
@@ -137,8 +175,8 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
      * orientation can be {@see OrientationHelper }
      *
      * @param layoutManager layoutManager
-     *                      //     * @param spanCount     spanCount
-     *                      //     * @param orientation   orientation
+     *  //     * @param spanCount     spanCount
+     *  //     * @param orientation   orientation
      * @return SwipeRefreshRecyclerView
      */
     public SwipeRefreshRecyclerView layoutManager(RecyclerView.LayoutManager layoutManager
@@ -147,47 +185,38 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         // 清除分割线
         this.clearItemDecorations();
 
+        // 分割线
         if (layoutManager instanceof GridLayoutManager) {
-//            ((GridLayoutManager) layoutManager).setSpanCount(spanCount);
-//            ((GridLayoutManager) layoutManager).setOrientation(orientation);
-
-            // 分割线
             DividerGridItemDecoration itemDecoration = new DividerGridItemDecoration(mContext);
             mItemDecorations.add(itemDecoration);
             mRecyclerView.addItemDecoration(itemDecoration);
         } else if (layoutManager instanceof LinearLayoutManager) {
-//            ((LinearLayoutManager) layoutManager).setOrientation(orientation);
-
-            // 分割线
             DividerItemDecoration itemDecoration = new DividerItemDecoration(mContext,
                     DividerItemDecoration.VERTICAL);
             mItemDecorations.add(itemDecoration);
             mRecyclerView.addItemDecoration(itemDecoration);
         } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-//            ((StaggeredGridLayoutManager) layoutManager).setOrientation(orientation);
-//            ((StaggeredGridLayoutManager) layoutManager).setSpanCount(spanCount);
-
-            // 分割线
             DividerGridItemDecoration itemDecoration = new DividerGridItemDecoration(mContext);
             mItemDecorations.add(itemDecoration);
             mRecyclerView.addItemDecoration(itemDecoration);
         }
 
         this.mLayoutManager = layoutManager;
-        this.mRecyclerView.setLayoutManager(mLayoutManager);
+        this.mRecyclerView.setLayoutManager(this.mLayoutManager);
 
         // layoutManager 发生了改变 需要重设 OnScrollListener
-        this.mRecyclerView.removeOnScrollListener(mRvScrollListener);
-        // add scrollListener
-        this.mRvScrollListener = new EndlessRecyclerOnScrollListener(mLayoutManager) {
-            @Override
-            public void onLoadMore(int currentPage) {
-                if (mLoadMoreListener != null) {
-                    mLoadMoreListener.onLoadMore();
-                }
-            }
-        };
-        this.mRecyclerView.addOnScrollListener(mRvScrollListener);
+        this.mRvScrollListener.resetLayoutManager(this.mLayoutManager);
+        //        this.mRecyclerView.removeOnScrollListener(mRvScrollListener);
+        //        // add scrollListener
+        //        this.mRvScrollListener = new EndlessRecyclerOnScrollListener(this.mLayoutManager) {
+        //            @Override
+        //            public void onLoadMore(int currentPage) {
+        //                if (mLoadMoreListener != null) {
+        //                    mLoadMoreListener.onLoadMore();
+        //                }
+        //            }
+        //        };
+        //        this.mRecyclerView.addOnScrollListener(mRvScrollListener);
 
         return this;
     }
@@ -208,21 +237,37 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         return this;
     }
 
-    public SwipeRefreshRecyclerView emptyView(View emptyView) {
-        if (null != mEmptyView) {
-            removeView(mEmptyView);
+    public SwipeRefreshRecyclerView emptyView(IEmptyView emptyView) {
+        if (null != iEmptyView) {
+            removeView(iEmptyView.getView());
         }
-        mEmptyView = emptyView;
+        iEmptyView = emptyView;
 
         RelativeLayout.LayoutParams emptyLP = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
         emptyLP.addRule(RelativeLayout.CENTER_IN_PARENT);
-        addView(mEmptyView, emptyLP);
+        addView(iEmptyView.getView(), emptyLP);
 
         // set empty view here
-        if (mRecyclerView instanceof EmptyRecyclerView && mEmptyView != null) {
+        if (mRecyclerView instanceof EmptyRecyclerView && iEmptyView != null) {
+            View mEmptyView = iEmptyView.getView();
             ((EmptyRecyclerView) mRecyclerView).setEmptyView(mEmptyView);
         }
+
+        return this;
+    }
+
+    public SwipeRefreshRecyclerView footerView(IFooterView footerView) {
+        if (null != iFooterView) {
+            View footer = iFooterView.getFooterView();
+            removeView(footer);
+        }
+        iFooterView = footerView;
+
+        RelativeLayout.LayoutParams emptyLP = new RelativeLayout.LayoutParams(
+                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        emptyLP.addRule(RelativeLayout.CENTER_IN_PARENT);
+        addView(iFooterView.getFooterView(), emptyLP);
 
         return this;
     }
@@ -246,6 +291,11 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         this.mAdapter.appendDataList(list);
         // check if has more data
         enableLoadMore(hasMore);
+//        // load more complete
+//        iFooterView.footerText("全部已加载");
+//        // iFooterView.getFooterView().setVisibility(View.GONE);
+        iFooterView.footerLoadComplete();
+
     }
 
     public void enableLoadMore(boolean hasMore) {
@@ -266,14 +316,24 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
                 this.mRecyclerView.addOnScrollListener(this.mRvScrollListener);
             }
         }
+
+        // footer load finish
+        if (!this.hasMoreData) {
+            this.iFooterView.footerLoadFinish();
+        }
     }
 
     public void enableRefresh(boolean refreshable) {
         this.mSwipeRefreshLayout.setEnabled(refreshable);
     }
 
-    //public void refreshFailure(){}
-    //public void loadMoreFailure(){}
+    public void refreshFailure() {
+
+    }
+
+    public void loadMoreFailure() {
+        iFooterView.footerLoadFailure();
+    }
 
     /**
      * 手动调用刷新

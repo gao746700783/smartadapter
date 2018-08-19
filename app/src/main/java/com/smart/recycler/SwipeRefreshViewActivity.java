@@ -14,7 +14,7 @@ import com.smart.adapter.recyclerview.IHolder;
 import com.smart.swiperefresh.ILoadMoreListener;
 import com.smart.swiperefresh.IRefreshListener;
 import com.smart.swiperefresh.SwipeRefreshRecyclerView;
-import com.smart.swiperefresh.view.empty.EmptyLayout;
+import com.smart.swiperefresh.view.empty.EmptyViewLayout;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,7 +75,7 @@ public class SwipeRefreshViewActivity extends AppCompatActivity {
                         postLoadMore();
                     }
                 })
-                .emptyView(EmptyLayout.newBuilder(this)
+                .emptyView(EmptyViewLayout.newBuilder(this)
                         .emptyText("没有记录")
                         .emptyImage(R.drawable.app_refresh_goods_0)
                         .emptyClick(new View.OnClickListener() {

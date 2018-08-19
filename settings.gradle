@@ -1,1 +1,1 @@
-include ':app', ':irecyclerview-module', ':gallery', ':iadapter-recyclerview', ':iadapter-abslistview','irecyclerview-swiperefresh'
+include ':app', ':irecyclerview-module', ':iadapter-recyclerview', ':iadapter-abslistview','irecyclerview-swiperefresh'

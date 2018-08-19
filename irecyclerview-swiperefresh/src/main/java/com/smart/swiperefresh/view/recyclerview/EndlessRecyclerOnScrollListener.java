@@ -43,6 +43,10 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         }
     }
 
+    public void resetLayoutManager(RecyclerView.LayoutManager layoutManagerr){
+        this.mLayoutManager = layoutManagerr;
+    }
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
@@ -84,7 +88,7 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
                 && newState == RecyclerView.SCROLL_STATE_IDLE
                 && lastVisibleItemPosition >= totalItemCount - 1) {
             currentPage++;
-            onLoadMore(currentPage);
+            onLoadMore(currentPage,lastVisibleItemPosition);
             loading = true;
         }
 
@@ -106,6 +110,6 @@ public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScr
         return max;
     }
 
-    public abstract void onLoadMore(int currentPage);
+    public abstract void onLoadMore(int currentPage,int lastViPosition);
 
 }
