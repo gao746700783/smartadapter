@@ -6,11 +6,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
+import com.smart.adapter.recyclerview.OnItemClickListener;
+import com.smart.adapter.recyclerview.headerfooter.HeaderFooterAdapter;
 import com.smart.swiperefresh.ILoadMoreListener;
 import com.smart.swiperefresh.IRefreshListener;
 import com.smart.swiperefresh.SwipeRefreshRecyclerView;
@@ -48,15 +51,26 @@ public class SwipeRefreshViewActivity extends AppCompatActivity {
 
         dataList.addAll(Arrays.asList(mDatas));
 
-        //    CommonAdapter<String> commonAdapter = new CommonAdapter<>(this, R.layout.layout_list_item, dataList)
-        //            .bindViewAndData(new IConverter<String>() {
-        //                @Override
-        //                public void convert(IHolder holder, String item, int position) {
-        //                    holder.setText(R.id.tv_data, item);
-        //                }
-        //            });
+        CommonAdapter<String> commonAdapter = new CommonAdapter<>(this, R.layout.layout_list_item, dataList)
+                .bindViewAndData(new IConverter<String>() {
+                    @Override
+                    public void convert(IHolder holder, String item, int position) {
+                        holder.setText(R.id.tv_data, item);
+                    }
+                });
+        commonAdapter.setOnItemClickListener(new OnItemClickListener<String>() {
+            @Override
+            public void onItemClick(ViewGroup parent, View view, String s, int position) {
+
+            }
+
+            @Override
+            public boolean onItemLongClick(ViewGroup parent, View view, String s, int position) {
+                return false;
+            }
+        });
         rv_base_swipe_refresh = (SwipeRefreshRecyclerView) findViewById(R.id.rv_base_swipe_refresh);
-        rv_base_swipe_refresh.adapter(new CommonAdapter<>(this, R.layout.layout_list_item, dataList)
+        rv_base_swipe_refresh.adapter(new HeaderFooterAdapter<>(this, R.layout.layout_list_item, dataList)
                 .bindViewAndData(new IConverter<String>() {
                     @Override
                     public void convert(IHolder holder, String item, int position) {

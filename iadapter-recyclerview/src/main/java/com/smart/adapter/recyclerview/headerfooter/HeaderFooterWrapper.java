@@ -77,7 +77,7 @@ public class HeaderFooterWrapper<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        WrapperUtils.onAttachedToRecyclerView(mInnerAdapter, recyclerView,
+        WrapperUtils.onAttachedToRecyclerView(/*mInnerAdapter, */recyclerView,
                 new WrapperUtils.SpanSizeCallback() {
                     @Override
                     public int getSpanSize(GridLayoutManager layoutManager,

@@ -24,13 +24,10 @@ import android.view.ViewGroup;
  * Why & What is modified: <修改原因描述>
  */
 public class WrapperUtils {
-    public interface SpanSizeCallback {
-        int getSpanSize(GridLayoutManager layoutManager, GridLayoutManager.SpanSizeLookup oldLookup, int position);
-    }
-
-    public static void onAttachedToRecyclerView(RecyclerView.Adapter innerAdapter, RecyclerView recyclerView, final SpanSizeCallback callback) {
-        innerAdapter.onAttachedToRecyclerView(recyclerView);
-
+    public static void onAttachedToRecyclerView(/*RecyclerView.Adapter innerAdapter,*/
+            RecyclerView recyclerView,
+            final SpanSizeCallback callback) {
+        // innerAdapter.onAttachedToRecyclerView(recyclerView);
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             final GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
@@ -44,6 +41,11 @@ public class WrapperUtils {
             });
             gridLayoutManager.setSpanCount(gridLayoutManager.getSpanCount());
         }
+    }
+
+    public interface SpanSizeCallback {
+        int getSpanSize(GridLayoutManager layoutManager,
+                        GridLayoutManager.SpanSizeLookup oldLookup, int position);
     }
 
     public static void setFullSpan(RecyclerView.ViewHolder holder) {

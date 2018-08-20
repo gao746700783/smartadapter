@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.smart.adapter.recyclerview.IAdapter;
+import com.smart.adapter.recyclerview.IHeaderFooterAdapter;
 import com.smart.swiperefresh.view.decoration.DividerGridItemDecoration;
 import com.smart.swiperefresh.view.decoration.DividerItemDecoration;
 import com.smart.swiperefresh.view.empty.EmptyViewLayout;
@@ -56,7 +57,7 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
 
     private RecyclerView.LayoutManager mLayoutManager;
 
-    private IAdapter mAdapter;
+    private IHeaderFooterAdapter mAdapter;
 
     private EndlessRecyclerOnScrollListener mRvScrollListener;
     // private RecyclerView.OnScrollListener mRvScrollListener;
@@ -90,13 +91,12 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
     }
 
     private void init() {
-
         // swipe refresh layout
-        mSwipeRefreshLayout = new SwipeRefreshLayout(mContext);
-        mSwipeRefreshLayout.setId(R.id.swipe_refresh_rv);
+        this.mSwipeRefreshLayout = new SwipeRefreshLayout(mContext);
+        this.mSwipeRefreshLayout.setId(R.id.swipe_refresh_rv);
         //mSwipeRefreshLayout.setProgressViewOffset(false, 0, DensityUtils.dp2px(mContext, 10));
-        mSwipeRefreshLayout.setColorSchemeColors(0xffff2500);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        this.mSwipeRefreshLayout.setColorSchemeColors(0xffff2500);
+        this.mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 if (mRefreshListener != null) {
@@ -104,27 +104,15 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
                 }
             }
         });
-        RelativeLayout.LayoutParams srLP = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        //srLP.addRule(RelativeLayout.ABOVE,R.id.swipe_refresh_footer);
-        addView(mSwipeRefreshLayout, srLP);
+        addView(mSwipeRefreshLayout, mpLayoutParams);
 
         // footer view
-        iFooterView = FooterViewLayout.newBuilder(mContext);
-        View footerView = iFooterView.getFooterView();
-        footerView.setId(R.id.swipe_refresh_footer);
-        RelativeLayout.LayoutParams ftLP = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        ftLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        addView(footerView, ftLP);
+        this.iFooterView = FooterViewLayout.newBuilder(mContext);
 
         // recyclerView
-        mRecyclerView = new EmptyRecyclerView(mContext);
-        setupRecyclerView();
-        RelativeLayout.LayoutParams rvLP = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        srLP.addRule(RelativeLayout.ABOVE, R.id.swipe_refresh_footer);
-        mSwipeRefreshLayout.addView(mRecyclerView, rvLP);
+        this.mRecyclerView = new EmptyRecyclerView(mContext);
+        this.setupRecyclerView();
+        this.mSwipeRefreshLayout.addView(mRecyclerView, mpLayoutParams);
 
     }
 
@@ -149,13 +137,7 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
                 if (mLoadMoreListener != null) {
                     mLoadMoreListener.onLoadMore();
 
-//                    // footer view visible when load more
-//                    View footerView = iFooterView.getFooterView();
-//                    footerView.setVisibility(View.VISIBLE);
-//                    // recyclerView 滚动到底部
-//                    mLayoutManager.scrollToPosition(lastViPosition);
-//
-//                    iFooterView.footerText("拼命加载中");
+                    // footer view visible when load more
                     iFooterView.footerLoading();
                 }
             }
@@ -175,8 +157,8 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
      * orientation can be {@see OrientationHelper }
      *
      * @param layoutManager layoutManager
-     *  //     * @param spanCount     spanCount
-     *  //     * @param orientation   orientation
+     *                      //     * @param spanCount     spanCount
+     *                      //     * @param orientation   orientation
      * @return SwipeRefreshRecyclerView
      */
     public SwipeRefreshRecyclerView layoutManager(RecyclerView.LayoutManager layoutManager
@@ -221,9 +203,27 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         return this;
     }
 
-    public SwipeRefreshRecyclerView adapter(IAdapter adapter) {
+    private void clearItemDecorations() {
+        if (mItemDecorations != null) {
+            for (RecyclerView.ItemDecoration item : mItemDecorations) {
+                this.mRecyclerView.removeItemDecoration(item);
+            }
+
+            mItemDecorations.clear();
+        }
+    }
+
+
+    // <!-- public methods start -->
+
+    public SwipeRefreshRecyclerView adapter(IHeaderFooterAdapter adapter) {
         this.mAdapter = adapter;
         this.mRecyclerView.setAdapter((RecyclerView.Adapter) mAdapter);
+
+        // add footer view by adapter
+        View footerView = iFooterView.getFooterView();
+        mAdapter.addFooterView(footerView);
+
         return this;
     }
 
@@ -258,16 +258,10 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
     }
 
     public SwipeRefreshRecyclerView footerView(IFooterView footerView) {
-        if (null != iFooterView) {
-            View footer = iFooterView.getFooterView();
-            removeView(footer);
-        }
         iFooterView = footerView;
 
-        RelativeLayout.LayoutParams emptyLP = new RelativeLayout.LayoutParams(
-                LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-        emptyLP.addRule(RelativeLayout.CENTER_IN_PARENT);
-        addView(iFooterView.getFooterView(), emptyLP);
+        // add footer view by adapter
+        mAdapter.addFooterView(iFooterView.getFooterView());
 
         return this;
     }
@@ -291,11 +285,9 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         this.mAdapter.appendDataList(list);
         // check if has more data
         enableLoadMore(hasMore);
-//        // load more complete
-//        iFooterView.footerText("全部已加载");
-//        // iFooterView.getFooterView().setVisibility(View.GONE);
-        iFooterView.footerLoadComplete();
 
+        // load more complete
+        iFooterView.footerLoadComplete();
     }
 
     public void enableLoadMore(boolean hasMore) {
@@ -328,7 +320,6 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
     }
 
     public void refreshFailure() {
-
     }
 
     public void loadMoreFailure() {
@@ -365,14 +356,6 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         return this.mAdapter.getDataList();
     }
 
-    private void clearItemDecorations() {
-        if (mItemDecorations != null) {
-            for (RecyclerView.ItemDecoration item : mItemDecorations) {
-                this.mRecyclerView.removeItemDecoration(item);
-            }
-
-            mItemDecorations.clear();
-        }
-    }
+    // <!-- public methods end -->
 
 }
