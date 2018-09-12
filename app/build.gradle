@@ -72,12 +72,7 @@ dependencies {
     //compile 'com.smart:irecyclerview:0.0.4'
 
     compile project(':irecyclerview-swiperefresh')
-    //compile 'com.smart:irecyclerview:0.0.4'
-
-    //compile project(':iadapter-recyclerview')
-    //compile 'com.smart:iadapter-recyclerview:0.0.1'
-    //compile project(':iadapter-abslistview')
-    //compile 'com.smart:iadapter-abslistview:0.0.1'
+    //compile 'com.smart:irecyclerview-swiperefresh:0.0.2'
 
     // add kotlin support
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

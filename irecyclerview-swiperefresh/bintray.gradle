@@ -8,7 +8,7 @@ apply plugin: 'maven-publish'
 
 project.ext.group = 'com.smart'
 project.ext.archivesBaseName = 'irecyclerview-swiperefresh'
-project.ext.version = '0.0.1'
+project.ext.version = '0.0.2'
 project.ext.pomDesc = 'IRecyclerView swipeRefresh framework Android library'
 
 task sourcesJar(type: Jar) {
