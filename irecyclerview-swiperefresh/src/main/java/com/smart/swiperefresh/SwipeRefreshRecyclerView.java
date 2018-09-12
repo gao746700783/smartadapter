@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.smart.adapter.recyclerview.IAdapter;
-import com.smart.adapter.recyclerview.IHeaderFooterAdapter;
+import com.smart.adapter.recyclerview.headerfooter.IHeaderFooterAdapter;
 import com.smart.swiperefresh.view.decoration.DividerGridItemDecoration;
 import com.smart.swiperefresh.view.decoration.DividerItemDecoration;
 import com.smart.swiperefresh.view.empty.EmptyViewLayout;
