@@ -1,4 +1,4 @@
-package com.smart.adapter.recyclerview.dragndrop.adapter;
+package com.smart.adapter.recyclerview.dragndrop;
 
 import android.content.Context;
 

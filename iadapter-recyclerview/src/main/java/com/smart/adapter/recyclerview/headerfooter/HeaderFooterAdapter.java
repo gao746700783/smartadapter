@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.smart.adapter.recyclerview.IConverter;
-import com.smart.adapter.recyclerview.IHeaderFooterAdapter;
 import com.smart.adapter.recyclerview.OnItemClickListener;
 import com.smart.adapter.recyclerview.ViewHolder;
 

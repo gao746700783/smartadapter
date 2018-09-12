@@ -1,6 +1,8 @@
-package com.smart.adapter.recyclerview;
+package com.smart.adapter.recyclerview.headerfooter;
 
 import android.view.View;
+
+import com.smart.adapter.recyclerview.IAdapter;
 
 /**
  * IAdapter
