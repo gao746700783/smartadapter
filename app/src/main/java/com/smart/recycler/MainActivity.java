@@ -12,6 +12,7 @@ import com.smart.recycler.demo.MultiAudioServiceActivity;
 import com.smart.recycler.demo.SingleAudioServiceActivity;
 import com.smart.recycler.demo.loader.LoaderAudioActivity;
 import com.smart.recycler.demo.loader.LoaderVideoActivity;
+import com.smart.recycler.gallery.GalleryActivity;
 import com.smart.recycler.modules.swipe.SwipeRefreshViewKtActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_base_multi).setOnClickListener(this);
         findViewById(R.id.btn_base_header).setOnClickListener(this);
         findViewById(R.id.btn_base_swipeRefresh).setOnClickListener(this);
+        findViewById(R.id.btn_gallery).setOnClickListener(this);
 
     }
 
@@ -86,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_base_swipeRefresh:
                 startActivity(new Intent(this, SwipeRefreshViewKtActivity.class));
+                break;
+            case R.id.btn_gallery:
+                startActivity(new Intent(this, GalleryActivity.class));
                 break;
             default:
                 break;

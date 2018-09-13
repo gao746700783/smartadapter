@@ -1,4 +1,4 @@
-package com.bumptech.glide.samples.gallery;
+package com.smart.recycler.gallery;
 
 import android.content.ContentResolver;
 import android.content.Context;

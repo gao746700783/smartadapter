@@ -1,5 +1,9 @@
 package com.smart.recycler.modules.swipe
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleOwner
+import android.arch.lifecycle.LifecycleRegistry
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.app.AppCompatActivity
@@ -7,12 +11,12 @@ import android.support.v7.widget.Toolbar
 import android.widget.Toast
 import com.smart.adapter.recyclerview.headerfooter.HeaderFooterAdapter
 import com.smart.recycler.R
+import com.smart.recycler.TestViewModel
 import com.smart.swiperefresh.SwipeRefreshRecyclerView
 import com.smart.swiperefresh.view.empty.EmptyViewLayout
 import java.util.*
 
-
-class SwipeRefreshViewKtActivity : AppCompatActivity() {
+class SwipeRefreshViewKtActivity : AppCompatActivity(), LifecycleOwner {
 
     private val mDatas = arrayOf(
             "Adapter: A subclass of RecyclerView.Adapter responsible for providing views that represent items in a data set.",
@@ -32,9 +36,15 @@ class SwipeRefreshViewKtActivity : AppCompatActivity() {
             "66666")
     private val dataList = ArrayList<String>()
 
-//    private lateinit var testViewModel: TestViewModel
+    private lateinit var testViewModel: TestViewModel
 
     internal lateinit var rv_base_swipe_refresh: SwipeRefreshRecyclerView
+
+    override fun getLifecycle(): Lifecycle {
+        return mLifecycleRegistry
+    }
+
+    private val mLifecycleRegistry = LifecycleRegistry(this@SwipeRefreshViewKtActivity)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +52,9 @@ class SwipeRefreshViewKtActivity : AppCompatActivity() {
 
         initToolbar()
 
+        mLifecycleRegistry.addObserver(SimpleLifecycleObserver())
 
-        dataList.addAll(Arrays.asList(*mDatas))
+//        dataList.addAll(Arrays.asList(*mDatas))
 
         rv_base_swipe_refresh = findViewById(R.id.rv_base_swipe_refresh) as SwipeRefreshRecyclerView
         rv_base_swipe_refresh.adapter(HeaderFooterAdapter(this, R.layout.layout_list_item, dataList)
@@ -62,13 +73,16 @@ class SwipeRefreshViewKtActivity : AppCompatActivity() {
         // 手动调用一次刷新
         rv_base_swipe_refresh.doRefresh()
 
-//        testViewModel = ViewModelProviders.of(this).get(TestViewModel::class.java!!)
-//        testViewModel.datas.observe(this, android.arch.lifecycle.Observer {
-//            val datas: ArrayList<String> = it as ArrayList<String>
-//            dataList.addAll(datas)
-//
-//            adapter.notifyDataChanged()
-//        })
+        testViewModel = ViewModelProviders.of(this).get(TestViewModel::class.java!!)
+        testViewModel.loadDatas().observe(this, android.arch.lifecycle.Observer { it ->
+
+            // val datas: ArrayList<String> = it as ArrayList<String>
+            it?.forEach {
+                dataList.add(it)
+            }
+
+            rv_base_swipe_refresh.adapter.notifyDataChanged()
+        })
 
     }
 

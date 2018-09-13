@@ -8,7 +8,7 @@ apply plugin: 'maven-publish'
 
 project.ext.group = 'com.smart'
 project.ext.archivesBaseName = 'iadapter-recyclerview'
-project.ext.version = '0.0.3'
+project.ext.version = '0.0.2'
 project.ext.pomDesc = 'IAdapter-RecyclerView framework Android library'
 
 task sourcesJar(type: Jar) {

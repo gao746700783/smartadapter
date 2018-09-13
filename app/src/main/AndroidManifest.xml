@@ -37,6 +37,7 @@
         <activity android:name=".HeaderFooterActivity"/>
         <activity android:name=".SwipeRefreshViewActivity"/>
         <activity android:name=".modules.swipe.SwipeRefreshViewKtActivity"/>
+        <activity android:name=".gallery.GalleryActivity" />
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"

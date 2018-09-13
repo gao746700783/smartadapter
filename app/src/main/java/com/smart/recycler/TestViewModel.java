@@ -2,6 +2,7 @@ package com.smart.recycler;
 
 import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -41,12 +42,7 @@ public class TestViewModel extends AndroidViewModel {
         super(application);
     }
 
-//    public void setAccount(String name, String phone, String blog){
-//        //testData.setValue(new AccountBean(name, phone, blog));
-//
-//    }
-
-    public MutableLiveData<List<String>> getDatas() {
+    public LiveData<List<String>> loadDatas() {
         testData.setValue(Arrays.asList(mDatas));
         return testData;
     }

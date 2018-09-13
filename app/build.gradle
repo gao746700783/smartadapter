@@ -44,6 +44,10 @@ android {
         }
     }
 
+    androidExtensions {
+        experimental = true
+    }
+
 }
 
 dependencies {
@@ -86,6 +90,10 @@ dependencies {
     })
     //annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
     kapt "android.arch.lifecycle:compiler:1.1.0"
+
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    compile 'com.github.bumptech.glide:recyclerview-integration:4.0.0'
 
 }
 

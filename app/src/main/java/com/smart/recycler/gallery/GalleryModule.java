@@ -1,4 +1,4 @@
-package com.bumptech.glide.samples.gallery;
+package com.smart.recycler.gallery;
 
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
