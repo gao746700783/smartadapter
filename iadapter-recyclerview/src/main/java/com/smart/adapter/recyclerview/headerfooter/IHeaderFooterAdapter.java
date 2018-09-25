@@ -14,6 +14,10 @@ public interface IHeaderFooterAdapter<T> extends IAdapter<T> {
 
     public IHeaderFooterAdapter addHeaderView(View headerView);
 
+    public IHeaderFooterAdapter removeHeaderView(View headerView);
+
     public IHeaderFooterAdapter addFooterView(View footerView);
+
+    public IHeaderFooterAdapter removeFooterView(View footerView);
 
 }

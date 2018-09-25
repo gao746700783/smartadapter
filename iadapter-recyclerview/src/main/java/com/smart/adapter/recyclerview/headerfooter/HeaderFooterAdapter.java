@@ -194,7 +194,7 @@ public class HeaderFooterAdapter<T> extends RecyclerView.Adapter<ViewHolder>
         return super.getItemViewType(position - getHeadersCount());
     }
 
-    private int getRealItemCount() {
+    public int getRealItemCount() {
         //return super.getItemCount();
         return mDataList.size();
     }
@@ -240,18 +240,6 @@ public class HeaderFooterAdapter<T> extends RecyclerView.Adapter<ViewHolder>
         return position >= getHeadersCount() + getRealItemCount();
     }
 
-    @Override
-    public IHeaderFooterAdapter addHeaderView(View headerView) {
-        mHeaderViews.put(mHeaderViews.size() + BASE_ITEM_TYPE_HEADER, headerView);
-        return this;
-    }
-
-    @Override
-    public IHeaderFooterAdapter addFooterView(View footerView) {
-        mFootViews.put(mFootViews.size() + BASE_ITEM_TYPE_FOOTER, footerView);
-        return this;
-    }
-
     public int getHeadersCount() {
         return mHeaderViews.size();
     }
@@ -283,6 +271,32 @@ public class HeaderFooterAdapter<T> extends RecyclerView.Adapter<ViewHolder>
         } else {
             super.onAttachedToRecyclerView(recyclerView);
         }
+    }
+
+    @Override
+    public IHeaderFooterAdapter addHeaderView(View headerView) {
+        mHeaderViews.put(mHeaderViews.size() + BASE_ITEM_TYPE_HEADER, headerView);
+        return this;
+    }
+
+    @Override
+    public IHeaderFooterAdapter removeHeaderView(View headerView) {
+        int viewIndex = mHeaderViews.indexOfValue(headerView);
+        mHeaderViews.removeAt(viewIndex);
+        return this;
+    }
+
+    @Override
+    public IHeaderFooterAdapter addFooterView(View footerView) {
+        mFootViews.put(mFootViews.size() + BASE_ITEM_TYPE_FOOTER, footerView);
+        return this;
+    }
+
+    @Override
+    public IHeaderFooterAdapter removeFooterView(View footerView) {
+        int viewIndex = mFootViews.indexOfValue(footerView);
+        mFootViews.removeAt(viewIndex);
+        return this;
     }
 
 }

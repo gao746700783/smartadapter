@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.smart.adapter.recyclerview.IAdapter;
+import com.smart.adapter.recyclerview.headerfooter.HeaderFooterAdapter;
 import com.smart.adapter.recyclerview.headerfooter.IHeaderFooterAdapter;
 import com.smart.swiperefresh.view.decoration.DividerGridItemDecoration;
 import com.smart.swiperefresh.view.decoration.DividerItemDecoration;
@@ -75,6 +76,8 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
     // View mFooterView;
     IFooterView iFooterView;
 
+    boolean footerAdded = false;
+
     public SwipeRefreshRecyclerView(Context context) {
         this(context, null);
     }
@@ -110,7 +113,16 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         this.iFooterView = FooterViewLayout.newBuilder(mContext);
 
         // recyclerView
-        this.mRecyclerView = new EmptyRecyclerView(mContext);
+        this.mRecyclerView = new EmptyRecyclerView(mContext) {
+            @Override
+            public int getAdapterItemCount() {
+                if (mAdapter instanceof HeaderFooterAdapter) {
+                    HeaderFooterAdapter realAdapter = (HeaderFooterAdapter) mAdapter;
+                    return realAdapter.getRealItemCount();
+                }
+                return super.getAdapterItemCount();
+            }
+        };
         this.setupRecyclerView();
         this.mSwipeRefreshLayout.addView(mRecyclerView, mpLayoutParams);
 
@@ -223,6 +235,7 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         // add footer view by adapter
         View footerView = iFooterView.getFooterView();
         mAdapter.addFooterView(footerView);
+        footerAdded = true;
 
         return this;
     }
@@ -258,10 +271,15 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
     }
 
     public SwipeRefreshRecyclerView footerView(IFooterView footerView) {
+        if (footerAdded) {
+            mAdapter.removeFooterView(iFooterView.getFooterView());
+        }
+
         iFooterView = footerView;
 
         // add footer view by adapter
         mAdapter.addFooterView(iFooterView.getFooterView());
+        footerAdded = true;
 
         return this;
     }
@@ -288,6 +306,23 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
 
         // load more complete
         iFooterView.footerLoadComplete();
+
+        checkToShowFooter();
+    }
+
+    private void checkToShowFooter() {
+        if (mAdapter == null || mAdapter.getDataList() == null ||
+                mAdapter.getDataList().size() == 0) {
+            if (footerAdded) {
+                mAdapter.removeFooterView(iFooterView.getFooterView());
+                footerAdded = false;
+            }
+        } else {
+            if (!footerAdded) {
+                mAdapter.addFooterView(iFooterView.getFooterView());
+                footerAdded = true;
+            }
+        }
     }
 
     public void enableLoadMore(boolean hasMore) {
@@ -312,6 +347,8 @@ public class SwipeRefreshRecyclerView extends RelativeLayout implements NestedSc
         // footer load finish
         if (!this.hasMoreData) {
             this.iFooterView.footerLoadFinish();
+
+            checkToShowFooter();
         }
     }
 
