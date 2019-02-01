@@ -51,41 +51,42 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support'
     })
     //compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile  ('com.android.support.constraint:constraint-layout:1.0.2', {
+    implementation  ('com.android.support.constraint:constraint-layout:1.0.2', {
         exclude group: 'com.android.support'
     })
 
-    compile "com.android.support:appcompat-v7:$support_version"
-    compile "com.android.support:design:$support_version"
-    compile "com.android.support:cardview-v7:$support_version"
+    implementation "com.android.support:appcompat-v7:$support_version"
+    implementation "com.android.support:design:$support_version"
+    implementation "com.android.support:cardview-v7:$support_version"
 
     //    compile('com.alibaba.android:vlayout:1.0.10@aar') {
     //        transitive = true
     //    }
     //    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     //compile 'com.smart:icore:0.0.3'
-    compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
 
-    compile project(':irecyclerview-module')
+    implementation project(':irecyclerview-module')
     //compile 'com.smart:irecyclerview:0.0.4'
 
-    compile project(':irecyclerview-swiperefresh')
+    implementation project(':irecyclerview-swiperefresh')
     //compile 'com.smart:irecyclerview-swiperefresh:0.0.2'
+    implementation project(':icache_module')
 
     // add kotlin support
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     // kotlin extension ,will cause error
     //compile 'androidx.core:core-ktx:1.0.0-rc01'
 
     // ViewModel,LiveData
     // compile "android.arch.lifecycle:extensions:1.1.0"
-    compile  ('android.arch.lifecycle:extensions:1.1.0', {
+    implementation  ('android.arch.lifecycle:extensions:1.1.0', {
         exclude group: 'com.android.support'
     })
     //annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
@@ -103,10 +104,11 @@ dependencies {
     // reactive
     implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
 
-    compile 'com.github.bumptech.glide:glide:4.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
     kapt 'com.github.bumptech.glide:compiler:4.0.0'
-    compile 'com.github.bumptech.glide:recyclerview-integration:4.0.0'
+    implementation 'com.github.bumptech.glide:recyclerview-integration:4.0.0'
 
 }
 

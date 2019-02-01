@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
+import com.smart.icache.SimpleCache;
 import com.smart.recycler.demo.AudioPlayActivity;
 import com.smart.recycler.demo.MultiAudioServiceActivity;
 import com.smart.recycler.demo.SingleAudioServiceActivity;
@@ -110,7 +113,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
+
+        String key = "key_aaaaaa";
+        SimpleCache simpleCache = SimpleCache.newBuilder(this)
+                .cacheMode(SimpleCache.CacheMode.MEMORY)
+                .build();
+
+        String value = simpleCache.get(key, String.class);
+        Log.d("MainActivity", "value:" + value);
+
+        if (TextUtils.isEmpty(value)) {
+            simpleCache.put(key, "打开了第4次");
+            simpleCache.put("key_bbb", true);
+        }
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        SimpleCache simpleCache = SimpleCache.newBuilder(this)
+                .cacheMode(SimpleCache.CacheMode.MEMORY)
+                .build();
+
+        String key = "key_aaaaaa";
+        String value = simpleCache.get(key, String.class);
+        Log.d("MainActivity", "value:" + value);
+    }
 }

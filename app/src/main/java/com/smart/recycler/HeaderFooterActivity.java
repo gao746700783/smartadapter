@@ -63,6 +63,12 @@ public class HeaderFooterActivity extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL);
         mRvList.addItemDecoration(itemDecoration);
 
+        // add header
+        View header = LayoutInflater.from(this).inflate(R.layout.layout_list_item_header, null);
+        View header2 = LayoutInflater.from(this).inflate(R.layout.layout_list_item_header, null);
+        View header3 = LayoutInflater.from(this).inflate(R.layout.layout_list_item_header, null);
+        View header4 = LayoutInflater.from(this).inflate(R.layout.layout_list_item_header, null);
+
         // use head and footer
         CommonAdapter<String> commonAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
                 .bindViewAndData(new IConverter<String>() {
@@ -70,15 +76,12 @@ public class HeaderFooterActivity extends AppCompatActivity {
                     public void convert(IHolder holder, String item, int position) {
                         holder.setText(R.id.tv_data, item);
                     }
-                });
-        HeaderFooterWrapper<String> wrapper = new HeaderFooterWrapper<String>(commonAdapter);
-        // add header
-        View header = LayoutInflater.from(this).inflate(R.layout.layout_list_item_header, null);
-        wrapper.addHeaderView(header);
-        // add footer
-        wrapper.addFootView(header);
-
-        mRvList.setAdapter(wrapper);
+                })
+                .addHeaderView(header)
+                .addHeaderView(header2)
+                .addHeaderView(header3)
+                .addFooterView(header4);
+        mRvList.setAdapter(commonAdapter);
 
         // empty view
         mRvList.setEmptyView(mEmptyView);

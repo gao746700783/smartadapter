@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.smart.adapter.recyclerview.BaseAdapter;
 import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.ViewHolder;
 import com.smart.adapter.recyclerview.anim.animation.AlphaInAnimation;
@@ -22,7 +23,7 @@ import java.util.List;
  * User: qiangzhang <br/>
  * Date: 2017/6/23 上午11:22 <br/>
  */
-public class AnimCommonAdapter<T> extends CommonAdapter<T> {
+public class AnimCommonAdapter<T> extends BaseAdapter<T> {
 
     // animation enabled
     private boolean animationEnabled = true;

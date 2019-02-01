@@ -14,7 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".modules.SimpleApp"
-        tools:replace="android:icon,android:theme,android:label">
+        tools:replace="android:icon,android:theme,android:label"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".MainActivity">
             <intent-filter>

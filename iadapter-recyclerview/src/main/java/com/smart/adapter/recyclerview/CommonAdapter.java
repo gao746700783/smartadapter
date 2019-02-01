@@ -1,42 +1,42 @@
 package com.smart.adapter.recyclerview;
 
 import android.content.Context;
+import android.support.v4.util.SparseArrayCompat;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
+import com.smart.adapter.recyclerview.headerfooter.IHeaderFooterAdapter;
+import com.smart.adapter.recyclerview.headerfooter.WrapperUtils;
+import com.smart.adapter.recyclerview.multi.MultiItemTypeSupport;
+
 import java.util.List;
 
 /**
- * Description: CommonAdapter
+ * Description: CommonAdapter extends BaseAdapter
+ * 扩展特性
+ * 1. HeaderFooter
+ * 2. MultiItemSupport
+ * 3.
+ *
  * <p>
  * User: gxh <br/>
  * Date: 2017/6/23 上午11:22 <br/>
+ *
  * @author che300
  */
-public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
-        implements IAdapter<RecyclerView.Adapter> {
+public class CommonAdapter<T> extends BaseAdapter<T>
+        implements IHeaderFooterAdapter<RecyclerView.Adapter> {
 
-    protected Context mContext;
-    protected int mLayoutId;
+    private static final int BASE_ITEM_TYPE_HEADER = 100000;
+    private static final int BASE_ITEM_TYPE_FOOTER = 200000;
 
-    protected List<? super T> mDataList;
-
-    protected IConverter<? super T> mIConverter;
-
-    public CommonAdapter(Context context, int layoutId) {
-        this(context, layoutId, null);
-    }
+    private SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
+    private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
 
     public CommonAdapter(Context context, int layoutId, List<T> datas) {
-        this.mContext = context;
-        this.mLayoutId = layoutId;
-
-        if (null == datas){
-            datas = new ArrayList<>();
-        }
-        this.mDataList = datas;
+        super(context, layoutId, datas);
     }
 
     public CommonAdapter<T> layout(int layoutId) {
@@ -44,7 +44,7 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
         return this;
     }
 
-    public CommonAdapter<T> list(List<T> datas ) {
+    public CommonAdapter<T> list(List<T> datas) {
         this.mDataList = datas;
         return this;
     }
@@ -55,85 +55,33 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, int viewType) {
-        ViewHolder viewHolder = ViewHolder.get(mContext, null, parent, mLayoutId);
-        //设置背景
-        //viewHolder.itemView.setBackgroundResource(R.drawable.recycler_bg);
-        // ?android:attr/selectableItemBackground
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (mHeaderViews.get(viewType) != null) {
+            return ViewHolder.createViewHolder(parent.getContext(), mHeaderViews.get(viewType));
 
-        setListener(parent, viewHolder, viewType);
-        return viewHolder;
-    }
-
-    protected int getPosition(RecyclerView.ViewHolder viewHolder) {
-        return viewHolder.getAdapterPosition();
-    }
-
-    /**
-     * is or not enabled
-     * need to override in SectionAdapter
-     *
-     * @param viewType viewType
-     * @return true for default
-     */
-    protected boolean isEnabled(int viewType) {
-        return true;
-    }
-
-    /**
-     * set click listener
-     *
-     * @param parent     parent
-     * @param viewHolder viewHolder
-     * @param viewType   viewType
-     */
-    protected void setListener(final ViewGroup parent, final ViewHolder viewHolder, int viewType) {
-        if (!isEnabled(viewType)) {
-            return;
-        }
-        View mConvertView = viewHolder.getConvertView();
-        if (null == mConvertView) {
-            return;
+        } else if (mFootViews.get(viewType) != null) {
+            return ViewHolder.createViewHolder(parent.getContext(), mFootViews.get(viewType));
         }
 
-        mConvertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mOnItemClickListener != null) {
-                    int position = getPosition(viewHolder);
-//                    if (mHasHeaderOrFooter) {
-//                        position -= 1;
-//                    }
-                    mOnItemClickListener.onItemClick(parent, v, (T) mDataList.get(position), position);
-                }
-            }
-        });
-
-        mConvertView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mOnItemClickListener != null) {
-                    int position = getPosition(viewHolder);
-//                    if (mHasHeaderOrFooter) {
-//                        position -= 1;
-//                    }
-                    return mOnItemClickListener.onItemLongClick(parent, v, (T) mDataList.get(position),
-                            position);
-                }
-                return false;
-            }
-        });
+        if (mMultiItemTypeSupport != null) {
+            int layoutId = mMultiItemTypeSupport.getLayoutId(viewType);
+            ViewHolder holder = ViewHolder.get(mContext, null, parent, layoutId);
+            setListener(parent, holder, viewType);
+            return holder;
+        }
+        return super.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //convert(holder, (T) mDataList.get(position));
-        mIConverter.convert(holder,(T) mDataList.get(position),position);
-    }
+        if (isHeaderViewPos(position)) {
+            return;
+        }
+        if (isFooterViewPos(position)) {
+            return;
+        }
 
-    @Override
-    public void onViewAttachedToWindow(ViewHolder holder) {
-        super.onViewAttachedToWindow(holder);
+        mIConverter.convert(holder, getItem(position), position);
     }
 
     @Override
@@ -141,20 +89,50 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
         super.onViewDetachedFromWindow(holder);
     }
 
-    // may cause error
     @Override
-    public long getItemId(int position) {
-        return mDataList.get(position).hashCode();
+    public void onViewAttachedToWindow(ViewHolder holder) {
+        super.onViewAttachedToWindow(holder);
+        int position = holder.getLayoutPosition();
+        if (isHeaderViewPos(position) || isFooterViewPos(position)) {
+            WrapperUtils.setFullSpan(holder);
+        }
+    }
+
+    @Override
+    public T getItem(int position) {
+        // position < headerView 数目
+        if (position < getHeadersCount()) {
+            return null;
+        }
+
+        // reset position
+        position = position - getHeadersCount();
+        return super.getItem(position);
     }
 
     @Override
     public int getItemCount() {
-        return mDataList.size();
+        return getHeadersCount() + getFootersCount() + getRealItemCount();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return 0;
+        if (isHeaderViewPos(position)) {
+            return mHeaderViews.keyAt(position);
+        } else if (isFooterViewPos(position)) {
+            return mFootViews.keyAt(position - getHeadersCount() - getRealItemCount());
+        }
+
+        // reset position
+        position = position - getHeadersCount();
+        if (mMultiItemTypeSupport != null) {
+            return mMultiItemTypeSupport.getItemViewType(position, getItem(position));
+        }
+        return super.getItemViewType(position);
+    }
+
+    public int getRealItemCount() {
+        return mDataList.size();
     }
 
     @Override
@@ -163,7 +141,13 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
     }
 
     @Override
-    public void appendDataList(List list) {
+    public void setDataList(java.util.List list) {
+        this.mDataList = list;
+        this.notifyDataSetChanged();
+    }
+
+    @Override
+    public void appendDataList(java.util.List list) {
         this.mDataList.addAll(list);
         notifyDataSetChanged();
     }
@@ -178,18 +162,79 @@ public class CommonAdapter<T> extends RecyclerView.Adapter<ViewHolder>
         notifyDataSetChanged();
     }
 
-    @Override
-    public void setDataList(List list) {
-        this.mDataList = list;
-        this.notifyDataSetChanged();
+    private boolean isHeaderViewPos(int position) {
+        return position < getHeadersCount();
     }
 
-    //protected abstract void convert(ViewHolder holder, T t);
+    private boolean isFooterViewPos(int position) {
+        return position >= getHeadersCount() + getRealItemCount();
+    }
 
-    private OnItemClickListener<T> mOnItemClickListener;
+    public int getHeadersCount() {
+        return mHeaderViews.size();
+    }
 
-    public void setOnItemClickListener(OnItemClickListener<T> onItemClickListener) {
-        this.mOnItemClickListener = onItemClickListener;
+    public int getFootersCount() {
+        return mFootViews.size();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
+        if (layoutManager instanceof GridLayoutManager) {
+            WrapperUtils.onAttachedToRecyclerView(/*this, */recyclerView,
+                    new WrapperUtils.SpanSizeCallback() {
+                        @Override
+                        public int getSpanSize(GridLayoutManager layoutManager,
+                                               GridLayoutManager.SpanSizeLookup oldLookup, int position) {
+                            int viewType = getItemViewType(position);
+                            if (mHeaderViews.get(viewType) != null) {
+                                return layoutManager.getSpanCount();
+                            } else if (mFootViews.get(viewType) != null) {
+                                return layoutManager.getSpanCount();
+                            }
+                            if (oldLookup != null)
+                                return oldLookup.getSpanSize(position);
+                            return 1;
+                        }
+                    });
+        } else {
+            super.onAttachedToRecyclerView(recyclerView);
+        }
+    }
+
+    @Override
+    public CommonAdapter<T> addHeaderView(View headerView) {
+        mHeaderViews.put(mHeaderViews.size() + BASE_ITEM_TYPE_HEADER, headerView);
+        return this;
+    }
+
+    @Override
+    public CommonAdapter<T> removeHeaderView(View headerView) {
+        int viewIndex = mHeaderViews.indexOfValue(headerView);
+        mHeaderViews.removeAt(viewIndex);
+        return this;
+    }
+
+    @Override
+    public CommonAdapter<T> addFooterView(View footerView) {
+        mFootViews.put(mFootViews.size() + BASE_ITEM_TYPE_FOOTER, footerView);
+        return this;
+    }
+
+    @Override
+    public CommonAdapter<T> removeFooterView(View footerView) {
+        int viewIndex = mFootViews.indexOfValue(footerView);
+        mFootViews.removeAt(viewIndex);
+        return this;
+    }
+
+    /* <!---- multiItem support ----*/
+    private MultiItemTypeSupport<T> mMultiItemTypeSupport = null;
+
+    public CommonAdapter<T> multiItemTypeSupport(MultiItemTypeSupport<T> multiItemTypeSupport) {
+        this.mMultiItemTypeSupport = multiItemTypeSupport;
+        return this;
     }
 
 }

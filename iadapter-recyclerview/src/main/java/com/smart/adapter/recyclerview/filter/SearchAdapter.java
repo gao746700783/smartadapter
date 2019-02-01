@@ -5,6 +5,7 @@ import android.util.Log;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.smart.adapter.recyclerview.BaseAdapter;
 import com.smart.adapter.recyclerview.CommonAdapter;
 
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +31,7 @@ import java.util.List;
  * ${date}       che300         1.0             1.0
  * Why & What is modified: <修改原因描述>
  */
-public class SearchAdapter<T> extends CommonAdapter<T> implements Filterable {
+public class SearchAdapter<T> extends BaseAdapter<T> implements Filterable {
 
     private List<? super T> filteredList;
 

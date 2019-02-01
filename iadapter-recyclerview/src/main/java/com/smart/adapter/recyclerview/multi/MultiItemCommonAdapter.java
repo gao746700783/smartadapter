@@ -3,6 +3,7 @@ package com.smart.adapter.recyclerview.multi;
 import android.content.Context;
 import android.view.ViewGroup;
 
+import com.smart.adapter.recyclerview.BaseAdapter;
 import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.ViewHolder;
 
@@ -11,7 +12,7 @@ import java.util.List;
 /**
  * @author che300
  */
-public class MultiItemCommonAdapter<T> extends CommonAdapter<T> {
+public class MultiItemCommonAdapter<T> extends BaseAdapter<T> {
 
     protected MultiItemTypeSupport<T> mMultiItemTypeSupport;
 
