@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
 
+import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.multi.MultiItemCommonAdapter;
@@ -36,7 +37,7 @@ public class MultiItemActivity extends AppCompatActivity {
     private List<String> dataList = new ArrayList<>();
 
     EmptyRecyclerView mRvList;
-    MultiItemCommonAdapter mAdapter;
+    CommonAdapter mAdapter;
 
     LinearLayout mEmptyView;
 
@@ -51,8 +52,8 @@ public class MultiItemActivity extends AppCompatActivity {
         dataList.addAll(Arrays.asList(mDatas));
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
-        mAdapter = (MultiItemCommonAdapter) new MultiItemCommonAdapter<String>(this, dataList,
-                new MultiItemTypeSupport<String>() {
+        mAdapter = new CommonAdapter<String>(this, -1,dataList)
+                .multiItemTypeSupport(new MultiItemTypeSupport<String>() {
                     @Override
                     public int getLayoutId(int itemType) {
                         if (itemType == 0) {

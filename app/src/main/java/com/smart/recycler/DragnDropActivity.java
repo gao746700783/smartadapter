@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.LinearLayout;
 
+import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
 import com.smart.view.decoration.DividerItemDecoration;
@@ -37,7 +38,7 @@ public class DragnDropActivity extends AppCompatActivity {
     private List<String> dataList = new ArrayList<>();
 
     EmptyRecyclerView mRvList;
-    DragDropRecyclerAdapter<String> mAdapter;
+    CommonAdapter mAdapter;
 
     LinearLayout mEmptyView;
 
@@ -63,23 +64,24 @@ public class DragnDropActivity extends AppCompatActivity {
 
         dataList.addAll(Arrays.asList(mDatas));
 
-        mAdapter = (DragDropRecyclerAdapter<String>) new DragDropRecyclerAdapter<String>(this, R.layout.layout_list_item, dataList)
+        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
                 .bindViewAndData(new IConverter<String>() {
                     @Override
                     public void convert(IHolder holder, String item, int position) {
                         holder.setText(R.id.tv_data, item);
                     }
-                });
+                })
+                .dragndropSupport(true,mRvList);
         mRvList.setAdapter(mAdapter);
 
         mRvList.setEmptyView(mEmptyView);
 
-        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback(mAdapter);
-        callback.setLongPressDragEnabled(true);
-        callback.setItemViewSwipeEnabled(true);
-
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(mRvList);
+//        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback(mAdapter);
+//        callback.setLongPressDragEnabled(true);
+//        callback.setItemViewSwipeEnabled(true);
+//
+//        mItemTouchHelper = new ItemTouchHelper(callback);
+//        mItemTouchHelper.attachToRecyclerView(mRvList);
         initToolbar();
     }
 

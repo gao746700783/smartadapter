@@ -58,25 +58,8 @@ public class SwipeRefreshViewActivity extends AppCompatActivity {
                         holder.setText(R.id.tv_data, item);
                     }
                 });
-        commonAdapter.setOnItemClickListener(new OnItemClickListener<String>() {
-            @Override
-            public void onItemClick(ViewGroup parent, View view, String s, int position) {
-
-            }
-
-            @Override
-            public boolean onItemLongClick(ViewGroup parent, View view, String s, int position) {
-                return false;
-            }
-        });
         rv_base_swipe_refresh = (SwipeRefreshRecyclerView) findViewById(R.id.rv_base_swipe_refresh);
-        rv_base_swipe_refresh.adapter(new HeaderFooterAdapter<>(this, R.layout.layout_list_item, dataList)
-                .bindViewAndData(new IConverter<String>() {
-                    @Override
-                    public void convert(IHolder holder, String item, int position) {
-                        holder.setText(R.id.tv_data, item);
-                    }
-                }))
+        rv_base_swipe_refresh.adapter(commonAdapter)
                 .refresh(new IRefreshListener() {
                     @Override
                     public void onRefresh() {

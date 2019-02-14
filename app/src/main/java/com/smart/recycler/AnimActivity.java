@@ -9,9 +9,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
+import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
 import com.smart.adapter.recyclerview.anim.AnimCommonAdapter;
+import com.smart.adapter.recyclerview.anim.animation.AlphaInAnimation;
+import com.smart.adapter.recyclerview.anim.animation.ScaleInAnimation;
+import com.smart.adapter.recyclerview.anim.animation.SlideInBottomAnimation;
+import com.smart.adapter.recyclerview.anim.animation.SlideInLeftAnimation;
+import com.smart.adapter.recyclerview.anim.animation.SlideInRightAnimation;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 
@@ -37,7 +43,7 @@ public class AnimActivity extends AppCompatActivity {
     private List<String> dataList = new ArrayList<>();
 
     EmptyRecyclerView mRvList;
-    AnimCommonAdapter mAdapter;
+    CommonAdapter mAdapter;
 
     LinearLayout mEmptyView;
 
@@ -53,13 +59,14 @@ public class AnimActivity extends AppCompatActivity {
 
         mRvList = (EmptyRecyclerView) findViewById(R.id.rv_base_use);
 
-        mAdapter = (AnimCommonAdapter) new AnimCommonAdapter<String>(this, R.layout.layout_list_item, dataList)
+        mAdapter = new CommonAdapter<String>(this, R.layout.layout_list_item, dataList)
                 .bindViewAndData(new IConverter<String>() {
                     @Override
                     public void convert(IHolder holder, String item, int position) {
                         holder.setText(R.id.tv_data, item);
                     }
-                });
+                })
+                .animationSupport(true);
 
         // use a linear layout manager
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -71,7 +78,7 @@ public class AnimActivity extends AppCompatActivity {
         mRvList.addItemDecoration(itemDecoration);
 
         // 是否仅首次进入显示动画
-        mAdapter.setFirstTimeAnimEnabled(false);
+        mAdapter.enabledFirstOnlyAnim(false);
         mRvList.setAdapter(mAdapter);
 
         mRvList.setEmptyView(mEmptyView);
@@ -102,22 +109,22 @@ public class AnimActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_enable) {
-            mAdapter.setAnimationEnabled(!mAdapter.isAnimationEnabled());
+            mAdapter.enabledAnimation(!mAdapter.isAnimationEnabled());
             return true;
         } else if (id == R.id.action_alpha) {
-            mAdapter.openLoadAnimation(AnimCommonAdapter.ALPHAIN);
+            mAdapter.setSelectAnimation(new AlphaInAnimation());
             return true;
         } else if (id == R.id.action_scale) {
-            mAdapter.openLoadAnimation(AnimCommonAdapter.SCALEIN);
+            mAdapter.setSelectAnimation(new ScaleInAnimation());
             return true;
         } else if (id == R.id.action_slidein_bottom) {
-            mAdapter.openLoadAnimation(AnimCommonAdapter.SLIDEIN_BOTTOM);
+            mAdapter.setSelectAnimation(new SlideInBottomAnimation());
             return true;
         } else if (id == R.id.action_slidein_left) {
-            mAdapter.openLoadAnimation(AnimCommonAdapter.SLIDEIN_LEFT);
+            mAdapter.setSelectAnimation(new SlideInLeftAnimation());
             return true;
         } else if (id == R.id.action_slidein_right) {
-            mAdapter.openLoadAnimation(AnimCommonAdapter.SLIDEIN_RIGHT);
+            mAdapter.setSelectAnimation(new SlideInRightAnimation());
             return true;
         }
 

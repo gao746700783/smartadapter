@@ -1,24 +1,35 @@
 package com.smart.adapter.recyclerview;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.support.v4.util.SparseArrayCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 
+import com.smart.adapter.recyclerview.anim.animation.AlphaInAnimation;
+import com.smart.adapter.recyclerview.anim.animation.base.BaseAnimation;
+import com.smart.adapter.recyclerview.dragndrop.helper.ItemTouchHelperAdapter;
+import com.smart.adapter.recyclerview.dragndrop.helper.SimpleItemTouchHelperCallback;
 import com.smart.adapter.recyclerview.headerfooter.IHeaderFooterAdapter;
 import com.smart.adapter.recyclerview.headerfooter.WrapperUtils;
 import com.smart.adapter.recyclerview.multi.MultiItemTypeSupport;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
  * Description: CommonAdapter extends BaseAdapter
  * 扩展特性
  * 1. HeaderFooter
- * 2. MultiItemSupport
- * 3.
+ * 2. multiItem support
+ * 3. animation support
+ * 4. drag n drop support
+ * 5.
  *
  * <p>
  * User: gxh <br/>
@@ -27,7 +38,7 @@ import java.util.List;
  * @author che300
  */
 public class CommonAdapter<T> extends BaseAdapter<T>
-        implements IHeaderFooterAdapter<RecyclerView.Adapter> {
+        implements IHeaderFooterAdapter<RecyclerView.Adapter>,ItemTouchHelperAdapter {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private static final int BASE_ITEM_TYPE_FOOTER = 200000;
@@ -87,6 +98,11 @@ public class CommonAdapter<T> extends BaseAdapter<T>
     @Override
     public void onViewDetachedFromWindow(ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
+
+        // clear animation
+        if (animationEnabled) {
+            holder.getConvertView().clearAnimation();
+        }
     }
 
     @Override
@@ -95,6 +111,21 @@ public class CommonAdapter<T> extends BaseAdapter<T>
         int position = holder.getLayoutPosition();
         if (isHeaderViewPos(position) || isFooterViewPos(position)) {
             WrapperUtils.setFullSpan(holder);
+            return;
+        }
+
+        // animation support
+        if (animationEnabled) {
+            if (!mFirstOnlyEnable || position > mLastPosition) {
+                // set animation
+                BaseAnimation animation = mSelectAnimation;
+                for (Animator anim : animation.getAnimators(holder.itemView)) {
+                    anim.setDuration(mDuration).start();
+                    anim.setInterpolator(mInterpolator);
+                }
+
+                mLastPosition = position;
+            }
         }
     }
 
@@ -229,12 +260,103 @@ public class CommonAdapter<T> extends BaseAdapter<T>
         return this;
     }
 
-    /* <!---- multiItem support ----*/
+    /* <!---- multiItem support ----> */
     private MultiItemTypeSupport<T> mMultiItemTypeSupport = null;
 
     public CommonAdapter<T> multiItemTypeSupport(MultiItemTypeSupport<T> multiItemTypeSupport) {
         this.mMultiItemTypeSupport = multiItemTypeSupport;
         return this;
+    }
+
+    /* <!---- animation support -----> */
+
+    // animation enabled
+    private boolean animationEnabled = false;
+    private int mLastPosition = -1;
+
+    /*<!-- interpolator --> */
+    private Interpolator mInterpolator = new LinearInterpolator();
+    /*<!-- animation duration --> */
+    private int mDuration = 300;
+    /*<!-- base animation --> */
+    private BaseAnimation mSelectAnimation = new AlphaInAnimation();
+    /*<!-- load animation first time only --> */
+    private boolean mFirstOnlyEnable = false;
+
+    public CommonAdapter animationSupport(boolean enabled){
+        this.animationEnabled = enabled;
+        return this;
+    }
+
+    public CommonAdapter animationSupport(boolean enabled, boolean firstOnlyEnable
+            , Interpolator interpolator, int duration, BaseAnimation selectAnimation) {
+        this.animationEnabled = enabled;
+        if (enabled) {
+            this.mFirstOnlyEnable = firstOnlyEnable;
+            this.mInterpolator = (null == interpolator ? new LinearInterpolator() : interpolator);
+            this.mDuration = (duration == -1 ? 300 : duration);
+            this.mSelectAnimation = (null == selectAnimation ? new AlphaInAnimation() : selectAnimation);
+        }
+        return this;
+    }
+
+    public void enabledAnimation(boolean enabled){
+        this.animationEnabled = enabled;
+    }
+
+    public void enabledFirstOnlyAnim(boolean enabled){
+        this.mFirstOnlyEnable = enabled;
+    }
+
+    public void setSelectAnimation(BaseAnimation selectAnimation) {
+        this.mSelectAnimation = selectAnimation;
+    }
+
+    public boolean isAnimationEnabled() {
+        return this.animationEnabled;
+    }
+
+    /* <!---- drag n drop support -----> */
+
+    // animation enabled
+    private boolean dragndropEnabled = false;
+
+    public CommonAdapter dragndropSupport(boolean enabled,RecyclerView recyclerView){
+        this.dragndropEnabled = enabled;
+        if (enabled){
+            SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback(this);
+            callback.setLongPressDragEnabled(true);
+            callback.setItemViewSwipeEnabled(true);
+
+            ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+            mItemTouchHelper.attachToRecyclerView(recyclerView);
+        }
+
+        return this;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        mDataList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(mDataList, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(mDataList, i, i - 1);
+            }
+        }
+
+        //Collections.swap(mDataList, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
     }
 
 }

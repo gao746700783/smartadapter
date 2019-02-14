@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description: CommonAdapter
+ * Description: BaseAdapter
  * <p>
  * User: gxh <br/>
  * Date: 2017/6/23 上午11:22 <br/>

@@ -6,7 +6,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.smart.adapter.recyclerview.BaseAdapter;
-import com.smart.adapter.recyclerview.CommonAdapter;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
