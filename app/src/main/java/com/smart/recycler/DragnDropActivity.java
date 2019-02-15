@@ -42,7 +42,7 @@ public class DragnDropActivity extends AppCompatActivity {
 
     LinearLayout mEmptyView;
 
-    private ItemTouchHelper mItemTouchHelper;
+//    private ItemTouchHelper mItemTouchHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +76,6 @@ public class DragnDropActivity extends AppCompatActivity {
 
         mRvList.setEmptyView(mEmptyView);
 
-//        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback(mAdapter);
-//        callback.setLongPressDragEnabled(true);
-//        callback.setItemViewSwipeEnabled(true);
-//
-//        mItemTouchHelper = new ItemTouchHelper(callback);
-//        mItemTouchHelper.attachToRecyclerView(mRvList);
         initToolbar();
     }
 

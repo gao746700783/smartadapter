@@ -38,7 +38,7 @@ import java.util.List;
  * @author che300
  */
 public class CommonAdapter<T> extends BaseAdapter<T>
-        implements IHeaderFooterAdapter<RecyclerView.Adapter>,ItemTouchHelperAdapter {
+        implements IHeaderFooterAdapter<RecyclerView.Adapter>, ItemTouchHelperAdapter {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private static final int BASE_ITEM_TYPE_FOOTER = 200000;
@@ -283,12 +283,12 @@ public class CommonAdapter<T> extends BaseAdapter<T>
     /*<!-- load animation first time only --> */
     private boolean mFirstOnlyEnable = false;
 
-    public CommonAdapter animationSupport(boolean enabled){
+    public CommonAdapter<T> animationSupport(boolean enabled) {
         this.animationEnabled = enabled;
         return this;
     }
 
-    public CommonAdapter animationSupport(boolean enabled, boolean firstOnlyEnable
+    public CommonAdapter<T> animationSupport(boolean enabled, boolean firstOnlyEnable
             , Interpolator interpolator, int duration, BaseAnimation selectAnimation) {
         this.animationEnabled = enabled;
         if (enabled) {
@@ -300,11 +300,11 @@ public class CommonAdapter<T> extends BaseAdapter<T>
         return this;
     }
 
-    public void enabledAnimation(boolean enabled){
+    public void enabledAnimation(boolean enabled) {
         this.animationEnabled = enabled;
     }
 
-    public void enabledFirstOnlyAnim(boolean enabled){
+    public void enabledFirstOnlyAnim(boolean enabled) {
         this.mFirstOnlyEnable = enabled;
     }
 
@@ -320,19 +320,34 @@ public class CommonAdapter<T> extends BaseAdapter<T>
 
     // animation enabled
     private boolean dragndropEnabled = false;
+    private SimpleItemTouchHelperCallback itemTouchHelperCallback;
 
-    public CommonAdapter dragndropSupport(boolean enabled,RecyclerView recyclerView){
+    public CommonAdapter<T> dragndropSupport(boolean enabled, RecyclerView recyclerView) {
         this.dragndropEnabled = enabled;
-        if (enabled){
-            SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback(this);
-            callback.setLongPressDragEnabled(true);
-            callback.setItemViewSwipeEnabled(true);
+        if (dragndropEnabled) {
+            itemTouchHelperCallback = new SimpleItemTouchHelperCallback(this);
+            itemTouchHelperCallback.setLongPressDragEnabled(true);
+            itemTouchHelperCallback.setItemViewSwipeEnabled(true);
 
-            ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+            ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
             mItemTouchHelper.attachToRecyclerView(recyclerView);
         }
 
         return this;
+    }
+
+    public void enabledDragnDrop(boolean enabled) {
+        this.dragndropEnabled = enabled;
+        if (null == itemTouchHelperCallback) {
+            itemTouchHelperCallback = new SimpleItemTouchHelperCallback(this);
+        }
+        itemTouchHelperCallback.setLongPressDragEnabled(enabled);
+        itemTouchHelperCallback.setItemViewSwipeEnabled(enabled);
+
+//        if (enabled){
+//            ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(itemTouchHelperCallback);
+//            mItemTouchHelper.attachToRecyclerView(recyclerView);
+//        }
     }
 
     @Override
@@ -343,7 +358,6 @@ public class CommonAdapter<T> extends BaseAdapter<T>
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
-
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
                 Collections.swap(mDataList, i, i + 1);

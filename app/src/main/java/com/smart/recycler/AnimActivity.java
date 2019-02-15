@@ -7,11 +7,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.smart.adapter.recyclerview.CommonAdapter;
 import com.smart.adapter.recyclerview.IConverter;
 import com.smart.adapter.recyclerview.IHolder;
+import com.smart.adapter.recyclerview.OnItemClickListener;
 import com.smart.adapter.recyclerview.anim.AnimCommonAdapter;
 import com.smart.adapter.recyclerview.anim.animation.AlphaInAnimation;
 import com.smart.adapter.recyclerview.anim.animation.ScaleInAnimation;
@@ -43,7 +46,7 @@ public class AnimActivity extends AppCompatActivity {
     private List<String> dataList = new ArrayList<>();
 
     EmptyRecyclerView mRvList;
-    CommonAdapter mAdapter;
+    CommonAdapter<String> mAdapter;
 
     LinearLayout mEmptyView;
 
@@ -79,6 +82,19 @@ public class AnimActivity extends AppCompatActivity {
 
         // 是否仅首次进入显示动画
         mAdapter.enabledFirstOnlyAnim(false);
+
+        mAdapter.setOnItemClickListener(new OnItemClickListener<String>() {
+            @Override
+            public void onItemClick(ViewGroup parent, View view, String s, int position) {
+
+            }
+
+            @Override
+            public boolean onItemLongClick(ViewGroup parent, View view, String s, int position) {
+                return false;
+            }
+        });
+
         mRvList.setAdapter(mAdapter);
 
         mRvList.setEmptyView(mEmptyView);
