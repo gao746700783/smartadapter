@@ -93,7 +93,7 @@ public class SearchAdapter<T> extends BaseAdapter<T> implements Filterable {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 filteredList = (List<T>) results.values;
-                setDataList(filteredList);
+                setDataList((List<T>) filteredList);
             }
         };
     }

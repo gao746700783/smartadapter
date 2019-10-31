@@ -10,7 +10,7 @@ import com.smart.adapter.recyclerview.IAdapter;
  * @param <T>
  * @author che300
  */
-public interface IHeaderFooterAdapter<T> extends IAdapter<T> {
+public interface IHeaderFooterAdapter<A,T> extends IAdapter<A,T> {
 
     public IHeaderFooterAdapter addHeaderView(View headerView);
 

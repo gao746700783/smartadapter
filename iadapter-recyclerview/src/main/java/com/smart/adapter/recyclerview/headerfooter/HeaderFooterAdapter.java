@@ -21,7 +21,7 @@ import java.util.List;
  * Date: 2017/8/28 下午1:26 <br>
  */
 public class HeaderFooterAdapter<T> extends RecyclerView.Adapter<ViewHolder>
-        implements IHeaderFooterAdapter<RecyclerView.Adapter> {
+        implements IHeaderFooterAdapter<RecyclerView.Adapter,T> {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private static final int BASE_ITEM_TYPE_FOOTER = 200000;
@@ -200,18 +200,18 @@ public class HeaderFooterAdapter<T> extends RecyclerView.Adapter<ViewHolder>
     }
 
     @Override
-    public List getDataList() {
+    public List<? super T> getDataList() {
         return this.mDataList;
     }
 
     @Override
-    public void setDataList(java.util.List list) {
+    public void setDataList(List<T> list) {
         this.mDataList = list;
         this.notifyDataSetChanged();
     }
 
     @Override
-    public void appendDataList(java.util.List list) {
+    public void appendDataList(List<T> list) {
         this.mDataList.addAll(list);
         notifyDataSetChanged();
     }

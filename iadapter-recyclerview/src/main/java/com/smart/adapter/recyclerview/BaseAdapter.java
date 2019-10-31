@@ -16,7 +16,7 @@ import java.util.List;
  * @author che300
  */
 public class BaseAdapter<T> extends RecyclerView.Adapter<ViewHolder>
-        implements IAdapter<RecyclerView.Adapter> {
+        implements IAdapter<RecyclerView.Adapter,T> {
 
     protected Context mContext;
     protected int mLayoutId;
@@ -151,12 +151,12 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<ViewHolder>
     }
 
     @Override
-    public List getDataList() {
+    public List<? super T> getDataList() {
         return this.mDataList;
     }
 
     @Override
-    public void appendDataList(List list) {
+    public void appendDataList(List<T> list) {
         this.mDataList.addAll(list);
         notifyDataSetChanged();
     }
@@ -172,7 +172,7 @@ public class BaseAdapter<T> extends RecyclerView.Adapter<ViewHolder>
     }
 
     @Override
-    public void setDataList(List list) {
+    public void setDataList(List<T> list) {
         this.mDataList = list;
         this.notifyDataSetChanged();
     }

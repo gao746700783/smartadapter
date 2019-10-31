@@ -38,13 +38,17 @@ import java.util.List;
  * @author che300
  */
 public class CommonAdapter<T> extends BaseAdapter<T>
-        implements IHeaderFooterAdapter<RecyclerView.Adapter>, ItemTouchHelperAdapter {
+        implements IHeaderFooterAdapter<RecyclerView.Adapter,T>, ItemTouchHelperAdapter {
 
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private static final int BASE_ITEM_TYPE_FOOTER = 200000;
 
     private SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
     private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
+
+    public CommonAdapter(Context context, int layoutId) {
+        super(context, layoutId);
+    }
 
     public CommonAdapter(Context context, int layoutId, List<T> datas) {
         super(context, layoutId, datas);
@@ -167,18 +171,18 @@ public class CommonAdapter<T> extends BaseAdapter<T>
     }
 
     @Override
-    public List getDataList() {
+    public List<? super T> getDataList() {
         return this.mDataList;
     }
 
     @Override
-    public void setDataList(java.util.List list) {
+    public void setDataList(List<T> list) {
         this.mDataList = list;
         this.notifyDataSetChanged();
     }
 
     @Override
-    public void appendDataList(java.util.List list) {
+    public void appendDataList(List<T> list) {
         this.mDataList.addAll(list);
         notifyDataSetChanged();
     }
@@ -357,7 +361,7 @@ public class CommonAdapter<T> extends BaseAdapter<T>
     }
 
     @Override
-    public boolean onItemMove(int fromPosition, int toPosition) {
+    public void onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
                 Collections.swap(mDataList, i, i + 1);
@@ -370,7 +374,6 @@ public class CommonAdapter<T> extends BaseAdapter<T>
 
         //Collections.swap(mDataList, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
-        return true;
     }
 
 }

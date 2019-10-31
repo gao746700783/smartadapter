@@ -4,18 +4,19 @@ import java.util.List;
 
 /**
  * IAdapter
- * @author che300
+ *
  * @param <T>
+ * @author che300
  */
-public interface IAdapter<T> {
+public interface IAdapter<A, T> {
 
-    public T getAdapter();
+    public A getAdapter();
 
-    public List getDataList();
+    public List<? super T> getDataList();
 
-    public void setDataList(List list);
+    public void setDataList(List<T> list);
 
-    public void appendDataList(List list);
+    public void appendDataList(List<T> list);
 
     public void notifyDataChanged();
 
