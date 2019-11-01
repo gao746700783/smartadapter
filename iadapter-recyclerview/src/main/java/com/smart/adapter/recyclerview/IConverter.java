@@ -4,7 +4,7 @@ package com.smart.adapter.recyclerview;
 /**
  * IConverter
  *
- * @param <T>
+ * @param <T> T
  * @author che300
  */
 @FunctionalInterface

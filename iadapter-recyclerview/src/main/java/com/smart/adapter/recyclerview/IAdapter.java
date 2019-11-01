@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * IAdapter
  *
- * @param <T>
+ * @param <A><T> A T
  * @author che300
  */
 public interface IAdapter<A, T> {

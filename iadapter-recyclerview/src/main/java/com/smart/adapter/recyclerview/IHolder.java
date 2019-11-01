@@ -14,9 +14,9 @@ public interface IHolder {
 
     /**
      * 通过控件的Id获取对于的控件，如果没有则加入views
-     * @param viewId
-     * @param <T>
-     * @return
+     * @param viewId viewId
+     * @param <T> T
+     * @return T
      */
     public <T extends View> T getView(int viewId);
 

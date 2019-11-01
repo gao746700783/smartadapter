@@ -30,7 +30,7 @@ public class DragDropRecyclerAdapter<T> extends BaseAdapter<T>
     }
 
     @Override
-    public boolean onItemMove(int fromPosition, int toPosition) {
+    public void onItemMove(int fromPosition, int toPosition) {
 
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
@@ -44,6 +44,5 @@ public class DragDropRecyclerAdapter<T> extends BaseAdapter<T>
 
         //Collections.swap(mDataList, fromPosition, toPosition);
         notifyItemMoved(fromPosition, toPosition);
-        return true;
     }
 }
