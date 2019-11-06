@@ -40,6 +40,7 @@
         <activity android:name=".SwipeRefreshViewActivity"/>
         <activity android:name=".modules.swipe.SwipeRefreshViewKtActivity"/>
         <activity android:name=".gallery.GalleryActivity" />
+        <activity android:name=".RvBindingActivity" />
 
         <service android:name=".demo.AudioStreamService"
                  android:enabled="true"

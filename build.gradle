@@ -2,7 +2,7 @@
 
 buildscript {
     ext.kotlin_version  = '1.2.30'           // kotlin version
-    ext.support_version = '25.3.1'           // support lib version
+    ext.support_version = '26.1.0'           // support lib version
 
     repositories {
         google()

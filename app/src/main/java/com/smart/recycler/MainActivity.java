@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_base_header).setOnClickListener(this);
         findViewById(R.id.btn_base_swipeRefresh).setOnClickListener(this);
         findViewById(R.id.btn_gallery).setOnClickListener(this);
+        findViewById(R.id.btn_rvbinding).setOnClickListener(this);
 
     }
 
@@ -94,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_gallery:
                 startActivity(new Intent(this, GalleryActivity.class));
+                break;
+            case R.id.btn_rvbinding:
+                startActivity(new Intent(this, RvBindingActivity.class));
                 break;
             default:
                 break;

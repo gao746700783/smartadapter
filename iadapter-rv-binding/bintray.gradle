@@ -7,9 +7,9 @@ apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
 project.ext.group = 'com.smart'
-project.ext.archivesBaseName = 'irecyclerview-swiperefresh'
-project.ext.version = '0.0.3'
-project.ext.pomDesc = 'IRecyclerView swipeRefresh framework Android library'
+project.ext.archivesBaseName = 'iadapter-rv-binding'
+project.ext.version = '0.0.1'
+project.ext.pomDesc = 'IAdapter-RecyclerView framework Android library'
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
@@ -44,15 +44,6 @@ publishing {
                     dependencyNode.appendNode('artifactId', it.name)
                     dependencyNode.appendNode('version', it.version)
 
-                    //        // for exclusions
-                    //        if (it.excludeRules.size() > 0 ) {
-                    //            def exclusions = dependencyNode.appendNode('exclusions')
-                    //            it.excludeRules.each { ExcludeRule ex ->
-                    //                def exclusion = exclusions.appendNode('exclusion')
-                    //                exclusion.appendNode('groupId', ex.group)
-                    //                exclusion.appendNode('artifactId', ex.module)
-                    //            }
-                    //        }
                 }
             }
 
@@ -61,7 +52,7 @@ publishing {
             version project.ext.version
 
             // Release AAR, Sources, and JavaDoc
-            artifact "$buildDir/outputs/aar/irecyclerview-swiperefresh-release.aar"
+            artifact "$buildDir/outputs/aar/iadapter-rv-binding-release.aar"
             artifact sourcesJar
             artifact javadocJar
         }
@@ -80,6 +71,7 @@ bintray {
         user = properties.getProperty("bintray.user")
         key = properties.getProperty("bintray.apikey")
     }
+    println(user + "," + key)
 
     publications = ['library']
 

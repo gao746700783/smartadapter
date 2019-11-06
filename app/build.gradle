@@ -6,13 +6,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
 //    buildToolsVersion "25.0.2" // compatible with gradle plugin 3.1.3
 
     defaultConfig {
         applicationId "com.smart.recycler"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -48,6 +48,9 @@ android {
         experimental = true
     }
 
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -65,19 +68,7 @@ dependencies {
     implementation "com.android.support:design:$support_version"
     implementation "com.android.support:cardview-v7:$support_version"
 
-    //    compile('com.alibaba.android:vlayout:1.0.10@aar') {
-    //        transitive = true
-    //    }
-    //    compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
-    //compile 'com.smart:icore:0.0.3'
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
-
-    implementation project(':irecyclerview-module')
-    //compile 'com.smart:irecyclerview:0.0.4'
-
-    implementation project(':irecyclerview-swiperefresh')
-    //compile 'com.smart:irecyclerview-swiperefresh:0.0.2'
-    implementation project(':icache_module')
 
     // add kotlin support
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
@@ -86,16 +77,16 @@ dependencies {
 
     // ViewModel,LiveData
     // compile "android.arch.lifecycle:extensions:1.1.0"
+    //annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+    kapt "android.arch.lifecycle:compiler:1.1.0"
     implementation  ('android.arch.lifecycle:extensions:1.1.0', {
         exclude group: 'com.android.support'
     })
-    //annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
-    kapt "android.arch.lifecycle:compiler:1.1.0"
 
+    kapt 'android.arch.persistence.room:compiler:1.1.0'
     implementation ('android.arch.persistence.room:runtime:1.1.0', {
         exclude group: 'com.android.support'
     })
-    kapt 'android.arch.persistence.room:compiler:1.1.0'
 
     // debug database，1.0.4 支持 room 1.1.0
     debugImplementation ('com.amitshekhar.android:debug-db:1.0.4', {
@@ -104,11 +95,21 @@ dependencies {
     // reactive
     implementation 'io.reactivex.rxjava2:rxjava:2.1.0'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
-    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+//    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
 
-    implementation 'com.github.bumptech.glide:glide:4.0.0'
     kapt 'com.github.bumptech.glide:compiler:4.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.0.0'
     implementation 'com.github.bumptech.glide:recyclerview-integration:4.0.0'
+
+    implementation project(':irecyclerview-module')
+    //compile 'com.smart:irecyclerview:0.0.4'
+
+    implementation project(':irecyclerview-swiperefresh')
+    //compile 'com.smart:irecyclerview-swiperefresh:0.0.2'
+    implementation project(':icache_module')
+    //    implementation 'com.smart:iadapter-recyclerview:0.0.4-1'
+    implementation project(':iadapter-recyclerview')
+    implementation project(':iadapter-rv-binding')
 
 }
 

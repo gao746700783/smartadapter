@@ -1,14 +1,13 @@
 apply plugin: 'com.android.library'
-
 android {
     compileSdkVersion 26
-//    buildToolsVersion "25.0.2"
-
+    buildToolsVersion "25.0.3"
     defaultConfig {
-        minSdkVersion 11
+        minSdkVersion 14
         targetSdkVersion 26
-        versionCode 3
-        versionName "0.0.3"
+        versionCode 4
+        versionName "0.0.4"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -17,16 +16,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled true
+    }
+
 }
 
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
-
-//    api 'com.smart:iadapter-recyclerview:0.0.4-1'
-    api project(':iadapter-recyclerview')
+    implementation ('com.jakewharton.rxbinding2:rxbinding:2.1.1') {
+        exclude group: 'com.android.support'
+    }
 }
 
 //// bintray upload

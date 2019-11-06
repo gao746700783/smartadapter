@@ -1,1 +1,7 @@
-include ':app', ':irecyclerview-module', ':iadapter-recyclerview', ':iadapter-abslistview', ':icache_module','irecyclerview-swiperefresh'
+include ':app',
+        ':irecyclerview-module',
+        ':iadapter-recyclerview',
+        ':iadapter-rv-binding',
+        ':iadapter-abslistview',
+        ':icache_module',
+        'irecyclerview-swiperefresh'
