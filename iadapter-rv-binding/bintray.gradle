@@ -8,7 +8,7 @@ apply plugin: 'maven-publish'
 
 project.ext.group = 'com.smart'
 project.ext.archivesBaseName = 'iadapter-rv-binding'
-project.ext.version = '0.0.1'
+project.ext.version = '0.0.2'
 project.ext.pomDesc = 'IAdapter-RecyclerView framework Android library'
 
 task sourcesJar(type: Jar) {
@@ -83,9 +83,9 @@ bintray {
         name = project.ext.archivesBaseName
         desc = project.ext.pomDesc
         licenses = ['Apache-2.0']
-        websiteUrl = 'https://tools.android.com'
-        issueTrackerUrl = 'https://code.google.com/p/android/'
-        vcsUrl = 'https://android.googlesource.com/platform/frameworks/volley.git'
+        websiteUrl = 'https://gitee.com/opengxh'
+        issueTrackerUrl = 'https://gitee.com/opengxh/smartrecyclerview-master/issues'
+        vcsUrl = 'https://gitee.com/opengxh/smartrecyclerview-master.git'
         labels = ['android', 'irecyclerview', 'framework']
         publicDownloadNumbers = true
 
