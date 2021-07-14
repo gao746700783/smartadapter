@@ -1,4 +1,4 @@
-package com.smart.adapter.rvbinding;
+package com.smart.adapter.pager.base;
 
 import android.databinding.ObservableArrayList;
 
@@ -9,19 +9,9 @@ import java.util.List;
  * IAdapter
  *
  * @param <T> T
- * @author che300
+ * @author xiaohuigao
  */
-public interface IAdapter<T> {
-
-//    public A getAdapter();
-//
-//    public List<? super T> getDataList();
-//
-//    public void setDataList(List<T> list);
-//
-//    public void appendDataList(List<T> list);
-//
-//    public void notifyDataChanged();
+public interface IPagerAdapter<T> {
 
     public void resetDataList(List<T> list);
 

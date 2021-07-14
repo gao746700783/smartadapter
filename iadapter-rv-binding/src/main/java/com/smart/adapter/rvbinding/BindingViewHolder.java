@@ -47,8 +47,21 @@ public class BindingViewHolder<D extends ViewDataBinding> extends RecyclerView.V
         mConvertView.setTag(this);
     }
 
+    private BindingViewHolder(Context context, View itemView) {
+        super(itemView);
+        mContext = context;
+        mConvertView = itemView;
+        mViews = new SparseArray<View>();
+        mConvertView.setTag(this);
+    }
+
+    @Override
     public D getBinding() {
         return mBinding;
+    }
+
+    public static BindingViewHolder createViewHolder(Context context, View itemView) {
+        return new BindingViewHolder(context, itemView);
     }
 
     /**

@@ -61,7 +61,7 @@ public class RvBindingActivity extends AppCompatActivity {
         mRvList.addItemDecoration(itemDecoration);
 
         dataList.addAll(Arrays.asList(mDatas));
-        mAdapter = new CommonBindingAdapter<String, LayoutListItemRvBinding>(this)
+        mAdapter = new CommonBindingAdapter<String>(this)
                 .layout(R.layout.layout_list_item_rv)
                 .list(dataList)
                 .bindViewAndData(new IConverter<String>() {
@@ -71,7 +71,7 @@ public class RvBindingActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public int getVariableId() {
+                    public int getVariableId(int viewType) {
                         return BR.testVM;
                     }
                 });

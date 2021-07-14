@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="swipe_refresh_rv" type="id">swipe_refresh_rv</item>
-    <item name="swipe_refresh_footer" type="id">swipe_refresh_footer</item>
+    <item name="swipe_refresh_rv" type="id"/>
+    <item name="swipe_refresh_footer" type="id"/>
 
 </resources>

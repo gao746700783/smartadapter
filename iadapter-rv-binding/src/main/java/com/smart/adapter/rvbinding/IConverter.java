@@ -5,7 +5,7 @@ package com.smart.adapter.rvbinding;
  * IConverter
  *
  * @param <T> T
- * @author che300
+ * @author xhgao
  */
 public interface IConverter<T> {
 
@@ -19,9 +19,10 @@ public interface IConverter<T> {
     void convert(IHolder holder, T item, int position);
 
     /**
-     * @return variableId
-     * todo 按照 view type 类型不同 返回不同值
+     * get variableId
+     *
+     * @param viewType   viewType
      */
-    int getVariableId();
+    int getVariableId(int viewType);
 
 }
