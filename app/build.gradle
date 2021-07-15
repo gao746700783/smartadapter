@@ -106,8 +106,9 @@ dependencies {
     //    implementation 'com.smart:irecyclerview-swiperefresh:0.0.2'
     implementation project(':irecyclerview-swiperefresh')
     //    implementation 'com.smart:iadapter-recyclerview:0.0.4-1'
+    //implementation 'io.github.gao746700783:rvAdapter:0.0.5'
     implementation project(':iadapter-recyclerview')
-    //    implementation 'io.github.gao746700783:rvBindingAdapter:0.0.3'
+    //implementation 'io.github.gao746700783:rvBindingAdapter:0.0.4'
     implementation project(':iadapter-rv-binding')
 
 }

@@ -5,8 +5,8 @@ android {
     defaultConfig {
         minSdkVersion 11
         targetSdkVersion 30
-        versionCode 4
-        versionName "0.0.4"
+        versionCode 5
+        versionName "0.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -27,3 +27,10 @@ dependencies {
 
 //// bintray upload
 //apply from :'bintray.gradle'
+
+ext {
+    PUBLISH_GROUP_ID = "io.github.gao746700783"       //项目包名
+    PUBLISH_ARTIFACT_ID = 'rvAdapter'                 //项目名
+    PUBLISH_VERSION = '0.0.5'                         //版本号
+}
+apply from: 'maven_publish.gradle'
