@@ -100,14 +100,14 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.0.0'
     implementation 'com.github.bumptech.glide:recyclerview-integration:4.0.0'
 
-    implementation project(':irecyclerview-module')
-    //compile 'com.smart:irecyclerview:0.0.4'
-
-    implementation project(':irecyclerview-swiperefresh')
-    //compile 'com.smart:irecyclerview-swiperefresh:0.0.2'
     implementation project(':icache_module')
+    //    implementation 'com.smart:irecyclerview:0.0.4'
+    implementation project(':irecyclerview-module')
+    //    implementation 'com.smart:irecyclerview-swiperefresh:0.0.2'
+    implementation project(':irecyclerview-swiperefresh')
     //    implementation 'com.smart:iadapter-recyclerview:0.0.4-1'
     implementation project(':iadapter-recyclerview')
+    //    implementation 'io.github.gao746700783:rvBindingAdapter:0.0.3'
     implementation project(':iadapter-rv-binding')
 
 }

@@ -5,8 +5,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode 2
-        versionName "0.0.2"
+        versionCode 3
+        versionName "0.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -25,7 +25,9 @@ android {
 
 dependencies {
     //compile fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.0'
+    //noinspection GradleCompatible
     implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation ('com.jakewharton.rxbinding2:rxbinding:2.1.1') {
         exclude group: 'com.android.support'
@@ -34,3 +36,10 @@ dependencies {
 
 //// bintray upload
 //apply from :'bintray.gradle'
+
+ext {
+    PUBLISH_GROUP_ID = "io.github.gao746700783"       //项目包名
+    PUBLISH_ARTIFACT_ID = 'rvBingdingAdapter'         //项目名
+    PUBLISH_VERSION = '0.0.3'                         //版本号
+}
+apply from: 'maven_publish.gradle'

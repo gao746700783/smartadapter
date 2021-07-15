@@ -25,7 +25,7 @@ import java.util.List;
  * 扩展特性
  * 1. HeaderFooter        -> √
  * 2. multiItem support   -> ×
- * 3. animation support   -> ×
+ * 3. animation support   -> √
  * 4. drag n drop support -> ×
  * 5.
  *
@@ -42,8 +42,8 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
     private static final int BASE_ITEM_TYPE_HEADER = 100000;
     private static final int BASE_ITEM_TYPE_FOOTER = 200000;
 
-    private SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
-    private SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
+    private final SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
+    private final SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
 
     public CommonBindingAdapter(Context context) {
         super(context);
