@@ -84,6 +84,6 @@ public interface IHolder {
 
     public int getPosition();
 
-    public <D extends ViewDataBinding> D getBinding();
+    public ViewDataBinding getBinding();
 
 }

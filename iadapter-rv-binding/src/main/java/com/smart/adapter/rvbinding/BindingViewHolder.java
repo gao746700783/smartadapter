@@ -28,16 +28,16 @@ import android.widget.TextView;
  *
  * @author gaoxiaohui
  */
-public class BindingViewHolder<D extends ViewDataBinding> extends RecyclerView.ViewHolder
+public class BindingViewHolder extends RecyclerView.ViewHolder
         implements IHolder {
 
-    private D mBinding;
+    private ViewDataBinding mBinding;
 
     private SparseArray<View> mViews;
     private View mConvertView;
     private Context mContext;
 
-    public BindingViewHolder(Context context, D d) {
+    public BindingViewHolder(Context context, ViewDataBinding d) {
         super(d.getRoot());
         mBinding = d;
 
@@ -56,7 +56,7 @@ public class BindingViewHolder<D extends ViewDataBinding> extends RecyclerView.V
     }
 
     @Override
-    public D getBinding() {
+    public ViewDataBinding getBinding() {
         return mBinding;
     }
 

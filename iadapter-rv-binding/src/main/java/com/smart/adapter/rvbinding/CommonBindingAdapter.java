@@ -69,11 +69,11 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
         return this;
     }
 
-    @Override
-    public CommonBindingAdapter<T> list(ArrayList<T> datas) {
-        resetDataList(datas);
-        return this;
-    }
+//    @Override
+//    public CommonBindingAdapter<T> list(ArrayList<T> datas) {
+//        resetDataList(datas);
+//        return this;
+//    }
 
     @Override
     public CommonBindingAdapter<T> bindViewAndData(IConverter<? super T> converter) {

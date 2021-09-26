@@ -3,7 +3,9 @@ package com.smart.adapter.rvbinding;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +36,7 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
 
     protected LayoutInflater mInflater;
 
-    protected ObservableArrayList<T> mDataItems = new ObservableArrayList<>();
+    protected ObservableList<T> mDataItems = new ObservableArrayList<>();
     protected OnDataSetChangedCallback<T> dataChangedCallback;
 
     protected IConverter<? super T> mIConverter;
@@ -68,13 +70,13 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
             int layoutId = mMultiItemTypeSupport.getLayoutId(viewType);
             ViewDataBinding binding2 = DataBindingUtil.inflate(mInflater, layoutId, parent, false);
 
-            BindingViewHolder holder2 = new BindingViewHolder<>(mContext, binding2);
+            BindingViewHolder holder2 = new BindingViewHolder(mContext, binding2);
             setListener(holder2, viewType);
             return holder2;
         }
 
         ViewDataBinding binding = DataBindingUtil.inflate(mInflater, mLayoutId, parent, false);
-        BindingViewHolder holder = new BindingViewHolder<>(mContext, binding);
+        BindingViewHolder holder = new BindingViewHolder(mContext, binding);
         // set click && long click listener
         setListener(holder, viewType);
         return holder;
@@ -101,10 +103,10 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
         return this;
     }
 
-    protected BaseBindingAdapter<T> list(ArrayList<T> datas) {
-        resetDataList(datas);
-        return this;
-    }
+//    protected BaseBindingAdapter<T> list(ArrayList<T> datas) {
+//        resetDataList(datas);
+//        return this;
+//    }
 
     protected BaseBindingAdapter<T> bindViewAndData(IConverter<? super T> converter) {
         this.mIConverter = converter;
@@ -169,13 +171,13 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
         }
     }
 
-    @Override
-    public void resetDataList(ArrayList<T> list) {
-        if (this.mDataItems != null && list != null) {
-            this.mDataItems.clear();
-            this.mDataItems.addAll(list);
-        }
-    }
+//    @Override
+//    public void resetDataList(ArrayList<T> list) {
+//        if (this.mDataItems != null && list != null) {
+//            this.mDataItems.clear();
+//            this.mDataItems.addAll(list);
+//        }
+//    }
 
     @Override
     public void resetDataList(ObservableArrayList<T> newItems) {

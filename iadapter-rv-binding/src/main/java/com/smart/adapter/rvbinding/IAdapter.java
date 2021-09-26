@@ -25,7 +25,7 @@ public interface IAdapter<T> {
 
     public void resetDataList(List<T> list);
 
-    public void resetDataList(ArrayList<T> list);
+//    public void resetDataList(ArrayList<T> list);
 
     public void resetDataList(ObservableArrayList<T> newItems);
 

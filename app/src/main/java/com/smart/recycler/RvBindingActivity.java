@@ -1,7 +1,5 @@
 package com.smart.recycler;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +10,6 @@ import android.widget.LinearLayout;
 import com.smart.adapter.rvbinding.CommonBindingAdapter;
 import com.smart.adapter.rvbinding.IConverter;
 import com.smart.adapter.rvbinding.IHolder;
-import com.smart.recycler.databinding.LayoutListItemRvBinding;
 import com.smart.view.decoration.DividerItemDecoration;
 import com.smart.view.recyclerview.EmptyRecyclerView;
 
@@ -38,7 +35,7 @@ public class RvBindingActivity extends AppCompatActivity {
     private List<String> dataList = new ArrayList<>();
 
     EmptyRecyclerView mRvList;
-    CommonBindingAdapter mAdapter;
+    CommonBindingAdapter<String> mAdapter;
 
     LinearLayout mEmptyView;
 
