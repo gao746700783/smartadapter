@@ -1,17 +1,20 @@
-package com.smart.adapter.rvbinding;
+package com.smart.adapter.rvbinding.advances;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
+import android.support.v7.recyclerview.extensions.ListAdapter;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.smart.adapter.rvbinding.extend.OnDataSetChangedCallback;
+import com.smart.adapter.rvbinding.BindingViewHolder;
+import com.smart.adapter.rvbinding.IAdapter;
+import com.smart.adapter.rvbinding.IConverter;
 import com.smart.adapter.rvbinding.extend.OnItemClickListener;
 import com.smart.adapter.rvbinding.multi.MultiItemTypeSupport;
 
@@ -26,7 +29,7 @@ import java.util.List;
  * @author gaoxiaohui
  */
 
-public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolder>
+public class BaseBindingListAdapter<T> extends ListAdapter<T, BindingViewHolder>
         implements IAdapter<T> {
 
     protected Context mContext;
@@ -35,29 +38,24 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
 
     protected LayoutInflater mInflater;
 
-    protected ObservableList<T> mDataItems = new ObservableArrayList<>();
-    protected OnDataSetChangedCallback<T> dataChangedCallback;
-
     protected IConverter<? super T> mIConverter;
 
-    protected BaseBindingAdapter(Context context) {
-        this(context, -1);
+    protected BaseBindingListAdapter(Context context, DiffUtil.ItemCallback<T> diffCallback) {
+        this(context, -1, diffCallback);
     }
 
-    protected BaseBindingAdapter(Context context, int layoutId) {
-        this(context, layoutId, null);
+    protected BaseBindingListAdapter(Context context, int layoutId, DiffUtil.ItemCallback<T> diffCallback) {
+        this(context, layoutId, null, diffCallback);
     }
 
-    protected BaseBindingAdapter(Context context, int layoutId, List<T> datas) {
+    protected BaseBindingListAdapter(Context context, int layoutId, List<T> datas, DiffUtil.ItemCallback<T> diffCallback) {
+        super(diffCallback);
         this.mContext = context;
         this.mLayoutId = layoutId;
 
         this.mInflater = LayoutInflater.from(mContext);
 
-        if (null != datas && datas.size() > 0) {
-            this.mDataItems.addAll(datas);
-        }
-        this.dataChangedCallback = new OnDataSetChangedCallback<>(this/*, this*/);
+        this.submitList(datas);
     }
 
     /**
@@ -93,17 +91,17 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
         mIConverter.convert(holder, getItem(position), position);
     }
 
-    protected BaseBindingAdapter<T> layout(int layoutId) {
+    protected BaseBindingListAdapter<T> layout(int layoutId) {
         this.mLayoutId = layoutId;
         return this;
     }
 
-    protected BaseBindingAdapter<T> list(List<T> datas) {
-        this.mDataItems.addAll(datas);
+    protected BaseBindingListAdapter<T> list(List<T> datas) {
+        this.submitList(datas);
         return this;
     }
 
-    protected BaseBindingAdapter<T> bindViewAndData(IConverter<? super T> converter) {
+    protected BaseBindingListAdapter<T> bindViewAndData(IConverter<? super T> converter) {
         this.mIConverter = converter;
         return this;
     }
@@ -133,21 +131,9 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
         super.onViewDetachedFromWindow(holder);
     }
 
-    public T getItem(int position) {
-        if (position >= mDataItems.size()) {
-            return null;
-        }
-        return mDataItems.get(position);
-    }
-
     @Override
     public long getItemId(int position) {
-        return mDataItems.get(position).hashCode();
-    }
-
-    @Override
-    public int getItemCount() {
-        return mDataItems.size();
+        return getItem(position).hashCode();
     }
 
     @Override
@@ -160,27 +146,12 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
 
     @Override
     public void resetDataList(List<T> list) {
-        if (this.mDataItems != null && list != null) {
-            this.mDataItems.clear();
-            this.mDataItems.addAll(list);
-        }
+        this.submitList(list);
     }
 
     @Override
     public void resetDataList(ObservableArrayList<T> newItems) {
-        this.mDataItems = newItems;
-    }
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        this.mDataItems.addOnListChangedCallback(dataChangedCallback);
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-        this.mDataItems.removeOnListChangedCallback(dataChangedCallback);
+        this.submitList(newItems);
     }
 
     private OnItemClickListener<T> mOnItemClickListener;
@@ -229,7 +200,7 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
     // region multiItem support
     protected MultiItemTypeSupport<T> mMultiItemTypeSupport = null;
 
-    protected BaseBindingAdapter<T> multiItemTypeSupport(MultiItemTypeSupport<T> multiItemTypeSupport) {
+    protected BaseBindingListAdapter<T> multiItemTypeSupport(MultiItemTypeSupport<T> multiItemTypeSupport) {
         this.mMultiItemTypeSupport = multiItemTypeSupport;
         return this;
     }

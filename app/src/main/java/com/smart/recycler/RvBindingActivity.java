@@ -1,13 +1,18 @@
 package com.smart.recycler;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.smart.adapter.rvbinding.CommonBindingAdapter;
+import com.smart.adapter.rvbinding.advances.CBindingListAdapter;
 import com.smart.adapter.rvbinding.IConverter;
 import com.smart.adapter.rvbinding.IHolder;
 import com.smart.view.decoration.DividerItemDecoration;
@@ -35,7 +40,7 @@ public class RvBindingActivity extends AppCompatActivity {
     private List<String> dataList = new ArrayList<>();
 
     EmptyRecyclerView mRvList;
-    CommonBindingAdapter<String> mAdapter;
+    CBindingListAdapter<String> mAdapter;
 
     LinearLayout mEmptyView;
 
@@ -58,13 +63,25 @@ public class RvBindingActivity extends AppCompatActivity {
         mRvList.addItemDecoration(itemDecoration);
 
         dataList.addAll(Arrays.asList(mDatas));
-        mAdapter = new CommonBindingAdapter<String>(this)
+        mAdapter = new CBindingListAdapter<String>(this, new DiffUtil.ItemCallback<String>() {
+            @Override
+            public boolean areItemsTheSame(String s, String t1) {
+                return TextUtils.equals(s, t1);
+            }
+
+            @Override
+            public boolean areContentsTheSame(String s, String t1) {
+                return TextUtils.equals(s, t1);
+            }
+        })
                 .layout(R.layout.layout_list_item_rv)
                 .list(dataList)
                 .bindViewAndData(new IConverter<String>() {
                     @Override
                     public void convert(IHolder holder, String item, int position) {
-                        holder.setText(R.id.tv_data, item);
+                        @SuppressLint("DefaultLocale")
+                        String s = String.format("%d %2s", position, item);
+                        holder.setText(R.id.tv_data, s);
                     }
 
                     @Override
@@ -92,5 +109,38 @@ public class RvBindingActivity extends AppCompatActivity {
             //actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_base_use, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_empty) {
+            dataList.clear();
+            List<String> dataListNew = new ArrayList<>(dataList);
+            mAdapter.resetDataList(dataListNew);
+            return true;
+        } else if (id == R.id.action_add) {
+            dataList.add("added a new item" + dataList.size());
+            List<String> dataListNew = new ArrayList<>();
+            dataListNew.addAll(dataList);
+            // 使用ListAdapter或AsyncDiffUtil 实现的adapter 需用全新的list，否则不刷新
+            mAdapter.resetDataList(dataListNew);
+            mRvList.smoothScrollToPosition(dataListNew.size());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

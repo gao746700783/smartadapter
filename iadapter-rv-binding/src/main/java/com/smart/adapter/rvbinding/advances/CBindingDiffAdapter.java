@@ -1,9 +1,10 @@
-package com.smart.adapter.rvbinding;
+package com.smart.adapter.rvbinding.advances;
 
 import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.util.SparseArrayCompat;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,13 +13,14 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.smart.adapter.rvbinding.BindingViewHolder;
+import com.smart.adapter.rvbinding.IConverter;
 import com.smart.adapter.rvbinding.anim.AlphaInAnimation;
 import com.smart.adapter.rvbinding.anim.base.BaseAnimation;
 import com.smart.adapter.rvbinding.headerfooter.IHeaderFooterAdapter;
 import com.smart.adapter.rvbinding.headerfooter.WrapperUtils;
 import com.smart.adapter.rvbinding.multi.MultiItemTypeSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ import java.util.List;
  *
  * @author gaoxiaohui
  */
-public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IHeaderFooterAdapter<T> {
+public class CBindingDiffAdapter<T> extends BaseBindingDiffAdapter<T> implements IHeaderFooterAdapter<T> {
 
     private static final String TAG = "CommonBindingAdapter";
 
@@ -46,32 +48,32 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
     private final SparseArrayCompat<View> mHeaderViews = new SparseArrayCompat<>();
     private final SparseArrayCompat<View> mFootViews = new SparseArrayCompat<>();
 
-    public CommonBindingAdapter(Context context) {
+    public CBindingDiffAdapter(Context context) {
         super(context);
     }
 
-    public CommonBindingAdapter(Context context, int layoutId) {
+    public CBindingDiffAdapter(Context context, int layoutId) {
         super(context, layoutId);
     }
 
-    public CommonBindingAdapter(Context context, int layoutId, List<T> datas) {
+    public CBindingDiffAdapter(Context context, int layoutId, List<T> datas) {
         super(context, layoutId, datas);
     }
 
     @Override
-    public CommonBindingAdapter<T> layout(int layoutId) {
+    public CBindingDiffAdapter<T> layout(int layoutId) {
         this.mLayoutId = layoutId;
         return this;
     }
 
     @Override
-    public CommonBindingAdapter<T> list(List<T> datas) {
-        super.list(datas);
+    public CBindingDiffAdapter<T> list(List<T> datas,DiffUtil.ItemCallback<T> itemCallback) {
+        super.list(datas,itemCallback);
         return this;
     }
 
     @Override
-    public CommonBindingAdapter<T> bindViewAndData(IConverter<? super T> converter) {
+    public CBindingDiffAdapter<T> bindViewAndData(IConverter<? super T> converter) {
         this.mIConverter = converter;
         return this;
     }
@@ -115,7 +117,7 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
     }
 
     @Override
-    public CommonBindingAdapter<T> addHeaderView(View headerView) {
+    public CBindingDiffAdapter<T> addHeaderView(View headerView) {
         final ViewGroup.LayoutParams lp = headerView.getLayoutParams();
         if (null == lp) {
             Log.e(TAG, "Warning!!! The view have no LayoutParams, you may not set parent when inflated...");
@@ -125,14 +127,14 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
     }
 
     @Override
-    public CommonBindingAdapter<T> removeHeaderView(View headerView) {
+    public CBindingDiffAdapter<T> removeHeaderView(View headerView) {
         int viewIndex = mHeaderViews.indexOfValue(headerView);
         mHeaderViews.removeAt(viewIndex);
         return this;
     }
 
     @Override
-    public CommonBindingAdapter<T> addFooterView(View footerView) {
+    public CBindingDiffAdapter<T> addFooterView(View footerView) {
         final ViewGroup.LayoutParams lp = footerView.getLayoutParams();
         if (null == lp) {
             Log.e(TAG, "Warning!!! The view may have no LayoutParams, you may not set parent when inflated ...");
@@ -142,7 +144,7 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
     }
 
     @Override
-    public CommonBindingAdapter<T> removeFooterView(View footerView) {
+    public CBindingDiffAdapter<T> removeFooterView(View footerView) {
         int viewIndex = mFootViews.indexOfValue(footerView);
         mFootViews.removeAt(viewIndex);
         return this;
@@ -235,12 +237,12 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
     }
 
     private int getRealItemCount() {
-        return mDataItems.size();
+        return super.getItemCount();
     }
 
     /* <!---- multiItem support ----> */
     @Override
-    public CommonBindingAdapter<T> multiItemTypeSupport(MultiItemTypeSupport<T> multiItemTypeSupport) {
+    public CBindingDiffAdapter<T> multiItemTypeSupport(MultiItemTypeSupport<T> multiItemTypeSupport) {
         this.mMultiItemTypeSupport = multiItemTypeSupport;
         return this;
     }
@@ -260,12 +262,12 @@ public class CommonBindingAdapter<T> extends BaseBindingAdapter<T> implements IH
     /*<!-- load animation first time only --> */
     private boolean mFirstOnlyEnable = false;
 
-    public CommonBindingAdapter<T> animationSupport(boolean enabled) {
+    public CBindingDiffAdapter<T> animationSupport(boolean enabled) {
         this.animationEnabled = enabled;
         return this;
     }
 
-    public CommonBindingAdapter<T> animationSupport(boolean enabled, boolean firstOnlyEnable
+    public CBindingDiffAdapter<T> animationSupport(boolean enabled, boolean firstOnlyEnable
             , Interpolator interpolator, int duration, BaseAnimation selectAnimation) {
         this.animationEnabled = enabled;
         if (enabled) {

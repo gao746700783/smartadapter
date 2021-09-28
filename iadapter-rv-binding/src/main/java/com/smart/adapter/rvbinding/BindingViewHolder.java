@@ -33,9 +33,9 @@ public class BindingViewHolder extends RecyclerView.ViewHolder
 
     private ViewDataBinding mBinding;
 
-    private SparseArray<View> mViews;
-    private View mConvertView;
-    private Context mContext;
+    private final SparseArray<View> mViews;
+    private final View mConvertView;
+    private final Context mContext;
 
     public BindingViewHolder(Context context, ViewDataBinding d) {
         super(d.getRoot());
@@ -43,7 +43,7 @@ public class BindingViewHolder extends RecyclerView.ViewHolder
 
         mContext = context;
         mConvertView = d.getRoot();
-        mViews = new SparseArray<View>();
+        mViews = new SparseArray<>();
         mConvertView.setTag(this);
     }
 
@@ -51,7 +51,7 @@ public class BindingViewHolder extends RecyclerView.ViewHolder
         super(itemView);
         mContext = context;
         mConvertView = itemView;
-        mViews = new SparseArray<View>();
+        mViews = new SparseArray<>();
         mConvertView.setTag(this);
     }
 
@@ -153,6 +153,7 @@ public class BindingViewHolder extends RecyclerView.ViewHolder
         return this;
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     @Override
     public BindingViewHolder setAlpha(int viewId, float value) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
