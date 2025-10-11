@@ -1,8 +1,9 @@
 package com.smart.adapter.rvbinding.extend;
 
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class OnDataSetChangedCallback<T> extends ObservableList.OnListChangedCallback<ObservableArrayList<T>> {
 

@@ -18,11 +18,11 @@ public interface IConverter<T> {
      */
     void convert(IHolder holder, T item, int position);
 
-    /**
-     * get variableId
-     *
-     * @param viewType   viewType
-     */
-    int getVariableId(int viewType);
+//    /**
+//     * get variableId
+//     *
+//     * @param viewType   viewType
+//     */
+//    int getVariableId(int viewType);
 
 }

@@ -1,11 +1,13 @@
 package com.smart.adapter.rvbinding;
 
 import android.annotation.SuppressLint;
-import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+
+import androidx.databinding.ViewDataBinding;
+import androidx.viewbinding.ViewBinding;
 
 /**
  * IHolder
@@ -84,6 +86,6 @@ public interface IHolder {
 
     public int getPosition();
 
-    public ViewDataBinding getBinding();
+    public ViewBinding getBinding();
 
 }

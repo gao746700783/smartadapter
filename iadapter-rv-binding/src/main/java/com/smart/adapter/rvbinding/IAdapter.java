@@ -1,8 +1,7 @@
 package com.smart.adapter.rvbinding;
 
-import android.databinding.ObservableArrayList;
+import androidx.databinding.ObservableArrayList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

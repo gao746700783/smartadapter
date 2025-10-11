@@ -1,45 +1,60 @@
-apply plugin: 'com.android.library'
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+}
 android {
-    compileSdkVersion 30
-
+    namespace = "com.smart.adapter.rvbinding"
+    //noinspection GradleDependency
+    compileSdk 30
     defaultConfig {
         minSdkVersion 14
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 30
-        versionCode 4
-        versionName "0.0.4"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode PUBLISH_CODE.toInteger()
+        versionName PUBLISH_VERSION.toString()
     }
+    buildFeatures {dataBinding = true}
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebuggable false
+            renderscriptDebuggable false
+            minifyEnabled true
+//            shrinkResources true
+            //开启zipalign优化，提高系统和应用的运行效率，更快的读取 apk 中的资源，降低内存的使用
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-    dataBinding {
-        enabled true
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
     }
 
 }
 
 dependencies {
-    //compile fileTree(dir: 'libs', include: ['*.jar'])
-    //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:27.1.0'
-    //noinspection GradleCompatible
-    implementation 'com.android.support:recyclerview-v7:27.1.0'
-    implementation ('com.jakewharton.rxbinding2:rxbinding:2.1.1') {
-        exclude group: 'com.android.support'
-    }
+    //implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleDependency,GradleCompatible
+    implementation(libs.androidx.appcompat)
+    //noinspection GradleDependency,GradleCompatible
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.recyclerview)
 }
 
-//// bintray upload
-//apply from :'bintray.gradle'
-
-ext {
-    PUBLISH_GROUP_ID = "io.github.gao746700783"       //项目包名
-    PUBLISH_ARTIFACT_ID = 'rvBindingAdapter'          //项目名
-    PUBLISH_VERSION = '0.0.4'                         //版本号
-}
-apply from: 'maven_publish.gradle'
+////// #################################################
+apply from: rootProject.file("gradle-mvn-push.gradle")
+//afterEvaluate {
+//    println("Available components:")
+//    project.components.each { component ->
+//        println(component.name)
+//    }
+//}
+////// ##################################################

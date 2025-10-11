@@ -1,15 +1,17 @@
 package com.smart.adapter.rvbinding;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ObservableArrayList;
-import android.databinding.ObservableList;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ObservableList;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.smart.adapter.rvbinding.extend.OnDataSetChangedCallback;
 import com.smart.adapter.rvbinding.extend.OnItemClickListener;
@@ -68,14 +70,14 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
     public BindingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (mMultiItemTypeSupport != null) {
             int layoutId = mMultiItemTypeSupport.getLayoutId(viewType);
-            ViewDataBinding binding2 = DataBindingUtil.inflate(mInflater, layoutId, parent, false);
+            ViewBinding binding2 = DataBindingUtil.inflate(mInflater, layoutId, parent, false);
 
             BindingViewHolder holder2 = new BindingViewHolder(mContext, binding2);
             setListener(holder2, viewType);
             return holder2;
         }
 
-        ViewDataBinding binding = DataBindingUtil.inflate(mInflater, mLayoutId, parent, false);
+        ViewBinding binding = DataBindingUtil.inflate(mInflater, mLayoutId, parent, false);
         BindingViewHolder holder = new BindingViewHolder(mContext, binding);
         // set click && long click listener
         setListener(holder, viewType);
@@ -85,10 +87,10 @@ public class BaseBindingAdapter<T> extends RecyclerView.Adapter<BindingViewHolde
     @Override
     public void onBindViewHolder(BindingViewHolder holder, int position) {
         int viewType = getItemViewType(position);
-        int variableId = mIConverter.getVariableId(viewType);
-        ViewDataBinding binding = holder.getBinding();
-        binding.setVariable(variableId, getItem(position));
-        binding.executePendingBindings();
+//        int variableId = mIConverter.getVariableId(viewType);
+//        ViewDataBinding binding = holder.getBinding();
+//        binding.setVariable(variableId, getItem(position));
+//        binding.executePendingBindings();
 
         mIConverter.convert(holder, getItem(position), position);
     }

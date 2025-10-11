@@ -1,16 +1,17 @@
 package com.smart.adapter.rvbinding.advances;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.databinding.ObservableArrayList;
-import android.databinding.ViewDataBinding;
-import android.support.annotation.NonNull;
-import android.support.v7.recyclerview.extensions.ListAdapter;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ObservableArrayList;
+import androidx.databinding.ViewDataBinding;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.smart.adapter.rvbinding.BindingViewHolder;
 import com.smart.adapter.rvbinding.IAdapter;
@@ -82,11 +83,11 @@ public class BaseBindingListAdapter<T> extends ListAdapter<T, BindingViewHolder>
 
     @Override
     public void onBindViewHolder(BindingViewHolder holder, int position) {
-        int viewType = getItemViewType(position);
-        int variableId = mIConverter.getVariableId(viewType);
-        ViewDataBinding binding = holder.getBinding();
-        binding.setVariable(variableId, getItem(position));
-        binding.executePendingBindings();
+//        int viewType = getItemViewType(position);
+//        int variableId = mIConverter.getVariableId(viewType);
+//        ViewDataBinding binding = holder.getBinding();
+//        binding.setVariable(variableId, getItem(position));
+//        binding.executePendingBindings();
 
         mIConverter.convert(holder, getItem(position), position);
     }

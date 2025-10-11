@@ -1,7 +1,59 @@
-include ':app',
-        ':irecyclerview-module',
-        ':iadapter-recyclerview',
-        ':iadapter-rv-binding',
-        ':iadapter-abslistview',
-        ':icache_module',
-        'irecyclerview-swiperefresh'
+pluginManagement {
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'https://jitpack.io' }
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
+        mavenCentral()
+        mavenLocal()// 优先使用本地库
+        google()
+        mavenCentral()
+        maven{url 'https://jitpack.io'}
+//        //maven(url ="https://maven.google.com")
+//        maven(url = "https://plugins.gradle.org/m2/")
+//        maven(url = "https://repo1.maven.org/maven2")
+//        maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
+//        maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
+//        maven("https://dl.google.com/dl/android/maven2/")
+//        maven("https://dl.bintray.com/thelasterstar/maven/")
+        gradlePluginPortal()
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/public" }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven { url 'https://maven.aliyun.com/nexus/content/groups/public' }
+        maven { url 'https://jitpack.io' }
+        google()
+        mavenCentral()
+        maven{url 'https://jitpack.io'}
+//        //maven(url ="https://maven.google.com")
+//        maven(url = "https://plugins.gradle.org/m2/")
+//        maven(url = "https://repo1.maven.org/maven2")
+//        maven(url = "https://oss.sonatype.org/content/repositories/snapshots/")
+//        maven(url = "https://s01.oss.sonatype.org/content/repositories/snapshots")
+//        maven("https://dl.google.com/dl/android/maven2/")
+//        maven("https://dl.bintray.com/thelasterstar/maven/")
+    }
+}
+rootProject.name = "smartadapter"
+include(":app")
+include(":iadapter-rv-binding")
+//include ':irecyclerview-module'
+//include ':iadapter-recyclerview'
+//include ':iadapter-abslistview'
+//include ':icache_module'
+//include ':irecyclerview-swiperefresh'

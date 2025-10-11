@@ -1,0 +1,35 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+version = PUBLISH_VERSION
+group = PUBLISH_GROUP_ID
+
+def getRepositoryUsername() {
+    return hasProperty('nexusUsername') ? nexusUsername : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty('nexusPassword') ? nexusPassword : ""
+}
+
+def getReleaseRepositoryUrl() {
+    return hasProperty('RELEASE_REPOSITORY_URL') ? RELEASE_REPOSITORY_URL
+            : "https://ossrh-staging-api.central.sonatype.com/service/local/"
+}
+
+def getSnapshotRepositoryUrl() {
+    return hasProperty('SNAPSHOT_REPOSITORY_URL') ? SNAPSHOT_REPOSITORY_URL
+            : "https://central.sonatype.com/repository/maven-snapshots/"
+}
+
+nexusPublishing {
+    //packageGroup = PUBLISH_GROUP_ID
+    repositories {
+        sonatype {
+            nexusUrl.set(uri(this.getReleaseRepositoryUrl()))
+            snapshotRepositoryUrl.set(uri(this.getSnapshotRepositoryUrl()))
+            username = this.getRepositoryUsername()
+            password = this.getRepositoryPassword()
+        }
+    }
+}

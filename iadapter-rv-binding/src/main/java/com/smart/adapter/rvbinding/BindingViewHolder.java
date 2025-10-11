@@ -2,13 +2,11 @@ package com.smart.adapter.rvbinding;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.databinding.ViewDataBinding;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
 import android.util.SparseArray;
 import android.view.View;
@@ -19,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 /**
  * Description: ViewHolder
@@ -31,13 +32,13 @@ import android.widget.TextView;
 public class BindingViewHolder extends RecyclerView.ViewHolder
         implements IHolder {
 
-    private ViewDataBinding mBinding;
+    private ViewBinding mBinding;
 
     private final SparseArray<View> mViews;
     private final View mConvertView;
     private final Context mContext;
 
-    public BindingViewHolder(Context context, ViewDataBinding d) {
+    public BindingViewHolder(Context context, ViewBinding d) {
         super(d.getRoot());
         mBinding = d;
 
@@ -56,7 +57,7 @@ public class BindingViewHolder extends RecyclerView.ViewHolder
     }
 
     @Override
-    public ViewDataBinding getBinding() {
+    public ViewBinding getBinding() {
         return mBinding;
     }
 
